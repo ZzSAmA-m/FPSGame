@@ -3,6 +3,12 @@
 /// This script belongs to cowsins� as a part of the cowsins� FPS Engine. All rights reserved. 
 /// </summary>
 
+// ----------------------------------------------------------------------
+// PlayerMovementEditor.cs
+// 作用：为 PlayerMovement 组件提供自定义 Inspector（编辑器界面）。仅在编辑器下编译，
+//       通过顶部分页标签把移动相关的配置分组展示，并根据各功能开关动态显示/隐藏
+//       关联字段，同时对部分危险或需注意的数值给出警告提示。
+// ----------------------------------------------------------------------
 using UnityEngine;
 using UnityEditor;
 
@@ -10,15 +16,25 @@ namespace cowsins
 {
     [System.Serializable]
     [CustomEditor(typeof(PlayerMovement))]
+    /// <summary>
+    /// PlayerMovement 的自定义 Inspector。将移动设置按功能分页（标签页）展示，
+    /// 读取 playerSettings 中的序列化属性，并根据各功能开关条件性显示相关字段。
+    /// </summary>
     public class PlayerMovementEditor : Editor
     {
+        // Inspector 顶部分页标签的文本数组。
         private string[] tabs = { "Assignables", "Movement", "Camera", "Sliding", "Jumping", "Aim assist", "Stamina", "Advanced Movement","Footsteps", "Others" };
+        // 当前选中的标签页索引。
         private int currentTab = 0;
 
+        // 各“进阶移动”折叠面板的展开/收起状态。
         private bool showAirCameraInfluence, showWallRun, showWallBounce, showDashing, showGrapplingHook, showClimbing;
 
+        // Inspector 主绘制方法：更新序列化对象、绘制顶部图片与分页标签，
+        // 再根据当前标签页绘制对应分组的属性字段，最后应用属性修改。
         override public void OnInspectorGUI()
         {
+            // 同步序列化对象，并获取当前被检视的 PlayerMovement 实例。
             serializedObject.Update();
             PlayerMovement myScript = target as PlayerMovement;
 
@@ -48,16 +64,19 @@ namespace cowsins
             bool allowGrapple = allowGrappleProp.boolValue;
 
 
+            // 绘制顶部分页标签栏（每行 6 个标签），并记录当前选中的标签页。
             EditorGUILayout.BeginVertical();
             currentTab = GUILayout.SelectionGrid(currentTab, tabs, 6);
             EditorGUILayout.Space(10f);
             EditorGUILayout.EndVertical();
             #region variables
 
+            // 依据当前选中的标签页进入对应的绘制分支（switch 分派）。
             if (currentTab >= 0 || currentTab < tabs.Length)
             {
                 switch (tabs[currentTab])
                 {
+                    // —— 分页：可分配引用（摄像机、FOV 管理器、速度线）——
                     case "Assignables":
                         EditorGUILayout.LabelField("ASSIGNABLES", EditorStyles.boldLabel);
                         EditorGUILayout.PropertyField(playerSettings.FindPropertyRelative("playerCam"));
@@ -73,16 +92,19 @@ namespace cowsins
                             EditorGUI.indentLevel--;
                         }
                         break;
+                    // —— 分页：相机视角与视野 ——
                     case "Camera":
                         EditorGUILayout.LabelField("CAMERA LOOK", EditorStyles.boldLabel);
                         GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(8) });
 
                         SerializedProperty maxCameraAngleProp = playerSettings.FindPropertyRelative("maxCameraAngle");
+                        // 若最大相机角度偏离推荐值 89.7，则显示警告提示。
                         if (maxCameraAngleProp.floatValue != 89.7f) EditorGUILayout.LabelField("WARNING: The maximum camera angle is highly recommended to be set to the maximum value, 89.7", EditorStyles.helpBox);
 
                         EditorGUILayout.PropertyField(maxCameraAngleProp);
 
                         EditorGUILayout.Space(10f);
+                        // 提示：若从主菜单打开场景，鼠标/手柄灵敏度设置将被 GameSettingsManager 覆盖。
                         EditorGUILayout.HelpBox("WARNING: The Player Sensitivity (Mouse & Controller) values will be overridden if you open the scene from the Main Menu. Check GameSettingsManager.cs for more information.", MessageType.Warning);
                         EditorGUILayout.Space(5f);
 
@@ -122,6 +144,7 @@ namespace cowsins
                         }
                         EditorGUILayout.PropertyField(playerSettings.FindPropertyRelative("cameraTiltTransitionSpeed"));
                         break;
+                    // —— 分页：基础移动 ——
                     case "Movement":
                         EditorGUILayout.LabelField("BASIC MOVEMENT INPUT SETTINGS", EditorStyles.boldLabel);
                         GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(8) });
@@ -160,6 +183,7 @@ namespace cowsins
                         }
                         SerializedProperty maxSpeedAllowedProp = playerSettings.FindPropertyRelative("maxSpeedAllowed");
                         EditorGUILayout.PropertyField(maxSpeedAllowedProp);
+                        // 若最大允许速度小于当前奔跑速度，则将其钳制到奔跑速度。
                         if (maxSpeedAllowedProp.floatValue < myScript.RunSpeed) maxSpeedAllowedProp.floatValue = myScript.RunSpeed;
 
 
@@ -168,6 +192,7 @@ namespace cowsins
 
                         EditorGUILayout.PropertyField(playerSettings.FindPropertyRelative("groundCheckDistance"));
 
+                        // 地面检测调试信息显示开关按钮。
                         if (GUILayout.Button(myScript.showCapsuleGroundCheckDebugInfo ? "Hide Ground Check Debug Info" : "Show Ground Check Debug Info"))
                         {
                             myScript.showCapsuleGroundCheckDebugInfo = !myScript.showCapsuleGroundCheckDebugInfo;
@@ -180,6 +205,7 @@ namespace cowsins
                         EditorGUILayout.PropertyField(playerSettings.FindPropertyRelative("controlsResponsiveness"));                        
 
                         break;
+                    // —— 分页：滑铲 ——
                     case "Sliding":
                         EditorGUILayout.LabelField("SLIDING", EditorStyles.boldLabel);
                         EditorGUILayout.PropertyField(allowSlideProp);
@@ -210,6 +236,7 @@ namespace cowsins
                         }
 
                         break;
+                    // —— 分页：跳跃 ——
                     case "Jumping":
 
                         EditorGUILayout.LabelField("JUMPING", EditorStyles.boldLabel);
@@ -285,6 +312,7 @@ namespace cowsins
                         }
                         break;
 
+                    // —— 分页：瞄准辅助 ——
                     case "Aim assist":
 
                         EditorGUILayout.LabelField("AIM ASSIST", EditorStyles.boldLabel);
@@ -306,6 +334,7 @@ namespace cowsins
                         }
 
                         break;
+                    // —— 分页：体力 ——
                     case "Stamina":
                         EditorGUILayout.LabelField("STAMINA", EditorStyles.boldLabel);
 
@@ -326,6 +355,7 @@ namespace cowsins
                             EditorGUI.indentLevel--;
                         }
                         break;
+                    // —— 分页：进阶移动（空中相机影响/跑墙/蹬墙/冲刺/钩索/攀爬）——
                     case "Advanced Movement":
                         EditorGUILayout.LabelField("ADVANCED MOVEMENT", EditorStyles.boldLabel);
                         EditorGUILayout.Space(5);
@@ -333,6 +363,7 @@ namespace cowsins
                         EditorGUI.indentLevel++;
                         EditorGUILayout.BeginVertical(GUI.skin.GetStyle("HelpBox"));
                         {
+                            // 空中相机影响折叠面板：展开后可配置开关与影响强度。
                             // Air Camera Influence foldout
                             showAirCameraInfluence = EditorGUILayout.Foldout(showAirCameraInfluence, "AIR CAMERA INFLUENCE (SOURCE-LIKE)", true);
                             if (showAirCameraInfluence)
@@ -355,6 +386,7 @@ namespace cowsins
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical(GUI.skin.GetStyle("HelpBox"));
                         {
+                            // 跑墙折叠面板：展开后可配置跑墙开关及相关参数。
                             // Wall Run foldout
                             showWallRun = EditorGUILayout.Foldout(showWallRun, "WALL RUN", true);
                             if (showWallRun)
@@ -405,6 +437,7 @@ namespace cowsins
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical(GUI.skin.GetStyle("HelpBox"));
                         {
+                            // 蹬墙折叠面板：展开后可配置蹬墙开关及相关参数。
                             // Wall Bounce foldout
                             showWallBounce = EditorGUILayout.Foldout(showWallBounce, "WALL BOUNCE", true);
                             if (showWallBounce)
@@ -428,6 +461,7 @@ namespace cowsins
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical(GUI.skin.GetStyle("HelpBox"));
                         {
+                            // 冲刺折叠面板：展开后可配置冲刺开关及相关参数。
                             // Dashing foldout
                             showDashing = EditorGUILayout.Foldout(showDashing, "DASHING", true);
                             if (showDashing)
@@ -464,6 +498,7 @@ namespace cowsins
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical(GUI.skin.GetStyle("HelpBox"));
                         {
+                            // 钩索折叠面板：展开后可配置钩索开关及相关参数。
                             // Grappling Hook foldout
                             showGrapplingHook = EditorGUILayout.Foldout(showGrapplingHook, "GRAPPLING HOOK", true);
                             if (showGrapplingHook)
@@ -481,6 +516,7 @@ namespace cowsins
                                     EditorGUILayout.PropertyField(playerSettings.FindPropertyRelative("maxGrappleDistance"));
                                     EditorGUILayout.PropertyField(grapplingHookMethod);
 
+                                    // 根据钩索方式显示对应的推荐参数提示。
                                     if (method == PlayerMovementSettings.GrapplingHookMethod.Linear)
                                         EditorGUILayout.HelpBox("SUGGESTED VALUES: grappleForce = 100", MessageType.Info);
                                     else if (method == PlayerMovementSettings.GrapplingHookMethod.Swing)
@@ -558,6 +594,7 @@ namespace cowsins
                         EditorGUI.indentLevel--;
 
                         break;
+                    // —— 分页：脚步音效 ——
                     case "Footsteps":
 
                         EditorGUILayout.LabelField("FOOTSTEPS", EditorStyles.boldLabel);
@@ -572,6 +609,7 @@ namespace cowsins
                         EditorGUILayout.PropertyField(playerSettings.FindPropertyRelative("footstepSounds"));
                         break;
 
+                    // —— 分页：其他（音效/事件）——
                     case "Others":
                         EditorGUILayout.LabelField("SOUNDS", EditorStyles.boldLabel);
                         GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(8) });
@@ -593,6 +631,7 @@ namespace cowsins
 
             #endregion
             EditorGUILayout.Space(10f);
+            // 应用所有已修改的属性。
             serializedObject.ApplyModifiedProperties();
 
         }

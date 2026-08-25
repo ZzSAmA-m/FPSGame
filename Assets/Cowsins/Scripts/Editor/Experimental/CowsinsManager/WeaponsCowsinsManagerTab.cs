@@ -1,4 +1,10 @@
-﻿#if UNITY_EDITOR
+// =====================================================================
+// WeaponsCowsinsManagerTab.cs：Cowsins Manager 的“武器”标签页实现。
+// 提供武器使用入门教程、Discord 支持入口、武器创建助手（WeaponCreatorAssistant），
+// 以及项目中所有 Weapon_SO 的搜索与网格展示（悬停高亮、点击编辑）。
+// 仅在编辑器环境（UNITY_EDITOR）下编译。
+// =====================================================================
+#if UNITY_EDITOR
 
 using UnityEngine;
 using UnityEditor;
@@ -7,35 +13,54 @@ using System.Linq;
 
 namespace cowsins
 {
+    /// <summary>
+    /// 武器标签页：实现 ITab 接口，展示武器教程、创建助手与武器资产列表。
+    /// </summary>
     public class WeaponsTab : ITab
     {
+        // 标签页名称，显示在窗口顶部的标签栏中。
         public string TabName => "Weapons";
 
+        // 教程与支持入口所使用的两张图片。
         private Texture2D weaponsImage, supportImage;
 
         #region WEAPON_LISTING_VARIABLES
 
+        // 武器列表网格的列数。
         private int gridColumns = 4;
 
+        // 武器搜索关键字。
         private string searchQuery = "";
+        // 根据搜索关键字过滤后的武器列表（用于显示）。
         private List<Weapon_SO> filteredWeaponList;
+        // 项目中所有 Weapon_SO 的完整列表（从资源数据库加载）。
         private List<Weapon_SO> weaponSOList = new List<Weapon_SO>();
         
+        // 列表区域的滚动位置。
         private Vector2 scrollPos;
 
         #endregion
 
         #region WEAPON_CREATION_ASSISTANT_VARIABLES
 
+        // 当前子工具栏索引（0=Get Started，1=Weapon Creation Assistant）。
         private int tabIndex = 1;
+        // 武器创建助手实例（首次需要时懒加载创建）。
         private WeaponCreatorAssistant weaponCreatorAssistantInstance;
 
         #endregion
 
+        /// <summary>
+        /// 标签页被切换选中时调用（当前实现为空，无需额外初始化）。
+        /// </summary>
         public void StartTab() { }
 
+        /// <summary>
+        /// 绘制武器标签页：左侧为教程/创建助手子页面，右侧为武器列表网格。
+        /// </summary>
         public void OnGUI()
         {
+            // 首次绘制且列表为空时，从资源数据库懒加载所有 Weapon_SO。
             if (weaponSOList.Count == 0)
             {
                 LoadWeaponSOFiles();
@@ -162,12 +187,14 @@ namespace cowsins
             GUILayout.EndHorizontal();
         }
 
+        // 点击某个武器按钮时，在属性编辑器中打开对应的 Weapon_SO。
         private void WeaponButtonClicked(int index)
         {
             Weapon_SO selectedWeapon = weaponSOList[index];
             EditorUtility.OpenPropertyEditor(selectedWeapon);
         }
         
+        // 通过 AssetDatabase 查找项目中所有 Weapon_SO 资源并加载到 weaponSOList 列表。
         private void LoadWeaponSOFiles()
         {
             string[] guids = AssetDatabase.FindAssets("t:Weapon_SO");

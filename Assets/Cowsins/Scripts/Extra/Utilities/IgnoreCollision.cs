@@ -1,3 +1,6 @@
+// IgnoreCollision（忽略与玩家的碰撞）：
+// 当该物体与玩家发生碰撞时，忽略自身碰撞体与玩家碰撞体之间的物理碰撞。
+// 典型用途：地面上的弹壳等杂物，仍与场景交互但不与玩家碰撞，避免踩踏时产生不必要的摩擦。
 /// <summary>
 /// This script belongs to cowsins™ as a part of the cowsins´ FPS Engine. All rights reserved. 
 /// </summary>
@@ -11,6 +14,7 @@ namespace cowsins
     /// </summary>
     public class IgnoreCollision : MonoBehaviour
     {
+        // 与玩家碰撞时：忽略双方碰撞体之间的碰撞
         void OnCollisionEnter(Collision collision)
         {
 

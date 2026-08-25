@@ -1,3 +1,10 @@
+// ===================================================================
+// WeaponIdentificationEditor.cs —— WeaponIdentification 的自定义 Inspector 与 Scene 视图工具。
+// 仅在编辑器（UNITY_EDITOR）下编译。主要功能：
+// 1) 在 Inspector 中按 Basic / Attachments 标签页绘制武器引用、开火点、默认/兼容附件等字段；
+// 2) 提供“自动分配附件”按钮与运行时附件状态可视化；
+// 3) 在 Scene 视图右下角绘制浮窗，包含武器相机预览与动画列表/播放器（依赖 SceneView 回调）。
+// ===================================================================
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
@@ -9,32 +16,56 @@ namespace cowsins
 {
     [CustomEditor(typeof(WeaponIdentification))]
     [InitializeOnLoad]
+    /// <summary>
+    /// WeaponIdentification 的自定义 Inspector。
+    /// 提供 Basic（基础引用）与 Attachments（附件）两个标签页，支持自动分配附件、
+    /// 运行时附件状态可视化；同时在 Scene 视图中叠加相机预览与动画播放浮窗。
+    /// </summary>
     public class WeaponIdentificationInspector : Editor
     {
 
+        // 标签页名称数组（Basic / Attachments）。
         private string[] tabs = { "Basic", "Attachments" };
+        // 当前标签页索引。
         private int currentTab = 0;
 
+        // 缓存的目标 WeaponIdentification 组件。
         private WeaponIdentification wID;
+        // 该武器预制体中是否包含 Camera 子物体（用于警告）。
         private bool hasCameraChild = false;
+        // 该武器预制体中是否包含 Light 子物体（用于提示）。
         private bool hasLightChild = false;
         private Animator[] animatorChildren;
+        // 控制“Animators List”折叠栏是否展开。
         private bool animatorsFoldout = true;
+        // 控制“Additional Customization”折叠栏是否展开。
         private bool customizationFoldout = false;
         
+        // 用于在 Scene 视图浮窗中渲染武器预览的相机（静态共享）。
         private static Camera previewCamera;
+        // 预览相机的渲染目标纹理（静态共享）。
         private static RenderTexture previewTexture;
+        // 是否显示相机预览（持久化到 EditorPrefs）。
         private static bool showPreview = true;
+        // 是否显示动画列表。
         private static bool showAnims = false;
+        // 预览显示状态是否已从 EditorPrefs 初始化。
         private static bool previewInitialized = false;
         private static Vector2 animScrollPos;
+        // 是否正在播放预览动画。
         private static bool isPlayingAnim = false;
+        // 上一次动画更新的编辑器时间（用于计算帧间隔）。
         private static double lastUpdateTime;
+        // 当前正在预览的 Animator。
         private static Animator activeAnimator;
+        // 当前正在预览的动画剪辑。
         private static AnimationClip activeClip;
+        // 当前动画播放到的时间点（秒）。
         private static float currentClipTime;
 
+        // 控制预览浮窗展开/收起动画的状态对象。
         private static AnimBool showPreviewAnim;
+        // 控制动画列表展开/收起动画的状态对象。
         private static AnimBool showAnimsAnim;
 
         private static void InitializeAnimBools()
@@ -53,6 +84,8 @@ namespace cowsins
             }
         }
 
+        // 静态构造函数：注册 Scene 视图 GUI 回调与编辑器更新回调（先移除再添加，避免重复注册），
+        // 并在程序集重载前清理静态资源。
         static WeaponIdentificationInspector()
         {
             SceneView.duringSceneGui -= GlobalOnSceneGUI;
@@ -62,6 +95,8 @@ namespace cowsins
             AssemblyReloadEvents.beforeAssemblyReload += CleanupStaticResources;
         }
 
+        // 编辑器每帧更新：若正在播放预览动画，则按编辑器时间推进动画采样，
+        // 处理循环（循环则取模、非循环则停在末尾），采样到 activeAnimator 上并重绘 Scene 视图。
         private static void EditorUpdate()
         {
             if (isPlayingAnim && activeAnimator != null && activeClip != null)
@@ -89,6 +124,7 @@ namespace cowsins
             }
         }
 
+        // 清理静态资源：销毁预览相机与渲染纹理，避免程序集重载/关闭时泄漏。
         private static void CleanupStaticResources()
         {
             if (previewCamera != null)
@@ -102,6 +138,8 @@ namespace cowsins
             }
         }
 
+        // 组件启用时缓存目标引用，检测子物体中是否含 Camera/Light，收集所有 Animator，
+        // 并从 EditorPrefs 初始化预览显示状态（仅初始化一次）。
         private void OnEnable()
         {
             wID = (WeaponIdentification)target;
@@ -115,6 +153,9 @@ namespace cowsins
             }
         }
 
+        // Scene 视图全局回调：当选中物体的父级含 WeaponIdentification 时，
+        // 在其 Scene 视图右下角绘制浮窗——包含“相机预览/动画”工具栏、
+        // 武器相机实时预览，以及动画剪辑列表与播放/停止按钮。
         private static void GlobalOnSceneGUI(SceneView sceneView)
         {
             GameObject activeGO = Selection.activeGameObject;

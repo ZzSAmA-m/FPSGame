@@ -1,3 +1,6 @@
+// TurretEditor（炮塔自定义 Inspector）：
+// 仅在编辑器下编译。为 Turret 组件提供自定义 Inspector 界面，
+// 根据目标类型与射程形状动态显示对应字段，并把序列化属性分组展示，方便美术/策划配置炮塔参数。
 #if UNITY_EDITOR
 
 using UnityEngine;
@@ -6,8 +9,12 @@ using UnityEditor;
 namespace cowsins
 {
     [CustomEditor(typeof(Turret))]
+    /// <summary>
+    /// Turret 组件的自定义编辑器：按分组与射程形状动态绘制 Inspector。
+    /// </summary>
     public class TurretEditor : Editor
     {
+        // 以下均为与 Turret 组件中各字段对应的序列化属性缓存
         SerializedProperty targetType;
         SerializedProperty displayGizmos;
         SerializedProperty animator;
@@ -33,6 +40,7 @@ namespace cowsins
         SerializedProperty fireRate;
         SerializedProperty projectilePoolSize;
 
+        // 编辑器启用时：一次性查找并缓存所有序列化属性，供 Inspector 绘制使用
         private void OnEnable()
         {
             targetType = serializedObject.FindProperty("targetType");
@@ -61,6 +69,7 @@ namespace cowsins
             projectilePoolSize = serializedObject.FindProperty("projectilePoolSize");
         }
 
+        // 自定义 Inspector 绘制入口：分组绘制炮塔的各配置字段
         public override void OnInspectorGUI()
         {
             serializedObject.Update();

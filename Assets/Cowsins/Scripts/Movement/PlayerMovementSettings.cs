@@ -1,3 +1,9 @@
+// ----------------------------------------------------------------------
+// PlayerMovementSettings.cs
+// 作用：集中存放玩家移动系统的全部可序列化配置参数（速度、下蹲、滑铲、跳跃、
+//       相机、瞄准辅助、体力、跑墙、蹬墙、冲刺、钩索、攀爬、脚步音效等），
+//       并声明相关枚举、声音与事件等辅助类型。这些数据由 PlayerMovement 在运行时读取使用。
+// ----------------------------------------------------------------------
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,39 +12,70 @@ using UnityEngine.UI;
 namespace cowsins
 {
     [System.Serializable]
+    /// <summary>
+    /// 玩家移动设置数据类。将所有与移动相关的可调参数、枚举、声音与事件集中组织，
+    /// 以 [System.Serializable] 形式暴露给 Inspector 编辑，并由 PlayerMovement 在运行时读取。
+    /// </summary>
     public class PlayerMovementSettings
     {
         [System.Serializable]
+        /// <summary>
+        /// 移动事件配置内部类：集中声明移动系统各状态对应的一组 UnityEvent，供外部订阅。
+        /// </summary>
         public class Events
         {
+            // 移动系统相关的一组事件：待机/移动/冲刺/落地/出生/下蹲/滑铲/跳跃/跑墙/蹬墙/
+            // 冲刺/钩索/攀爬等状态的开始、进行与结束事件。
             public UnityEvent OnIdle, OnMoving, OnSprint, OnLand, OnSpawn, OnCrouch, OnStopCrouch, OnSlideStart, OnJump, OnStartWallRun, OnStopWallRun, OnWallBounce,
                 OnStartDash, OnDashing, OnEndDash, OnStartGrapple, OnGrappling, OnGrappleImpacted, OnStopGrapple, OnGrappleEnabled, OnStartClimb, OnClimbing, OnEndClimb;
         }
 
         [System.Serializable]
+        /// <summary>
+        /// 定向跳跃方式枚举：决定跳跃时“定向跳跃”的方向如何确定。
+        /// None = 无定向跳跃；InputBased = 按玩家输入方向；ForwardMovement = 按角色前进方向。
+        /// </summary>
         public enum DirectionalJumpMethod // Different methods to determine the jump method to apply
         {
+            // None=无；InputBased=基于输入方向；ForwardMovement=基于前进方向。
             None, InputBased, ForwardMovement
         }
 
         [System.Serializable]
+        /// <summary>
+        /// 跑墙结束方式枚举：决定跑墙何时停止。None = 不限时（手动/其他条件结束）；Timer = 按时长结束。
+        /// </summary>
         public enum CancelWallRunMethod // Different methods to determine when wallrun should stop
         {
+            // None=无时限；Timer=按 wallRunDuration 定时结束。
             None, Timer
         }
 
         [System.Serializable]
+        /// <summary>
+        /// 冲刺方式枚举：决定冲刺方向如何确定。
+        /// ForwardAlways = 始终向前；InputBased = 按输入方向；Free = 自由方向。
+        /// </summary>
         public enum DashMethod // Different methods to determine the jump method to apply
         {
+            // ForwardAlways=始终向前；InputBased=基于输入方向；Free=自由方向。
             ForwardAlways, InputBased, Free
         }
 
         [System.Serializable]
+        /// <summary>
+        /// 钩索行为方式枚举：Linear = 直线拉向锚点；Swing = 物理摆荡；Combined = 两者结合。
+        /// </summary>
         public enum GrapplingHookMethod
         {
+            // Linear=直线拉拽；Swing=摆荡；Combined=拉拽+摆荡结合。
             Linear, Swing, Combined
         }
 
+        /// <summary>
+        /// 爬梯移动模式枚举：决定玩家在梯子上的上下移动如何受输入与视角影响。
+        /// WSOnly = 仅 W/S 上下；LookBased = 按视角方向；Combined = 两者都支持。
+        /// </summary>
         public enum LadderMovementMode
         {
             WSOnly,        // W -> up, S -> down
@@ -47,30 +84,46 @@ namespace cowsins
         }
 
         [System.Serializable]
+        /// <summary>
+        /// 移动相关音效配置内部类：集中存放跳跃、落地、钩索、下蹲、滑铲、冲刺等动作的音效片段。
+        /// </summary>
         public class Sounds
         {
+            // 各动作对应的音效片段。
             public AudioClip jumpSFX, landSFX, startGrappleSFX, grappleImpactSFX, startCrouchSFX, stopCrouchSFX, slideSFX, dashSFX;
         }
 
         [System.Serializable]
+        /// <summary>
+        /// 单条地面脚步音效条目：将某个地面图层与其对应的脚步音效集合关联起来。
+        /// </summary>
         public class FootstepSoundEntry
         {
+            // 该条目对应的地面图层名称。
             public string layerName;
+            // 该地面图层对应的脚步音效集合。
             public AudioClip[] sounds;
 
+            // 缓存的图层索引（-1 表示未缓存），用于运行时快速匹配，Inspector 中隐藏。
             [HideInInspector]
             public int cachedLayerIndex = -1;
         }
 
         [System.Serializable]
+        /// <summary>
+        /// 脚步音效集合：包含默认脚步音效，以及按地面图层区分的多种表面音效条目。
+        /// </summary>
         public class FootStepsSounds
         {
+            // 默认脚步音效（未匹配到特定表面时使用）。
             public AudioClip[] defaultStep;
 
+            // 按图层区分的表面脚步音效列表。
             public List<FootstepSoundEntry> surfaceSounds = new List<FootstepSoundEntry>();
         }
 
 
+        // ==================== 可分配引用（ASSIGNABLES） ====================
         // ---------------- ASSIGNABLES ---------------- //
 
         [Tooltip("This is where the parent of your camera should be attached.")] public Transform playerCam;
@@ -81,6 +134,7 @@ namespace cowsins
         [Range(.1f, 2), Tooltip("Being 1 = default, amount of speed lines displayed.")] public float speedLinesAmount = 1;
 
 
+        // ==================== 基础移动（MOVEMENT） ====================
         // ---------------- MOVEMENT ---------------- //
 
         [Tooltip("Enable this to instantly run without needing to press the sprint button down.")] public bool autoRun;
@@ -105,6 +159,7 @@ namespace cowsins
 
         [Tooltip("Capacity to gain speed.")] public float acceleration = 4500;
 
+        // 奔跑速度与行走速度（米/秒，最小值 0.01）。
         [Min(0.01f)] public float runSpeed, walkSpeed;
 
         [Min(0.01f), Tooltip("Max speed the player can reach. Velocity is clamped by this value.")] public float maxSpeedAllowed = 40;
@@ -119,6 +174,7 @@ namespace cowsins
         [Range(0, 1f), Tooltip("Previously named Friction Force Amount (<1.3.6). Controls the snappiness of the character. The higher, the more responsive.")]
         public float controlsResponsiveness = 0.175f;
 
+        // ==================== 下蹲设置（CROUCH） ====================
         // ---------------- CROUCH SETTINGS ---------------- //
 
         [Tooltip("Set to true to enable the player to crouch")] public bool allowCrouch;
@@ -128,6 +184,7 @@ namespace cowsins
         [Tooltip("Turn this on to allow the player to crouch while jumping")] public bool allowCrouchWhileJumping;
 
 
+        // ==================== 滑铲设置（SLIDING） ====================
         // ---------------- SLIDING SETTINGS ---------------- //
 
         [Tooltip("When true, player will be allowed to slide.")] public bool allowSliding;
@@ -150,6 +207,7 @@ namespace cowsins
     public float slideBoostDuration = 0.12f;
 
 
+        // ==================== 跳跃设置（JUMP） ====================
         // ---------------- JUMP SETTINGS ---------------- //
 
         [Tooltip("Enable this if your player can jump.")] public bool allowJump;
@@ -174,11 +232,13 @@ namespace cowsins
 
         [Tooltip("Interval between jumping"), Min(.25f)] public float jumpCooldown = .25f;
 
+        // 是否启用“土狼时间”（Coyote Time，离开平台后仍可短暂起跳）。
         public bool canCoyote;
 
         [Range(0, .3f), Tooltip("Coyote jump allows users to perform more satisfactory and responsive jumps, especially when jumping off surfaces")] public float coyoteJumpTime;
 
 
+        // ==================== 相机设置（CAMERA） ====================
         // ---------------- CAMERA SETTINGS ---------------- //
 
         [Tooltip("Maximum Vertical Angle for the camera"), Range(20, 89.7f)] public float maxCameraAngle = 89.7f;
@@ -187,12 +247,14 @@ namespace cowsins
 
         [Tooltip("Vertical sensitivity (Y Axis)")] public float sensitivityY = 4;
 
+        // 是否反转鼠标 Y 轴视角。
         public bool invertYSensitivty = false;
 
         [Tooltip("Horizontal sensitivity (X Axis) using controllers")] public float controllerSensitivityX = 35;
 
         [Tooltip("Vertical sensitivity (Y Axis) using controllers")] public float controllerSensitivityY = 35;
 
+        // 是否反转手柄 Y 轴视角。
         public bool invertYControllerSensitivty = false;
 
         [Range(.1f, 1f), Tooltip("Sensitivity will be multiplied by this value when aiming")] public float aimingSensitivityMultiplier = .4f;
@@ -213,10 +275,12 @@ namespace cowsins
         [Range(0, 30), Tooltip("Rotation of the camera when wall running. The rotation direction gets automatically adjusted by FPS Engine.")]
         public float wallrunCameraTiltAmount;
 
+        // 攀爬时是否允许垂直视角观察。
         public bool allowVerticalLookWhileClimbing = true;
 
         [Tooltip("Speed of the tilt camera movement. This is essentially used for wall running")] public float cameraTiltTransitionSpeed;
 
+        // ==================== 瞄准辅助设置（AIM ASSIST） ====================
         // ---------------- AIM ASSIST SETTINGS ---------------- //
 
         [Tooltip("Determine wether to apply aim assist or not.")] public bool applyAimAssist;
@@ -231,6 +295,7 @@ namespace cowsins
         [Tooltip("Fallback height offset when no collider found")] public float aimAssistDefaultHeightOffset = 1.4f;
 
 
+        // ==================== 体力设置（STAMINA） ====================
         // ---------------- STAMINA SETTINGS ---------------- //
 
         [Tooltip("You will lose stamina on performing actions when true.")] public bool usesStamina;
@@ -256,10 +321,12 @@ namespace cowsins
         [Tooltip("If Stamina bar is filled up entirely, disable it. It will reappear as soon as you lose stamina as well")]
         public bool staminaSliderFadesOutIfFull;
 
+        // ==================== 空中相机影响（SOURCE 风格） ====================
         // ---------------- AIR CAMERA INFLUENCE ( SOURCE LIKE ) ---------------- //
         [Tooltip("If enabled, camera look will influence movement while airborne. Recommended only for source-like movement styles")] public bool allowAirCameraInfluence = false;
         [Tooltip("Camera influence amount while airborne"), Min(0)] public float airCameraInfluenceAmount = 30;
 
+        // ==================== 跑墙设置（WALL RUN） ====================
         // ---------------- WALL RUN SETTINGS ---------------- //
 
         [Tooltip("When enabled, it will allow the player to wallrun on walls")] public bool canWallRun;
@@ -288,6 +355,7 @@ namespace cowsins
         [Tooltip("Method to determine length of wallRun.")] public CancelWallRunMethod cancelWallRunMethod;
 
 
+        // ==================== 蹬墙设置（WALL BOUNCE） ====================
         // ---------------- WALL BOUNCE SETTINGS ---------------- //
 
         [Tooltip("When enabled, it will allow the player to wall bounce on walls.")] public bool canWallBounce;
@@ -303,6 +371,7 @@ namespace cowsins
 
 
 
+        // ==================== 冲刺设置（DASH） ====================
         // ---------------- DASH SETTINGS ---------------- //
 
         [Tooltip("When enabled, it will allow the player to perform dashes.")] public bool canDash;
@@ -328,6 +397,7 @@ namespace cowsins
         [Tooltip("When enabled, it will allow the player to shoot while dashing.")] public bool canShootWhileDashing;
 
 
+        // ==================== 钩索设置（GRAPPLE） ====================
         // ---------------- GRAPPLE SETTINGS ---------------- //
 
         [Tooltip("If true, allows the player to use a customizable grappling hook.")] public bool allowGrapple;
@@ -367,25 +437,34 @@ namespace cowsins
         [Tooltip("Speed to decrease the wave amplitude over time.")] public float waveAmplitudeMitigation = 6;
 
 
+        // ==================== 攀爬设置（CLIMB） ====================
         // ---------------- CLIMB SETTINGS ---------------- //
 
         [Tooltip("If true, allows the player to use a customizable grappling hook.")] public bool canClimb = true;
 
+        // 爬梯移动模式（见 LadderMovementMode 枚举）。
         public LadderMovementMode ladderMovementMode = LadderMovementMode.Combined;
 
+        // 检测梯子的最大距离。
         [Min(0)] public float maxLadderDetectionDistance = 1;
 
+        // 攀爬速度。
         [Min(0)] public float climbSpeed = 15;
 
+        // 爬到梯顶时向上施加的力。
         [Min(0)] public float topReachedUpperForce = 10;
 
+        // 爬到梯顶时向前施加的力。
         [Min(0)] public float topReachedForwardForce = 10;
 
+        // 攀爬时是否隐藏武器。
         public bool hideWeaponWhileClimbing = true;
 
 
+        // ==================== 脚步音效设置（FOOTSTEPS） ====================
         // ---------------- FOOTSTEPS SETTINGS ---------------- //
 
+        // 脚步音效集合（含默认音效与按图层的表面音效）。
         public FootStepsSounds footstepSounds;
 
         [Tooltip("Volume of the AudioSource.")] public float footstepVolume;
@@ -393,10 +472,13 @@ namespace cowsins
         [Tooltip("Play speed of the footsteps."), Range(.1f, .95f)] public float footstepSpeed;
 
 
+        // ==================== 其他设置（OTHER） ====================
         // ---------------- OTHER SETTINGS ---------------- //
 
+        // 移动相关音效配置。
         public Sounds sounds;
 
+        // 移动相关事件配置。
         public Events events;
     }
 }

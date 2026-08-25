@@ -1,3 +1,9 @@
+// =====================================================================
+// TagLayerInitializationManager.cs：标签与图层初始化管理器。
+// 首次打开项目时自动创建 FPS Engine 所需的 Tag（如 Enemy、FirePoint 等）
+// 和 Layer（如 Ground、Weapons、Enemy 等），省去手动配置的迁移成本。
+// 仅在编辑器环境（UNITY_EDITOR）下编译。
+// =====================================================================
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
@@ -8,15 +14,20 @@ using System.Collections.Generic;
 /// </summary>
 namespace cowsins.Inspector
 {
+    /// <summary>
+    /// 标签与图层初始化管理器：首次打开项目时自动添加 FPS Engine 所需的 Tag 和 Layer。
+    /// </summary>
     [InitializeOnLoad]
     public class TagLayerInitializationManager
     {
 
+        // 静态构造函数：订阅 EditorApplication.update，在编辑器打开后执行初始化。
         static TagLayerInitializationManager()
         {
             EditorApplication.update += InitializeOnEditorOpen;
         }
 
+        // 编辑器打开后的初始化入口：仅在当前会话首次执行时添加所需的 Tag 和 Layer。
         private static void InitializeOnEditorOpen()
         {
             // Check if TagLayerInitializationManager is already initialized for this session
@@ -71,6 +82,9 @@ namespace cowsins.Inspector
             }
 
         }
+        /// <summary>
+        /// 若指定的 Tag 不存在，则将其添加到项目的 TagManager 设置中。
+        /// </summary>
         public static void AddTag(string tag)
         {
             // Gathers the tags
@@ -89,6 +103,9 @@ namespace cowsins.Inspector
             tagManager.ApplyModifiedProperties();
         }
 
+        /// <summary>
+        /// 若指定的 Layer 不存在，则在第一个空槽位中添加该 Layer。
+        /// </summary>
         public static void AddLayer(string layer)
         {
             // Gathers the layers
@@ -113,6 +130,7 @@ namespace cowsins.Inspector
             tagManager.ApplyModifiedProperties();
         }
 
+        // 检查序列化数组属性在 [start, end) 区间内是否已存在指定值。
         private static bool PropertyExists(SerializedProperty property, int start, int end, string value)
         {
             for (int i = start; i < end; i++)
@@ -127,6 +145,7 @@ namespace cowsins.Inspector
         }
 
         // Check if there is room for a new layer
+        // 查找第一个可用的空 Layer 槽位（前 8 个为内建层，故从索引 8 开始）。
         private static int FindFirstEmptyLayerIndex(SerializedProperty layersProp)
         {
             for (int i = 8; i < layersProp.arraySize; i++)

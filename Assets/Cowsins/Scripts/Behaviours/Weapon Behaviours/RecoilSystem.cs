@@ -1,3 +1,6 @@
+// RecoilSystem.cs：武器后坐力系统。
+// 根据射击进度（evaluationProgress）采样后坐力曲线（recoilX/recoilY）计算俯仰与偏航方向的后坐力偏移，
+// 并在停止射击/换弹/不可控等情况下平滑回落；支持按压式（Press）与持续式射击的后坐力触发。
 using cowsins;
 using UnityEngine;
 

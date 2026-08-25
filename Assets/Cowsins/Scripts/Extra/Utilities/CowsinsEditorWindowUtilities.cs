@@ -1,10 +1,17 @@
-﻿#if UNITY_EDITOR
+﻿// CowsinsEditorWindowUtilities（编辑器窗口工具类）：
+// 仅在编辑器下编译。为 cowsins 引擎的自定义编辑器窗口提供可复用的 GUI 样式与绘制辅助方法，
+// 包括标题/副标题样式、教程/链接卡片绘制，以及武器后坐力曲线图与准星预览的绘制。
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 namespace cowsins
 {
+    /// <summary>
+    /// 编辑器窗口工具：提供常用 GUIStyle 与各类 GUI 绘制辅助函数。
+    /// </summary>
     public static partial class CowsinsEditorWindowUtilities
     {
+        // 返回居中的粗体标题样式（字号 12）
         public static GUIStyle TitleStyle()
         {
             return new GUIStyle(GUI.skin.label)
@@ -15,6 +22,7 @@ namespace cowsins
             };
 
         }
+        // 返回居中的副标题样式（字号 9，自动换行）
         public static GUIStyle SubtitleStyle()
         {
             return new GUIStyle(GUI.skin.label)
@@ -25,6 +33,7 @@ namespace cowsins
             };
 
         }
+        // 返回大标题样式（字号 25，半透明白色粗体）
         public static GUIStyle BigHeadingStyle()
         {
             return new GUIStyle(GUI.skin.label)
@@ -35,6 +44,7 @@ namespace cowsins
             };
         }
 
+        // 绘制教程卡片：显示缩略图并在中心叠加播放按钮，点击后打开指定网址
         public static void DrawTutorialCard(Texture2D image, string url, float size)
         {
             GUILayout.Label(image, GUILayout.Width(400 * size), GUILayout.Height(250 * size));
@@ -55,6 +65,7 @@ namespace cowsins
             }
         }
 
+        // 绘制链接卡片：显示图标与标题按钮，点击后打开指定网址
         public static void DrawLinkCard(Texture2D icon, string title, string url, float sizeX, float sizeY)
         {
             GUILayout.BeginVertical(GUI.skin.GetStyle("HelpBox"), GUILayout.Width(300 * sizeX), GUILayout.Height(300 * sizeY));
@@ -82,6 +93,7 @@ namespace cowsins
             GUILayout.EndVertical();
         }
 
+        // 绘制单条后坐力散布图：把弹匣内每发子弹的后坐力偏移累计成散点并绘制
         public static void DrawRecoilPlot(Weapon_SO myScript, bool aimed, string label, bool isAimPlot, bool showLabels)
         {
             Rect area = GUILayoutUtility.GetRect(200, 230);
@@ -159,6 +171,7 @@ namespace cowsins
             GUI.Label(new Rect(area.x, area.yMax - 10, area.width, 20), label, bottomLabelStyle);
         }
 
+        // 绘制合并的后坐力散布图：同时绘制默认与瞄准两种状态的后坐力散点（红/蓝两色）
         public static void DrawCombinedRecoilPlot(Weapon_SO myScript, bool showLabels)
         {
             Rect area = GUILayoutUtility.GetRect(200, 230);
@@ -259,6 +272,7 @@ namespace cowsins
             bottomLabelStyle.fontStyle = FontStyle.Bold;
             GUI.Label(new Rect(area.x, area.yMax - 10, area.width, 20), "Combined Recoil", bottomLabelStyle);
         }
+        // 绘制准星编辑区块：左侧为属性字段，右侧为准星预览
         public static void DrawCrosshairEditorSection(SerializedObject serializedObject, CrosshairParts parts, string propertyName)
         {
             EditorGUILayout.BeginHorizontal();
@@ -273,6 +287,7 @@ namespace cowsins
 
             EditorGUILayout.EndHorizontal();
         }
+        // 根据 CrosshairParts 的各开关，用纯色纹理绘制准星预览图
         public static void DrawCrosshairPreview(CrosshairParts parts)
         {
             float previewSize = 100f;

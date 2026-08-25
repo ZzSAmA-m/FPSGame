@@ -1,3 +1,8 @@
+// =====================================================================
+// DraggableButtonInSceneView.cs：在场景视图（Scene View）中显示一个可拖拽的悬浮按钮。
+// 按钮可吸附到最近边缘，点击后展开菜单（定位武器/武器SO文件夹、打开武器创建助手、教程链接），
+// 并允许外部通过事件注册自定义按钮。仅在编辑器环境（UNITY_EDITOR）下编译。
+// =====================================================================
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
@@ -5,26 +10,43 @@ using UnityEngine;
 namespace cowsins
 {
     [InitializeOnLoad]
+    /// <summary>
+    /// 场景视图可拖拽悬浮按钮：负责绘制按钮、处理拖拽/边缘吸附，并渲染展开的菜单。
+    /// </summary>
     public static class DraggableButtonInSceneView
     {
+        // 菜单中的按钮数量（外部扩展时可覆盖该值以调整布局）。
         public static int buttonCount = 4;
 
+        // EditorPrefs 中保存“是否显示可拖拽按钮”的键名。
         private const string ShowDraggableButtonKey = "Cowsins_ShowDraggableButton";
+        // 是否在场景视图中显示该按钮。
         public static bool showDraggableButton;
 
+        // 按钮在场景视图中的位置（初始为 (10, 10)）。
         private static Vector2 buttonPosition = new Vector2(10, 10);
+        // 是否正在拖拽按钮。
         private static bool isDragging = false;
+        // 按钮的 GUI 样式。
         private static GUIStyle buttonStyle;
+        // 按钮中央显示的 Logo 图标。
         private static Texture2D logoIcon;
+        // 按钮的尺寸。
         private static Vector2 buttonSize = new Vector2(40, 35);
+        // Logo 图标的尺寸。
         private static Vector2 imageSize = new Vector2(21, 21);
+        // 是否展开菜单。
         private static bool showMenu = false;
 
+        // 菜单中四个内置选项对应的图标。
         private static Texture2D option1Image, option2Image, option3Image, option4Image;
 
+        // 委托类型：允许外部在菜单中追加自定义按钮。
         public delegate void AddButtonDelegate(Rect menuRect);
+        // 外部注册自定义按钮的事件（在菜单绘制时触发）。
         public static event AddButtonDelegate OnAddExternalButtons;
 
+        // 静态构造函数：读取显示设置、订阅场景视图绘制事件，并加载按钮与菜单图标。
         static DraggableButtonInSceneView()
         {
             showDraggableButton = EditorPrefs.GetBool(ShowDraggableButtonKey, true);
@@ -38,6 +60,7 @@ namespace cowsins
             option4Image = Resources.Load<Texture2D>("CustomEditor/Tutorials");
         }
 
+        // 场景视图绘制回调：绘制按钮、处理拖拽与菜单展开逻辑。
         private static void OnSceneGUI(SceneView sceneView)
         {
             if (!showDraggableButton)
@@ -48,10 +71,12 @@ namespace cowsins
 
             Handles.BeginGUI();
 
+            // 计算按钮在场景视图中的绘制区域。
             Rect buttonRect = new Rect(buttonPosition.x, buttonPosition.y, buttonSize.x, buttonSize.y);
 
             HandleDragging(buttonRect, sceneView);
 
+            // 左键点击按钮时切换菜单的展开/收起状态。
             if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && buttonRect.Contains(Event.current.mousePosition))
             {
                 showMenu = !showMenu;
@@ -60,6 +85,7 @@ namespace cowsins
             }
 
             GUI.Button(buttonRect, GUIContent.none, buttonStyle);
+            // 计算 Logo 图标居中的绘制区域。
             Rect imageRect = new Rect(
                 buttonRect.x + (buttonSize.x - imageSize.x) / 2,
                 buttonRect.y + (buttonSize.y - imageSize.y) / 2,
@@ -71,6 +97,7 @@ namespace cowsins
             // Draw the menu
             if (showMenu && !isDragging)
             {
+                // 根据按钮位于场景视图左半边还是右半边，决定菜单向左或向右展开。
                 Rect menuRect = new Rect(
                     buttonRect.x + (buttonPosition.x < sceneView.position.width / 2 ? buttonSize.x : -40 * buttonCount),
                     buttonRect.y,
@@ -83,6 +110,7 @@ namespace cowsins
             Handles.EndGUI();
         }
 
+        // 绘制展开的菜单：四个内置选项按钮，并触发外部注册按钮事件。
         private static void DrawMenu(Rect menuRect)
         {
             GUI.Box(menuRect, GUIContent.none, GUI.skin.box);
@@ -118,6 +146,7 @@ namespace cowsins
             OnAddExternalButtons?.Invoke(menuRect);
         }
 
+        // 在 Project 窗口中定位并高亮指定文件夹，找不到时输出错误。
         private static void PingFolder(string folderPath)
         {
             Object folder = AssetDatabase.LoadAssetAtPath<Object>(folderPath);
@@ -132,6 +161,7 @@ namespace cowsins
             }
         }
 
+        // 处理拖拽：右键按下开始、拖动更新位置并限制范围、右键松开结束并吸附到最近边缘。
         private static void HandleDragging(Rect buttonRect, SceneView sceneView)
         {
             Event e = Event.current;
@@ -159,6 +189,7 @@ namespace cowsins
             }
         }
 
+        // 将按钮位置限制在场景视图可见范围内（四周各保留 10 像素边距）。
         private static void ClampButtonPosition(SceneView sceneView)
         {
             Vector2 viewSize = new Vector2(sceneView.position.width, sceneView.position.height);
@@ -166,6 +197,7 @@ namespace cowsins
             buttonPosition.y = Mathf.Clamp(buttonPosition.y, 10, viewSize.y - buttonSize.y - 10);
         }
 
+        // 松开拖拽后将按钮吸附到距离最近的边缘。
         private static void SnapToNearestEdge(SceneView sceneView)
         {
             Vector2 viewSize = new Vector2(sceneView.position.width, sceneView.position.height);
@@ -183,6 +215,9 @@ namespace cowsins
             else if (min == bottom) buttonPosition.y = viewSize.y - buttonSize.y - 10;
         }
 
+        /// <summary>
+        /// 计算菜单中第 index 个按钮的 X 坐标，供外部添加自定义按钮时定位使用。
+        /// </summary>
         public static float GetButtonPosition(Rect menuRect, int index)
         {
             float spacing = 5;
@@ -192,6 +227,9 @@ namespace cowsins
             return menuRect.x + spacing * (index + 1) + itemWidth * index + offset;
         }
 
+        /// <summary>
+        /// 设置是否在场景视图中显示按钮，并将设置持久化到 EditorPrefs。
+        /// </summary>
         public static void SetShowDraggableButton(bool value)
         {
             showDraggableButton = value;

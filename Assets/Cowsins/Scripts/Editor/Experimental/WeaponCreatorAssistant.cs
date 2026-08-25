@@ -1,3 +1,9 @@
+// =====================================================================
+// WeaponCreatorAssistant.cs：武器创建助手（实验性功能）。
+// 通过 GUI 引导用户输入武器名称、选择预设/模型/动画，最终在项目中创建
+// Weapon_SO 资源与对应的 WeaponObject 预制体，并自动配置动画控制器与武器层级。
+// 仅在编辑器环境（UNITY_EDITOR）下编译。
+// =====================================================================
 #if UNITY_EDITOR
 using System;
 using UnityEngine;
@@ -6,13 +12,21 @@ using UnityEditor.Presets;
 using UnityEditor.Animations;
 namespace cowsins
 {
+    /// <summary>
+    /// 武器创建助手：以 ScriptableObject 形式提供编辑器 GUI，引导并执行新武器的创建流程。
+    /// </summary>
     public class WeaponCreatorAssistant : ScriptableObject
     {
+        // 新武器的名称（默认为 "NewWeapon"）。
         private string weaponName = "NewWeapon";
+        // 标题栏的背景颜色。
         private Color titleBackgroundColor = new Color(0.2f, 0.2f, 0.2f);
+        // 可选的武器预设，用于将配置套用到新建的 Weapon_SO。
         private Preset weaponPreset;
+        // 武器的 3D 视模型（ViewModel）。
         private GameObject weaponModel;
 
+        // 各状态对应的动画片段引用（待分配进 AnimatorController）。
         private AnimationClip idleClip, shootClip, reloadClip, unholsterClip, holsterClip, emptyReloadClip, walkClip, runClip, startInspectClip, loopInspectClip, endInspectClip;
 
         // Used to control Foldout visibility
@@ -21,14 +35,21 @@ namespace cowsins
         private bool showModel = false;
         private bool showAnims = false;
 
+        // 滚动视图的滚动位置。
         private Vector2 scrollPos;
 
         [MenuItem("Cowsins/Create/Weapon ( Weapon Creation Assistant )")]
+        /// <summary>
+        /// 菜单入口：打开武器创建助手所在的管理器武器标签页。
+        /// </summary>
         public static void DisplayConfirmationDialog()
         {
             CustomTabEditorWindow.OpenWeaponsTab();
         }
 
+        /// <summary>
+        /// 绘制武器创建助手界面：名称、预设、模型、动画四个折叠面板与“创建”按钮。
+        /// </summary>
         public void OnGUI()
         {
             DrawTitleBackground("Create New Weapon | FPS Engine by Cowsins");
@@ -137,6 +158,7 @@ namespace cowsins
             }
             EditorGUILayout.EndVertical();
             GUILayout.Space(10);
+            // 点击“Create”后先校验预设类型与模型引用，再弹出确认对话框。
             if (GUILayout.Button("Create"))
             {
                 if (weaponPreset && !(weaponPreset.GetTargetTypeName() is "Weapon_SO"))
@@ -187,6 +209,7 @@ namespace cowsins
             EditorGUILayout.EndScrollView();
         }
 
+        // 执行武器创建流程：创建文件夹、生成 Weapon_SO、复制模板预制体并配置动画与层级。
         private void CreateWeapon()
         {
 
@@ -249,6 +272,7 @@ namespace cowsins
             GameObject instantiatedWeaponModel = Instantiate(weaponModel, duplicatedPrefab.transform);
             instantiatedWeaponModel.transform.SetParent(parent);
 
+            // 取得名为 "Weapons" 的层索引，用于设置武器模型的层级。
             int weaponsLayer = LayerMask.NameToLayer("Weapons");
             SetLayerRecursively(instantiatedWeaponModel, weaponsLayer);
 
@@ -318,6 +342,9 @@ namespace cowsins
             EditorUtility.DisplayDialog("Weapon created.", weaponName + " successfully created at path: " + newPath, "OK");
         }
 
+        /// <summary>
+        /// 将 AnimatorController 复制到目标路径，并返回加载后的副本。
+        /// </summary>
         public AnimatorController DuplicateAnimatorController(string originalPath, string targetPath)
         {
             // Check if the original file exists
@@ -344,8 +371,10 @@ namespace cowsins
         }
 
 
+        // 将用户指定的动画片段分配到 AnimatorController 的各状态（含 Locomotion 混合树）。
         private void AssignAnimationClipsToStates(AnimatorController controller)
         {
+            // 局部函数：按名称（忽略大小写）在状态数组中查找 AnimatorState。
             AnimatorState FindStateByName(ChildAnimatorState[] states, string stateName)
             {
                 foreach (var state in states)
@@ -403,6 +432,7 @@ namespace cowsins
             if (endInspectState != null && endInspectClip != null) endInspectState.motion = endInspectClip;
         }
 
+        // 绘制带深色背景的标题栏。
         private void DrawTitleBackground(string title)
         {
             Rect rect = GUILayoutUtility.GetRect(new GUIContent(title), EditorStyles.boldLabel);
@@ -411,6 +441,7 @@ namespace cowsins
         }
 
         // Loops through the children of obj to assign the selected layer
+        // 递归地将 obj 及其所有子物体设置为 newLayer 层。
         private void SetLayerRecursively(GameObject obj, int newLayer)
         {
             if (null == obj) return;

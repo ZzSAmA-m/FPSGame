@@ -1,3 +1,9 @@
+// =====================================================================
+// CustomTabEditorWindow.cs：Cowsins Manager 编辑器窗口的主窗口类。
+// 通过反射自动发现并加载所有实现 ITab 接口的标签页，绘制顶部标签栏，
+// 并渲染当前选中标签页的内容；同时提供启动时自动弹窗与菜单入口。
+// 仅在编辑器环境（UNITY_EDITOR）下编译。
+// =====================================================================
 #if UNITY_EDITOR
 
 using UnityEditor;
@@ -9,17 +15,27 @@ using System.Linq;
 namespace cowsins
 {
     [InitializeOnLoad]
+    /// <summary>
+    /// Cowsins Manager 主编辑器窗口：管理标签页集合并渲染当前选中的标签页。
+    /// </summary>
     public class CustomTabEditorWindow : EditorWindow
     {
+        // 通过反射加载的所有标签页实例集合。
         private List<ITab> tabs;
+        // 当前选中的标签页索引。
         private int selectedTabIndex;
+        // 内容区域的滚动位置。
         private Vector2 scrollPosition;
+        // 窗口顶部深色背景颜色。
         Color darkColor = new Color(.15f, .15f, .15f);
 
+        // 静态构造函数：在编辑器加载后延迟调用 ShowWindowOnce，实现启动时自动弹窗。
         static CustomTabEditorWindow()
         {
+            // 延迟到编辑器空闲时执行，避免在加载过程中过早弹窗。
             EditorApplication.delayCall += ShowWindowOnce;
         }
+        // 每个会话首次初始化时，根据 EditorPrefs 的“启动时显示”设置决定是否自动打开窗口。
         private static void ShowWindowOnce()
         {
             if (!SessionState.GetBool("First_Init", false))
@@ -31,6 +47,9 @@ namespace cowsins
         }
 
         [MenuItem("Cowsins/Cowsins Manager [Home] %q")]
+        /// <summary>
+        /// 打开 Cowsins Manager 窗口（默认显示首页），并初始化全部标签页。
+        /// </summary>
         public static void OpenWindow()
         {
             var window = GetWindow<CustomTabEditorWindow>();
@@ -42,6 +61,9 @@ namespace cowsins
         }
 
         [MenuItem("Cowsins/Cowsins Manager [Weapons]")]
+        /// <summary>
+        /// 打开 Cowsins Manager 窗口，并定位到“Weapons”标签页。
+        /// </summary>
         public static void OpenWeaponsTab()
         {
             var window = GetWindow<CustomTabEditorWindow>();
@@ -59,11 +81,15 @@ namespace cowsins
 
             window.Show();
         }
+        /// <summary>
+        /// 关闭 Cowsins Manager 窗口。
+        /// </summary>
         public static void CloseWindow()
         {
             var window = GetWindow<CustomTabEditorWindow>();
             window.Close();
         }
+        // 通过反射加载程序集中所有实现 ITab 接口的类并实例化，填充 tabs 列表。
         private void InitializeTabs()
         {
             tabs = new List<ITab>();
@@ -79,6 +105,7 @@ namespace cowsins
             }
         }
 
+        // 绘制窗口内容：无标签页时显示刷新提示，否则绘制顶部标签栏与选中标签页的内容。
         private void OnGUI()
         {
             if (tabs == null || tabs.Count == 0)
@@ -142,6 +169,7 @@ namespace cowsins
             tabs[selectedTabIndex].OnGUI();
             GUILayout.EndScrollView();
         }
+        // 创建 1x1 纯色纹理并填充指定颜色，用于绘制自定义背景色。
         Texture2D CreateColoredTexture(Color color)
         {
             Texture2D texture = new Texture2D(1, 1);

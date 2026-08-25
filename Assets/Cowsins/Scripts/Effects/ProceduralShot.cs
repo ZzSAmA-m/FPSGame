@@ -1,21 +1,36 @@
+// =====================================================================
+// ProceduralShot.cs：程序化射击表现组件。
+// 根据 ProceduralShot_SO 配置的位移/旋转曲线，在射击时对武器施加程序化动画，
+// 并根据瞄准状态应用缩放系数。通过单例 Instance 对外提供触发入口。
+// =====================================================================
 using UnityEngine;
 using System.Collections;
 
 namespace cowsins
 {
+    /// <summary>
+    /// 程序化射击表现：依据射击模式（ProceduralShot_SO）驱动武器的位移与旋转动画。
+    /// </summary>
     public class ProceduralShot : MonoBehaviour
     {
+        // 玩家依赖集合（提供武器行为）。
         [SerializeField] private PlayerDependencies player;
         
+        // 武器行为提供者（读取瞄准状态）。
         private IWeaponBehaviourProvider weaponController;
 
+        // 当前使用的程序化射击模式配置。
         private ProceduralShot_SO pattern;
 
+        // 单例实例引用。
         static ProceduralShot instance;
+        // 单例访问器，供外部触发射击动画。
         public static ProceduralShot Instance => instance;
 
+        // 射击动画协程引用（重复触发时先停止旧协程）。
         private Coroutine shotCoroutine;
 
+        // 初始化：注册单例并获取武器行为提供者，引用缺失时输出错误。
         private void Start()
         {
             instance = this;
@@ -45,6 +60,7 @@ namespace cowsins
             shotCoroutine = StartCoroutine(ApplyShotMotion());
         }
 
+        // 射击动画协程：逐帧采样位移/旋转曲线并应用到武器，按瞄准状态缩放幅度。
         private IEnumerator ApplyShotMotion()
         {
             float timer = 0; // Reset the timer
