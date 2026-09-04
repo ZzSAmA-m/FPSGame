@@ -1,0 +1,132 @@
+---
+name: unity-pipeline-commands
+description: Control a running Unity Editor (or development Player) via the com.unity.pipeline HTTP API and the unity CLI — edit scenes/assets/prefabs, enter play mode, take screenshots, read console logs, recompile, run tests, build, eval C#, hot-reload code. Use when the task requires interacting with a live Unity Editor or Player; NOT for general Unity coding questions that don't need a running Editor.
+---
+
+# Unity CLI (com.unity.pipeline) — drive the Unity Editor over HTTP
+
+The **`com.unity.pipeline`** package (v0.3.x, experimental) runs a local HTTP server inside the Unity Editor (and optionally inside development Player builds). Clients — the `unity` CLI, CI, or this agent — execute registered commands against it. This is how you can *actually* compile, test, screenshot, and edit scenes without a human in the Editor.
+
+## Prerequisite: package installed?
+
+Check `Packages/manifest.json` for `"com.unity.pipeline"`. If missing, **report it and ask before installing** — installing edits the manifest and triggers a domain reload. (Options once approved: `unity pipeline install` with the CLI, or Package Manager → *Install package by name* → `com.unity.pipeline`, version blank = latest.) The Editor must be **running with the project open** for the server to exist.
+
+## Connecting (do this first, every session)
+
+1. **Read the port descriptor** the Editor writes:
+   - Editor: `<projectPath>/Library/Pipeline/.unity-pipeline-port`
+   - Player: `<workingDirectory>/.unity-pipeline-runtime-port`
+2. It's JSON — extract `port` and `evalToken` (also has `pid`, `projectName`, `unityVersion`, `mode`, `lastHeartbeat`).
+3. Call `http://127.0.0.1:<port>/...` with header `Authorization: Bearer <evalToken>`. Always use `127.0.0.1`, not `localhost` (IPv6 pitfalls). Missing/wrong token → `401`.
+
+Ports: Editor 7800–7849 (tests 7850–7899), Runtime 7900–7949 (tests 7950–7999). Token is 256-bit CSPRNG, base64, **regenerated after every domain reload** — re-read the descriptor after any recompile/package change.
+
+**Treat `evalToken` as a secret:** never print, log, or commit it (descriptors live under `Library/`, which Unity projects git-ignore); read it only to build the auth header and re-read after reloads instead of storing it.
+
+### Project identity check (before any mutation)
+
+A reachable server + valid token does NOT prove you're talking to the right project. Before the first mutating command:
+
+1. Confirm the descriptor's `projectPath` matches the project root you're working in.
+2. Confirm `pid` is alive and `lastHeartbeat` is recent — a stale descriptor means a dead Editor.
+3. With multiple Editors open, target explicitly (`unity command --project-path <path> ...`); never mutate when identity is ambiguous.
+
+### Endpoints
+
+| Endpoint | Use |
+|---|---|
+| `GET /api/status`, `/api/editor_status` | Liveness / editor state |
+| `GET /api/commands` | List every registered command (self-documenting — use this to discover) |
+| `POST /api/exec` | Run a command: `{"command":"<name>","parameters":{...}}` — the key is `parameters`, NOT `params` (verified; wrong key silently binds nothing) |
+| `GET /api/test-status` | Async test status |
+
+### PowerShell recipe (Windows)
+
+```powershell
+$d = Get-Content "Library/Pipeline/.unity-pipeline-port" | ConvertFrom-Json
+$h = @{ Authorization = "Bearer $($d.evalToken)" }
+Invoke-RestMethod -Uri "http://127.0.0.1:$($d.port)/api/exec" -Method Post -Headers $h `
+  -ContentType 'application/json' `
+  -Body (@{ command = 'editor_status'; parameters = @{} } | ConvertTo-Json -Depth 10)
+```
+
+### The `unity` CLI — prefer this when installed (verified with v1.0.0-beta.2)
+
+Run `unity --version` at session start — the CLI is an experimental beta and behavior shifts between releases; `unity --help` and bare `unity command` are the source of truth for the installed version. The CLI does port/token discovery itself — no descriptor reading, no 401-after-domain-reload handling:
+
+```
+unity pipeline list                                 # projects + server port + reachability
+unity command                                       # no name = list ALL commands with params (best discovery)
+unity command <name> [--arg value ...]              # run any command, e.g.:
+unity command find_assets --type SceneAsset --name Init
+unity command --project-path <path> <name> ...      # explicit project
+unity command --runtime MyGame.exe runtime_status   # attach to a dev Player
+unity command --runtime-path "C:\Builds\MyGame" runtime_status
+```
+
+Verified CLI behaviors:
+- ObjectRef args take inline JSON — in PowerShell wrap in **single quotes with no backslash escapes**: `--target '{"hierarchyPath":"/Foo"}'` (escaped `\"` inside single quotes passes literal backslashes and breaks resolution).
+- A **plain string** for an ObjectRef param is treated as a hierarchyPath shorthand: `--target '/Foo'`.
+- For machine parsing prefer `--format json --no-banner` over the default human/tab layout; treat any non-zero exit code as failure and read stderr. (Observed with v1.0.0-beta.2: default output is tab-separated `Command  Success  Result  Parameters`; failures print `Error:` lines and exit 6.)
+
+Fall back to the raw HTTP recipe above only when the CLI isn't installed.
+
+## Response envelope
+
+Every command returns a `CommandExecutionResponse`: `{ success: bool, command: string, result: <payload>, executionTimeMs: long?, error: string? }`. Authoring commands put an `AuthoringResult` in `result` — assets get `assetPath`/`guid`/`fileId`/`type`/`globalId`; scene objects get `instanceId`/`hierarchyPath`/`type`/`globalId`. **Chain those identities into the next command's `ObjectRef` args.**
+
+## ObjectRef — how you point at things
+
+Any param typed as a reference accepts ONE of: `{"globalId": "..."}`, `{"path": "Assets/Foo.mat"}`, `{"guid": "...", "fileId": ...}`, `{"instanceId": 12345}`, `{"hierarchyPath": "/Root/Child"}`.
+
+## Safety conventions
+
+`confirm`/`dry_run` are **command-level conventions, not a global guarantee** — non-destructive commands and custom `[CliCommand]`s may implement neither. Check the command's schema (`unity command` / `GET /api/commands`) before relying on them.
+
+- `dry_run: true` → validate + preview, mutate **nothing** (wins even if `confirm` is also true).
+- `confirm: false` (default) on destructive/overwriting commands → command **refuses**; pass `confirm: true` to apply.
+- Scene/GameObject mutations are **Undo-able** (grouped as one Ctrl+Z step). **AssetDatabase writes, file writes, package ops, and settings are NOT undoable.**
+- Bare paths (`Materials/Stone`) resolve under the **authoring root** (default `Assets`; read/change via `get_authoring_root` / `set_authoring_root`). `..` traversal is rejected. Explicit `Assets/...` paths work as-is.
+- Most scene/asset authoring commands are **blocked during Play mode**.
+
+## Async pattern (fire → poll)
+
+Long operations return immediately; poll their status command until `completed`:
+
+| Start | Poll |
+|---|---|
+| `build` | `build_status` |
+| `switch_build_target` | `switch_build_target_status` |
+| `recompile` | `recompile_status` (idle/triggered/compiling/completed/up_to_date) |
+| `run_tests` (`async_tests:true`) | `test_status` |
+| `package_add` / `package_remove` / `package_resolve` | `package_status` (survives domain reload) |
+| `bake_lighting` / `bake_navmesh` / `bake_occlusion_culling` | `lighting_bake_status` / `navmesh_bake_status` / `occlusion_bake_status` |
+
+A domain reload (recompile, package add/remove, scripting-backend change) can drop the in-flight HTTP reply — treat a dropped connection as "poll the status command with a fresh token".
+
+If the Editor is unfocused/minimized it may stop ticking — call `set_autotick` (`enable:true`) first; it auto-disables after a domain reload.
+
+## Common recipes
+
+- **Verify a code change compiles:** `recompile` → poll `recompile_status` → `get_console_logs --severity error`.
+- **Run play-mode smoke test:** `editor_play` → `get_console_logs` / `screenshot --view game` → `editor_stop`.
+- **Run the test suite:** `run_tests --mode editor --filter <name>` (or `async_tests:true` + poll `test_status`).
+- **See what the scene looks like:** `screenshot` (game/scene view) or `capture_game_view` (returns base64 PNG, params width/height/camera/save_path).
+- **Inspect a scene:** `get_scene_hierarchy` → nodes carry `instanceId`+`hierarchyPath` → feed into `get_component_properties` / `set_component_properties`.
+- **Escape hatch:** `eval --code "<C#>"` runs arbitrary C# via Roslyn (5s default timeout); `eval_file` for a `.cs` file; `menu --path "Assets/Reimport All"` runs any menu item (omit path to list all). Policy: prefer a registered command when one exists; use `eval` primarily for read-only inspection; ask before eval/menu calls that write files, start processes, or touch the network; verify the effect afterwards.
+
+## Field-tested gotchas (verified on this project, 2026-07)
+
+- **`/api/exec` body key is `parameters`, not `params`.** The wrong key doesn't error on commands whose args are all optional — it silently binds nothing. If a command behaves like you passed no args, check this first.
+- **Entering play mode rotates the evalToken** (domain reload). Never reuse a token read before `editor_play` — split scripts at every play/recompile/package boundary and re-read the descriptor after.
+- **`get_console_logs` can return `total: 0` even when the game is running.** Don't treat an empty result as "no errors" — cross-check by tailing `%LOCALAPPDATA%\Unity\Editor\Editor.log`.
+- **`eval` is the best truth source for runtime state.** `list_open_scenes` reflects the edit-mode setup; in play mode query `SceneManager` via `eval` instead.
+- Interpolated strings inside `eval` code work fine; return a single string built with `StringBuilder` for multi-part dumps.
+
+## Full reference (read as needed)
+
+- **[references/commands-content.md](references/commands-content.md)** — assets & files, scenes, GameObjects & components, prefabs, scripts, animation/animator/timeline, materials & shaders (every command + every parameter).
+- **[references/commands-editor.md](references/commands-editor.md)** — baking (lighting/navmesh/occlusion), search & selection, capture, build/compile/tests, project settings, package manager, editor lifecycle & observability, runtime/player commands, hot reload.
+- **[references/connectivity-and-setup.md](references/connectivity-and-setup.md)** — descriptors, ports, auth, runtime (Player) server setup, log file locations.
+- **[references/extending.md](references/extending.md)** — writing your own `[CliCommand]`s, the authoring contract (ProjectPaths/ObjectResolver/AuthoringUndoScope), safety conventions, hot-reload authoring (`[HotReload]`/`[HotReloadWithOverrides]`), test architecture.
+
