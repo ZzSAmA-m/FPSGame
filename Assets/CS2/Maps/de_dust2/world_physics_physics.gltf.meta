@@ -1,0 +1,136 @@
+fileFormatVersion: 2
+guid: 386644c18a260ae43832d75f617b6e1b
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\CS2\Maps\de_dust2\world_physics_physics.bin
+    assetPath: Assets\CS2\Maps\de_dust2\world_physics_physics.bin
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_concrete.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_concrete.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_chainlink.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_chainlink.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood_panel.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood_panel.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_metal_sand_barrel.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_metal_sand_barrel.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_glass.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_glass.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_metal.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_metal.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_rock.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_rock.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_dirt.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_dirt.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_default.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_default.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_carpet.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_carpet.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_solidmetal.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_solidmetal.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_metalpanel.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_metalpanel.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_plastic.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_plastic.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood_dense.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood_dense.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood_plank.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood_plank.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_vrf_unknown_key_2838185980.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_vrf_unknown_key_2838185980.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_metal_dumpster.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_metal_dumpster.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_rubbertire.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_rubbertire.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_metalvehicle.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_metalvehicle.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_metalvent.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_metalvent.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood_crate.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood_crate.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood_basket.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood_basket.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_pottery.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_pottery.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood_solid.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood_solid.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_tile.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_tile.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_sand.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_sand.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_wood_tree.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_wood_tree.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\toolsclip_color_tga_45a33376.png
+    assetPath: Assets\CS2\Maps\de_dust2\toolsclip_color_tga_45a33376.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_normal_tga_7652cb.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_normal_tga_7652cb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_normal_tga_b3f4ec4c.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_normal_tga_b3f4ec4c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\physics_computer.png
+    assetPath: Assets\CS2\Maps\de_dust2\physics_computer.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\toolsgrenadeclip_color_psd_e0b4a5f0.png
+    assetPath: Assets\CS2\Maps\de_dust2\toolsgrenadeclip_color_psd_e0b4a5f0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_normal_tga_f93ac262.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_normal_tga_f93ac262.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\toolsskybox_color_tga_e746091d.png
+    assetPath: Assets\CS2\Maps\de_dust2\toolsskybox_color_tga_e746091d.png
+  reportItems: []

@@ -169,3 +169,8 @@ Packages/packages-lock.json linguist-generated
 
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
+
+# Source 2 map binaries and oversized CS2 animation exports.
+# *.anim stays Unity YAML elsewhere; this later rule only covers the CS2 set.
+*.bin                          lfs
+Assets/Resources/CS2/**/*.anim lfs

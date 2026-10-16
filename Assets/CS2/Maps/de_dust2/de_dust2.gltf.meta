@@ -1,0 +1,1957 @@
+fileFormatVersion: 2
+guid: 148e4fee8fa8f684aa2fa87b10fecb32
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\CS2\Maps\de_dust2\de_dust2.bin
+    assetPath: Assets\CS2\Maps\de_dust2\de_dust2.bin
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\tools_solid_block_light_psd_d308939f.png
+    assetPath: Assets\CS2\Maps\de_dust2\tools_solid_block_light_psd_d308939f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_normal_tga_7652cb.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_normal_tga_7652cb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_normal_tga_b3f4ec4c.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_normal_tga_b3f4ec4c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\toolsblocklight_color_tga_8b58e5dd.png
+    assetPath: Assets\CS2\Maps\de_dust2\toolsblocklight_color_tga_8b58e5dd.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_trim_overlay_psd_92cba63e.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_trim_overlay_psd_92cba63e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_03_color_psd_44180c6a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_03_color_psd_44180c6a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_normal_tga_7be61377.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_normal_tga_7be61377.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_selfillum_tga_e58fcf1c.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_selfillum_tga_e58fcf1c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2889892925.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2889892925.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_normal_tga_7be39f77.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_normal_tga_7be39f77.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3386094931.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3386094931.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_01_color_psd_f45ae7ec.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_01_color_psd_f45ae7ec.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_01_vmat_g_tlayer1normalroughness_d52512a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_01_vmat_g_tlayer1normalroughness_d52512a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_01_vmat_g_tlayer1ambientocclusion_9782fd5c_orm_2575120811.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_01_vmat_g_tlayer1ambientocclusion_9782fd5c_orm_2575120811.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\wall_stain001_color_psd_9c6b7b87.png
+    assetPath: Assets\CS2\Maps\de_dust2\wall_stain001_color_psd_9c6b7b87.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_02_color_psd_4179acc6.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_02_color_psd_4179acc6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_decal_road_striping_color_psd_3c1a7134.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_decal_road_striping_color_psd_3c1a7134.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_decal_road_striping_normal_tga_e212d74c.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_decal_road_striping_normal_tga_e212d74c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_decal_road_striping_normal_tga_e212d74c_orm_2314378234.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_decal_road_striping_normal_tga_e212d74c_orm_2314378234.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_manhole_concrete_color_psd_b269b35b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_manhole_concrete_color_psd_b269b35b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_manhole_concrete_normal_psd_825e3bf.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_manhole_concrete_normal_psd_825e3bf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_manhole_concrete_normal_psd_825e3bf_orm_2436748332.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_manhole_concrete_normal_psd_825e3bf_orm_2436748332.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_05_color_psd_3e5db6b7.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_05_color_psd_3e5db6b7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_panel_paint_patch_color_tga_3213628c.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_panel_paint_patch_color_tga_3213628c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_decal_mudbrick_wear_01_color_psd_4a3a0ad0.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_decal_mudbrick_wear_01_color_psd_4a3a0ad0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_decal_mudbrick_wear_01_normal_tga_71ea4bfc.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_decal_mudbrick_wear_01_normal_tga_71ea4bfc.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_decal_mudbrick_wear_01_normal_tga_71ea4bfc_orm_3747816243.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_decal_mudbrick_wear_01_normal_tga_71ea4bfc_orm_3747816243.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\bombsite_x_spray_color_psd_34b5fb84.png
+    assetPath: Assets\CS2\Maps\de_dust2\bombsite_x_spray_color_psd_34b5fb84.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\bombsite_x_spray_normal_psd_28f21001.png
+    assetPath: Assets\CS2\Maps\de_dust2\bombsite_x_spray_normal_psd_28f21001.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\bombsite_x_spray_normal_psd_28f21001_orm_803633194.png
+    assetPath: Assets\CS2\Maps\de_dust2\bombsite_x_spray_normal_psd_28f21001_orm_803633194.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_04_color_psd_2825937b.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_overlay_sign_04_color_psd_2825937b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_001b_vmat_g_tcolor_37c55b5d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_001b_vmat_g_tcolor_37c55b5d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_garbage_dumpster_signage_color_tga_7818e5d7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_garbage_dumpster_signage_color_tga_7818e5d7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_82693459.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_82693459.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_electric_panel_cover_color_tga_b372de09.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_electric_panel_cover_color_tga_b372de09.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_electric_panel_cover_color_rough_tga_fd3f0d22.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_electric_panel_cover_color_rough_tga_fd3f0d22.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2032159020.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2032159020.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\steam_001_vmat_g_tcolor_37c55b5d.png
+    assetPath: Assets\CS2\Maps\de_dust2\steam_001_vmat_g_tcolor_37c55b5d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_001_vmat_g_tcolor_37c55b5d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_001_vmat_g_tcolor_37c55b5d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\smoke_shaft_002_mask_psd_8bf92c64.png
+    assetPath: Assets\CS2\Maps\de_dust2\smoke_shaft_002_mask_psd_8bf92c64.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_metal_trim_01_color_psd_1fc73036.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_metal_trim_01_color_psd_1fc73036.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_metal_trim_01_normal_psd_f059dcb2.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_metal_trim_01_normal_psd_f059dcb2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_metal_trim_01_normal_psd_f059dcb2_orm_3521441051.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_metal_trim_01_normal_psd_f059dcb2_orm_3521441051.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_asphalt_06_color_psd_153a7cd9.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_asphalt_06_color_psd_153a7cd9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_asphalt_06_normal_psd_bfbfdbf5.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_asphalt_06_normal_psd_bfbfdbf5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_asphalt_06_normal_psd_bfbfdbf5_orm_3872646711.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_asphalt_06_normal_psd_bfbfdbf5_orm_3872646711.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_09_color_psd_99a0efd0.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_09_color_psd_99a0efd0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05_normal_psd_32964e28.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05_normal_psd_32964e28.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05_normal_psd_32964e28_orm_598268079.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05_normal_psd_32964e28_orm_598268079.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_09b_color_psd_4b94e860.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_09b_color_psd_4b94e860.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_09c_color_psd_f7d3dabd.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_09c_color_psd_f7d3dabd.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17_color_psd_e3c2fa8e.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17_color_psd_e3c2fa8e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17_normal_psd_58bdce.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17_normal_psd_58bdce.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17_normal_psd_58bdce_orm_2862003201.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17_normal_psd_58bdce_orm_2862003201.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_edges_color_psd_5ae3def2.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_edges_color_psd_5ae3def2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_edges_normal_tga_d02f1382.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_edges_normal_tga_d02f1382.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2765833804.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2765833804.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18_color_psd_4100325a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18_color_psd_4100325a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18_normal_psd_a25dc4f1.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18_normal_psd_a25dc4f1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18_normal_psd_a25dc4f1_orm_3246423516.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18_normal_psd_a25dc4f1_orm_3246423516.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18c_color_psd_c838b784.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18c_color_psd_c838b784.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_breeze_block_01_color_psd_26bc55a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_breeze_block_01_color_psd_26bc55a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_breeze_block_01_normal_tga_6c93f71d.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_breeze_block_01_normal_tga_6c93f71d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_breeze_block_01_normal_tga_6c93f71d_orm_3522687800.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_breeze_block_01_normal_tga_6c93f71d_orm_3522687800.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_access_panel_03_color_psd_d796c737.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_access_panel_03_color_psd_d796c737.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2096908266.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2096908266.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01b_color_psd_f35591a1.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01b_color_psd_f35591a1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2916772312.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2916772312.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\palm_bark_01_color_psd_69667e.png
+    assetPath: Assets\CS2\Maps\de_dust2\palm_bark_01_color_psd_69667e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\palm_bark_01_normal_psd_a61ea3b7.png
+    assetPath: Assets\CS2\Maps\de_dust2\palm_bark_01_normal_psd_a61ea3b7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2210102583.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2210102583.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18b_color_psd_5b3997de.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_18b_color_psd_5b3997de.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_bars_color_tga_87687f5e.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_bars_color_tga_87687f5e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_bars_normal_tga_d5e1c8d7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_bars_normal_tga_d5e1c8d7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2948416153.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2948416153.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\agave_plant_01_color_psd_333685f.png
+    assetPath: Assets\CS2\Maps\de_dust2\agave_plant_01_color_psd_333685f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\agave_plant_01_vmat_g_tnormal_31e5bc20.png
+    assetPath: Assets\CS2\Maps\de_dust2\agave_plant_01_vmat_g_tnormal_31e5bc20.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1923040034.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1923040034.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\antenna_card_color_psd_75f7b6da.png
+    assetPath: Assets\CS2\Maps\de_dust2\antenna_card_color_psd_75f7b6da.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\crates_dishes_color_psd_2a63f9ca.png
+    assetPath: Assets\CS2\Maps\de_dust2\crates_dishes_color_psd_2a63f9ca.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2200026375.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2200026375.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_300d_color_psd_9a165602.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_300d_color_psd_9a165602.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_300d_mask_rough_tga_ea322e15.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_300d_mask_rough_tga_ea322e15.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_821733362.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_821733362.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_300d_wheel_color_psd_ed809751.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_300d_wheel_color_psd_ed809751.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_300d_wheel_normal_psd_ff9e00e1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_300d_wheel_normal_psd_ff9e00e1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_955042919.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_955042919.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_ac_unit_color_psd_92b3d01.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_ac_unit_color_psd_92b3d01.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4127018410.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4127018410.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_access_panel_01_color_psd_b5598448.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_access_panel_01_color_psd_b5598448.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1784737952.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1784737952.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_access_panel_02_color_psd_1e3cad47.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_access_panel_02_color_psd_1e3cad47.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_821308138.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_821308138.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_01_color_tga_fb22148.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_01_color_tga_fb22148.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_01_normal_tga_aed07b7d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_01_normal_tga_aed07b7d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3963457530.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3963457530.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_01_pattern_color_psd_ca5f68de.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_01_pattern_color_psd_ca5f68de.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_01_pattern_normal_tga_57450178.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_01_pattern_normal_tga_57450178.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3159286874.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3159286874.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_02_color_psd_ca8f99aa.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_02_color_psd_ca8f99aa.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_02_normal_psd_735a9842.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_02_normal_psd_735a9842.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2698715377.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2698715377.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_03_color_tga_d6f18df2.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_03_color_tga_d6f18df2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_03_normal_tga_9836a216.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_03_normal_tga_9836a216.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_171204353.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_171204353.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_awning_02_color_psd_2f32824b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_awning_02_color_psd_2f32824b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_awning_02_normal_tga_61660ed.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_awning_02_normal_tga_61660ed.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3474259468.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3474259468.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_awning_fabric_01_color_psd_e88d4599.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_awning_fabric_01_color_psd_e88d4599.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_awning_fabric_01_normal_tga_3f1b9409.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_awning_fabric_01_normal_tga_3f1b9409.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1323365508.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1323365508.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_awning_fabric_frame_01_color_psd_74b2b17c.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_awning_fabric_frame_01_color_psd_74b2b17c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1003136486.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1003136486.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_awning_fabric_ripped_01_color_psd_789780ed.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_awning_fabric_ripped_01_color_psd_789780ed.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_awning_fabric_ripped_01_normal_tga_3ba54039.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_awning_fabric_ripped_01_normal_tga_3ba54039.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2392362252.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2392362252.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_bicycle_color_psd_bfc90d7a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_bicycle_color_psd_bfc90d7a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_bicycle_tint_rough_tga_9f49a37b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_bicycle_tint_rough_tga_9f49a37b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_250477167.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_250477167.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_breeze_blocks_01_color_psd_3acccac7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_breeze_blocks_01_color_psd_3acccac7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_breeze_blocks_01_normal_tga_40ad7456.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_breeze_blocks_01_normal_tga_40ad7456.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_770125855.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_770125855.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_car_wreck_color_psd_3fb931c5.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_car_wreck_color_psd_3fb931c5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_car_wreck_color_vmat_g_tnormal_d52512a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_car_wreck_color_vmat_g_tnormal_d52512a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2181721368.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2181721368.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_car_wreck_interior_color_psd_c2392e28.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_car_wreck_interior_color_psd_c2392e28.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_car_wreck_interior_normal_psd_f9d8da81.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_car_wreck_interior_normal_psd_f9d8da81.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1182718421.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1182718421.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_cart_cloth_color_psd_662536b8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_cart_cloth_color_psd_662536b8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1491850076.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1491850076.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_cart_color_psd_847804a8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_cart_color_psd_847804a8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_cart_color_vmat_g_tnormal_2984f4a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_cart_color_vmat_g_tnormal_2984f4a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1461920440.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1461920440.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_ceiling_light_01_color_psd_bb39eaf3.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_ceiling_light_01_color_psd_bb39eaf3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2330156361.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2330156361.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_cell_tower_color_psd_25661be4.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_cell_tower_color_psd_25661be4.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3990354756.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3990354756.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_chainlink_fence_001_color_psd_f6c093f1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_chainlink_fence_001_color_psd_f6c093f1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_57083262.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_57083262.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_chainlink_fence_cover_001_color_psd_c922a0ad.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_chainlink_fence_cover_001_color_psd_c922a0ad.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_996517774.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_996517774.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_chainlink_fence_wire_001_mip0_color_tga_5081421d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_chainlink_fence_wire_001_mip0_color_tga_5081421d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3890691064.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3890691064.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_construction_site_01_color_psd_6a83384.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_construction_site_01_color_psd_6a83384.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_construction_site_01_normal_tga_57a69f11.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_construction_site_01_normal_tga_57a69f11.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3435428131.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3435428131.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_curbs_001_color_psd_7314f1e8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_curbs_001_color_psd_7314f1e8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3197672115.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3197672115.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_curbs_001_painted_color_psd_eadf6b61.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_curbs_001_painted_color_psd_eadf6b61.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\concrete_10_normal_psd_d6a32d9f.png
+    assetPath: Assets\CS2\Maps\de_dust2\concrete_10_normal_psd_d6a32d9f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\concrete_10_normal_psd_d6a32d9f_orm_102723445.png
+    assetPath: Assets\CS2\Maps\de_dust2\concrete_10_normal_psd_d6a32d9f_orm_102723445.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2739004937.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2739004937.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_02_color_psd_86dd2078.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_02_color_psd_86dd2078.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_02_normal_psd_d8be7b82.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_02_normal_psd_d8be7b82.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1841734296.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1841734296.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_color_psd_ea7c8220.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_color_psd_ea7c8220.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_normal_psd_79e01735.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_detruis_sacks_normal_psd_79e01735.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2214636149.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2214636149.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_01_color_psd_bb1ca1b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_01_color_psd_bb1ca1b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_01_normal_tga_f47b8530.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_01_normal_tga_f47b8530.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1541566942.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1541566942.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_02_color_psd_8e2d5aa0.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_02_color_psd_8e2d5aa0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_02_normal_tga_b2ef72b8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_02_normal_tga_b2ef72b8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1486511614.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1486511614.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_03_color_psd_a36c4d9b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_03_color_psd_a36c4d9b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_03_normal_tga_87b281a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_03_normal_tga_87b281a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3558615513.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3558615513.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_04_color_psd_f5665b8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_04_color_psd_f5665b8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_04_normal_tga_ce715fef.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_04_normal_tga_ce715fef.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3072738233.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3072738233.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_05_color_psd_73f554b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_05_color_psd_73f554b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_05_normal_tga_b37addec.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_05_normal_tga_b37addec.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3043269784.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3043269784.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_06_color_psd_8beee1b1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_06_color_psd_8beee1b1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_06_normal_tga_f2a41ff1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_06_normal_tga_f2a41ff1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4065518755.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4065518755.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_06_colorb_color_psd_df303f3f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_06_colorb_color_psd_df303f3f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1661932031.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1661932031.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_07_color_psd_89730f95.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_07_color_psd_89730f95.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_46x106_07_normal_tga_badaf49a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_46x106_07_normal_tga_badaf49a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2510802086.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2510802086.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_color_psd_6c6b8dc1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_color_psd_6c6b8dc1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_normal_tga_54cd980e.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_01_normal_tga_54cd980e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3447971382.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3447971382.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_02_color_psd_4cd320db.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_02_color_psd_4cd320db.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_02_normal_tga_ba2ceb9d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_02_normal_tga_ba2ceb9d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1087422006.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1087422006.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_03_color_psd_628c05bb.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_03_color_psd_628c05bb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_03_normal_tga_11442ba7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_03_normal_tga_11442ba7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1860434529.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1860434529.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_color_psd_7f84ce17.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_color_psd_7f84ce17.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_normal_tga_752c096.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_normal_tga_752c096.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3015017505.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3015017505.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_frame_color_tga_923c675e.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_frame_color_tga_923c675e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_frame_normal_tga_2f927386.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_80x128_04_frame_normal_tga_2f927386.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2296203675.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2296203675.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_arch_01_color_psd_8c35fb8f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_arch_01_color_psd_8c35fb8f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_arch_01_normal_tga_26ec7b14.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_arch_01_normal_tga_26ec7b14.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_800069376.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_800069376.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_doorframes_01_color_psd_c72ae82b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_doorframes_01_color_psd_c72ae82b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_doorframes_01_normal_tga_b84da9b9.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_doorframes_01_normal_tga_b84da9b9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_131724074.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_131724074.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_doorframes_02_color_psd_1899ebdd.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_doorframes_02_color_psd_1899ebdd.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_doorframes_02_normal_tga_7788ae0b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_doorframes_02_normal_tga_7788ae0b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4207346658.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4207346658.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_doorframes_03_color_psd_9a98f63.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_doorframes_03_color_psd_9a98f63.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_doorframes_03_normal_tga_dc11f7b3.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_doorframes_03_normal_tga_dc11f7b3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_83897054.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_83897054.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_electric_panel_color_psd_9bd01950.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_electric_panel_color_psd_9bd01950.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3291320905.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3291320905.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_electrical_powerbox_color_psd_cbfbae75.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_electrical_powerbox_color_psd_cbfbae75.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_electrical_powerbox_tint_rough_tga_b0f62700.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_electrical_powerbox_tint_rough_tga_b0f62700.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1011012818.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1011012818.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_color_psd_502df81f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_color_psd_502df81f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_mask_rough_tga_ff04f0a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_mask_rough_tga_ff04f0a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2266492760.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2266492760.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_wheels_color_psd_c468dd1d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_wheels_color_psd_c468dd1d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_wheels_normal_psd_7be8fc1f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_flatbed_truck_wheels_normal_psd_7be8fc1f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2392314039.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2392314039.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_garbage_container_color_psd_391c9fcd.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_garbage_container_color_psd_391c9fcd.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_465217462.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_465217462.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_garbage_dumpster_color_psd_e30ab3b6.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_garbage_dumpster_color_psd_e30ab3b6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_garbage_dumpster_color_rough_psd_c7fe64f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_garbage_dumpster_color_rough_psd_c7fe64f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2156100911.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2156100911.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_grain_basket_color_psd_f12de1db.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_grain_basket_color_psd_f12de1db.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_grain_basket_normal_psd_3e589d6c.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_grain_basket_normal_psd_3e589d6c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2844410776.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2844410776.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_color_psd_5d9a2d2e.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_color_psd_5d9a2d2e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_normal_tga_12824507.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_normal_tga_12824507.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3515317460.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3515317460.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_color_tga_45a48fdd.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_color_tga_45a48fdd.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_color_selfillum_tga_34ed8907.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hanging_light_02_color_selfillum_tga_34ed8907.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3908202081.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3908202081.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hotel_arch001_color_psd_dacb926f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hotel_arch001_color_psd_dacb926f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hotel_arch001_normal_psd_381543b2.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hotel_arch001_normal_psd_381543b2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1999251777.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1999251777.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hr_oil_drum_color_psd_5cbba118.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hr_oil_drum_color_psd_5cbba118.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_hr_oil_drum_normal_psd_13e08791.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_hr_oil_drum_normal_psd_13e08791.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1274240160.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1274240160.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_block_lifter_color_psd_ac90ecc6.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_block_lifter_color_psd_ac90ecc6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_block_lifter_normal_tga_a93d454d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_block_lifter_normal_tga_a93d454d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1257703532.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1257703532.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_ceiling_color_psd_84097df2.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_ceiling_color_psd_84097df2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_ceiling_normal_tga_5aaac840.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_ceiling_normal_tga_5aaac840.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3320510436.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3320510436.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_ladder_color_psd_4ae5a47d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_ladder_color_psd_4ae5a47d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_ladder_normal_tga_21455576.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_ladder_normal_tga_21455576.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2917356025.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2917356025.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_mudbrick_piles_color_psd_8568df5a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_mudbrick_piles_color_psd_8568df5a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_mudbrick_piles_normal_tga_9046f586.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_mudbrick_piles_normal_tga_9046f586.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1230380158.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1230380158.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_rock_wall_color_psd_b409098f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_rock_wall_color_psd_b409098f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_rock_wall_normal_tga_116a96a1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_rock_wall_normal_tga_116a96a1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_506985530.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_506985530.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_rooftrim_01_color_psd_42110850.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_rooftrim_01_color_psd_42110850.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_rooftrim_01_normal_tga_5e2072f8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_rooftrim_01_normal_tga_5e2072f8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_416264860.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_416264860.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_small_rocks_color_psd_471a7ae7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_small_rocks_color_psd_471a7ae7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_small_rocks_normal_tga_bd2d7c36.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_small_rocks_normal_tga_bd2d7c36.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3968088051.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3968088051.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_tarp_04_color_psd_cdeb6a3f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_tarp_04_color_psd_cdeb6a3f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_tarp_04_normal_tga_1d18d3d5.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_tarp_04_normal_tga_1d18d3d5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1990102936.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1990102936.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_window_insets_01_color_psd_704366f2.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_window_insets_01_color_psd_704366f2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_window_insets_01_normal_tga_6e51205d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_window_insets_01_normal_tga_6e51205d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3005123858.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3005123858.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_windows_01_color_psd_79e34ecd.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_windows_01_color_psd_79e34ecd.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_windows_01_normal_tga_a4cdea1f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_windows_01_normal_tga_a4cdea1f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1938040093.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1938040093.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_forms_color_psd_36a7a9e0.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_forms_color_psd_36a7a9e0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_forms_normal_tga_78f9a74e.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_forms_normal_tga_78f9a74e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2673971070.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2673971070.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_planks_color_psd_9108b195.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_planks_color_psd_9108b195.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_planks_normal_tga_1c51acbb.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_planks_normal_tga_1c51acbb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_869367053.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_869367053.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_platform_color_psd_2bda54d1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_platform_color_psd_2bda54d1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_platform_normal_tga_8d89d6fe.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_kasbah_wood_platform_normal_tga_8d89d6fe.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2677532322.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2677532322.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_laundry_pole_01_color_psd_853ef665.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_laundry_pole_01_color_psd_853ef665.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_laundry_pole_01_normal_tga_fcf2f63a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_laundry_pole_01_normal_tga_fcf2f63a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3156143555.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3156143555.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_light_pole_02_color_psd_6d1f9327.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_light_pole_02_color_psd_6d1f9327.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_light_pole_02_mask_rough_tga_d44c72a1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_light_pole_02_mask_rough_tga_d44c72a1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3234695184.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3234695184.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_light_pole_color_psd_ed17edef.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_light_pole_color_psd_ed17edef.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_light_pole_mask_rough_tga_3835755.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_light_pole_mask_rough_tga_3835755.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4165627046.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4165627046.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_color_psd_9eebf38.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_color_psd_9eebf38.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_normal_tga_913c1ceb.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_normal_tga_913c1ceb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3979345625.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3979345625.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_rusty_alpha_color_psd_fae92f51.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_rusty_alpha_color_psd_fae92f51.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2054484921.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2054484921.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_rusty_alpha_color_psd_5817110d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_metal_panels_01_rusty_alpha_color_psd_5817110d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1952573285.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1952573285.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_bombsite_gap_color_psd_fed3d9d7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_bombsite_gap_color_psd_fed3d9d7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_bombsite_gap_normal_tga_d76f1ee6.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_bombsite_gap_normal_tga_d76f1ee6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_365924821.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_365924821.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_crumbling_wall_color_psd_9b3b1d94.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_crumbling_wall_color_psd_9b3b1d94.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_crumbling_wall_normal_tga_2dd38e2c.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_crumbling_wall_normal_tga_2dd38e2c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2222663319.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2222663319.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_44244559.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_44244559.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_plaster_color_psd_5dfeb031.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_plaster_color_psd_5dfeb031.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_plaster_normal_tga_3135bebf.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_plaster_normal_tga_3135bebf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2382524162.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2382524162.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_141335838.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_141335838.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1333363968.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1333363968.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2299316178.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2299316178.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1494353654.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1494353654.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_color_psd_62e66d87.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_color_psd_62e66d87.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_mudbrick_transition_normal_tga_658319f0.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_mudbrick_transition_normal_tga_658319f0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4083125100.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4083125100.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_ornate_lanterns_01_color_psd_643fcca4.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_ornate_lanterns_01_color_psd_643fcca4.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_ornate_lanterns_01_normal_tga_7ac78e41.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_ornate_lanterns_01_normal_tga_7ac78e41.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3543367443.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3543367443.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_patio_chair_color_psd_f6618825.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_patio_chair_color_psd_f6618825.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_patio_chair_tint_rough_tga_1ec95229.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_patio_chair_tint_rough_tga_1ec95229.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3731776728.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3731776728.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_patio_umbrella_color_psd_6e45e3a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_patio_umbrella_color_psd_6e45e3a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_patio_umbrella_tint_rough_tga_a8af58fe.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_patio_umbrella_tint_rough_tga_a8af58fe.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2954817682.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2954817682.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_pottery_color_psd_4b018c95.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_pottery_color_psd_4b018c95.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_pottery_normal_psd_45babe84.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_pottery_normal_psd_45babe84.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_74405540.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_74405540.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_01_color_psd_6d58e372.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_01_color_psd_6d58e372.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_01_tint_rough_tga_b4a6c7d1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_01_tint_rough_tga_b4a6c7d1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_248252738.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_248252738.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_02_color_psd_a8de1af7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_02_color_psd_a8de1af7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_02_tint_rough_tga_daea3503.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_propane_cylinder_02_tint_rough_tga_daea3503.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_994069565.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_994069565.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_r5_color_psd_39048664.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_r5_color_psd_39048664.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_r5_mask_rough_tga_19d6fa6a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_r5_mask_rough_tga_19d6fa6a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_642147303.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_642147303.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_restaurant_sign_02_color_psd_5fcd0ddb.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_restaurant_sign_02_color_psd_5fcd0ddb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_restaurant_sign_02_mask_rough_tga_42da63c0.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_restaurant_sign_02_mask_rough_tga_42da63c0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1481771682.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1481771682.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_rollupdoor_frame_01_color_psd_508c65af.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_rollupdoor_frame_01_color_psd_508c65af.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_rollupdoor_frame_01_normal_tga_78d19de8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_rollupdoor_frame_01_normal_tga_78d19de8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_35925117.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_35925117.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_rooftop_01_color_psd_b6cfde23.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_rooftop_01_color_psd_b6cfde23.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1303574302.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1303574302.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_rooftop_shingles_color_psd_9e0e30d0.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_rooftop_shingles_color_psd_9e0e30d0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2444746933.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2444746933.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_satellite_dish_color_psd_4821290f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_satellite_dish_color_psd_4821290f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1094365692.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1094365692.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shelf_01_color_psd_8a092135.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shelf_01_color_psd_8a092135.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_874057452.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_874057452.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_painted_color_psd_43e62a4b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_painted_color_psd_43e62a4b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_normal_tga_9a3f4f4c.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_normal_tga_9a3f4f4c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2052125134.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2052125134.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_normal_tga_6d022dac.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_normal_tga_6d022dac.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_633915803.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_633915803.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_color_psd_2067ad8e.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_color_psd_2067ad8e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_normal_tga_c0e63af1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_01_wood_normal_tga_c0e63af1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3524871987.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3524871987.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1636230842.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1636230842.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_painted_color_psd_5ad3b955.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_painted_color_psd_5ad3b955.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_wood_normal_tga_5c6979f2.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_wood_normal_tga_5c6979f2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3184086649.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3184086649.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2321293518.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2321293518.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_wood_color_psd_8022293a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_wood_color_psd_8022293a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_536431213.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_536431213.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_wood_normal_tga_cde58b27.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_02_wood_normal_tga_cde58b27.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_586523742.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_586523742.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_01_color_psd_2a6933b6.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_01_color_psd_2a6933b6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_01_normal_tga_d96fad34.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_01_normal_tga_d96fad34.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_230946436.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_230946436.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_02_color_psd_3bee22c6.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_02_color_psd_3bee22c6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_02_normal_tga_b899fc33.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shipping_crate_tarp_02_normal_tga_b899fc33.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3507562395.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3507562395.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shop_sign_02_color_psd_cce5cd17.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shop_sign_02_color_psd_cce5cd17.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_shop_sign_02_mask_rough_tga_54252018.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_shop_sign_02_mask_rough_tga_54252018.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2340815135.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2340815135.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_terracotta_02_color_psd_fb17f7af.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_terracotta_02_color_psd_fb17f7af.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_672294150.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_672294150.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_terracotta_03_color_psd_7dd267b2.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_terracotta_03_color_psd_7dd267b2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1006185367.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1006185367.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_terracotta_color_psd_29266c7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_terracotta_color_psd_29266c7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1782683688.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1782683688.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_trap_door_color_psd_14c2210b.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_trap_door_color_psd_14c2210b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_trap_door_color_vmat_g_tnormal_d52512a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_trap_door_color_vmat_g_tnormal_d52512a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_152575179.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_152575179.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_trash_bag_02_color_psd_f70dd540.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_trash_bag_02_color_psd_f70dd540.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_trash_bag_02_normal_psd_6d424a19.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_trash_bag_02_normal_psd_6d424a19.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2716263947.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2716263947.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_trash_bag_color_psd_9be5cc5d.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_trash_bag_color_psd_9be5cc5d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_trash_bag_normal_tga_8ebc31e4.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_trash_bag_normal_tga_8ebc31e4.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2760953575.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2760953575.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3749349082.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3749349082.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_vehicle_glass_opaque_color_psd_615258b1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_vehicle_glass_opaque_color_psd_615258b1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_vehicle_glass_opaque_mask_rough_psd_695492aa.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_vehicle_glass_opaque_mask_rough_psd_695492aa.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_93432994.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_93432994.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_arch_03_color_psd_5982627a.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_arch_03_color_psd_5982627a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4284374602.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4284374602.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1572429913.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1572429913.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_door_arch_01_color_tga_5c47c93c.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_door_arch_01_color_tga_5c47c93c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_393871806.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_393871806.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wall_vents_01_color_psd_6ef61358.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wall_vents_01_color_psd_6ef61358.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wall_vents_01_normal_tga_cd6dc5b9.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wall_vents_01_normal_tga_cd6dc5b9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3242788892.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3242788892.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_weeds_01_color_psd_75512acc.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_weeds_01_color_psd_75512acc.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_weeds_01_vmat_g_tnormal_d52512a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_weeds_01_vmat_g_tnormal_d52512a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3880023379.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3880023379.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_color_psd_db1f46ff.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_color_psd_db1f46ff.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_normal_tga_5691d15.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_normal_tga_5691d15.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3611678391.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3611678391.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_color_psd_f802efec.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_color_psd_f802efec.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3943496847.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3943496847.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_colorb_color_tga_9e2db58e.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_colorb_color_tga_9e2db58e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3135532688.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3135532688.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_colorb_color_psd_4fef6888.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_bars_metal_01_colorb_color_psd_4fef6888.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2755941023.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2755941023.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_frame_stone_01_color_tga_576f2bb7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_frame_stone_01_color_tga_576f2bb7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_frame_stone_01_normal_tga_344b1ea3.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_frame_stone_01_normal_tga_344b1ea3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3159453125.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3159453125.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_frame_stone_01_color_psd_a6b43a54.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_frame_stone_01_color_psd_a6b43a54.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1894003906.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1894003906.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_frame_wood_01_color_psd_a9d8a195.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_frame_wood_01_color_psd_a9d8a195.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_window_frame_wood_01_normal_tga_1b9c2f7.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_window_frame_wood_01_normal_tga_1b9c2f7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1314629249.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1314629249.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_windows_01_color_psd_7cbc43f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_windows_01_color_psd_7cbc43f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_windows_01_normal_tga_86ae752c.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_windows_01_normal_tga_86ae752c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3244570073.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3244570073.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_windows_low_color_psd_88092595.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_windows_low_color_psd_88092595.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1634453644.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1634453644.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wire_attachments_01_color_psd_33718711.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wire_attachments_01_color_psd_33718711.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wire_attachments_01_normal_tga_6dfc1db.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wire_attachments_01_normal_tga_6dfc1db.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2200621407.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2200621407.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wires_01_color_psd_50357cbe.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wires_01_color_psd_50357cbe.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wires_01_normal_tga_338262e1.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wires_01_normal_tga_338262e1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_929861520.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_929861520.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wood_pallet_color_psd_956938dc.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wood_pallet_color_psd_956938dc.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_wood_pallet_normal_tga_7bee11e8.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_wood_pallet_normal_tga_7bee11e8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_754524237.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_754524237.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\grape_leaves_01_color_psd_660252bb.png
+    assetPath: Assets\CS2\Maps\de_dust2\grape_leaves_01_color_psd_660252bb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\grape_leaves_01_vmat_g_tnormal_53b47c48.png
+    assetPath: Assets\CS2\Maps\de_dust2\grape_leaves_01_vmat_g_tnormal_53b47c48.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_776864451.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_776864451.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01_color_psd_d0d4ec5a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01_color_psd_d0d4ec5a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01_normal_psd_b1bb4f61.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01_normal_psd_b1bb4f61.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01_normal_psd_b1bb4f61_orm_543537915.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_sidewalk01_normal_psd_b1bb4f61_orm_543537915.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_floortile_03_color_psd_6e2e6189.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_floortile_03_color_psd_6e2e6189.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_floortile_03_normal_tga_3adbd6d8.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_floortile_03_normal_tga_3adbd6d8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_floortile_03_normal_tga_3adbd6d8_orm_88368214.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_floortile_03_normal_tga_3adbd6d8_orm_88368214.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_02_color_psd_1fef26ef.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_02_color_psd_1fef26ef.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_02_normal_tga_b1208cb9.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_02_normal_tga_b1208cb9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_02_normal_tga_b1208cb9_orm_2044268424.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_02_normal_tga_b1208cb9_orm_2044268424.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_01_color_psd_a9b467d7.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_01_color_psd_a9b467d7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_01_normal_tga_79d11f.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_01_normal_tga_79d11f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_01_normal_tga_79d11f_orm_405171505.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_dirt_rough_01_normal_tga_79d11f_orm_405171505.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_stone_01_color_psd_38d17003.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_stone_01_color_psd_38d17003.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_stone_01_normal_tga_6da5d93.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_stone_01_normal_tga_6da5d93.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_ground_stone_01_normal_tga_6da5d93_orm_3262721154.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_ground_stone_01_normal_tga_6da5d93_orm_3262721154.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_color_psd_aefd1156.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_color_psd_aefd1156.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_normal_tga_81b10bbf.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_normal_tga_81b10bbf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_normal_tga_81b10bbf_orm_3109146199.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_plaster_rough_01_normal_tga_81b10bbf_orm_3109146199.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05b_color_psd_8b443cbf.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05b_color_psd_8b443cbf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05c_color_psd_77224eec.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05c_color_psd_77224eec.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05_color_psd_c25bc3a3.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_05_color_psd_c25bc3a3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_01_color_tga_6f061fcf.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_01_color_tga_6f061fcf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_01_normal_tga_9a62be5d.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_01_normal_tga_9a62be5d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_01_normal_tga_9a62be5d_orm_3822223018.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_01_normal_tga_9a62be5d_orm_3822223018.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_02_color_tga_3a34d796.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_02_color_tga_3a34d796.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_02_normal_tga_25ea6fad.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_02_normal_tga_25ea6fad.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_02_normal_tga_25ea6fad_orm_444473031.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_02_normal_tga_25ea6fad_orm_444473031.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_03_color_psd_b6c4d9f7.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_03_color_psd_b6c4d9f7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_03_normal_tga_e5122722.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_03_normal_tga_e5122722.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_03_normal_tga_e5122722_orm_2726592154.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_rollupdoor_metal_03_normal_tga_e5122722_orm_2726592154.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_sand_02_color_psd_755e7eb9.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_sand_02_color_psd_755e7eb9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_sand_02_normal_psd_ad4a73ca.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_sand_02_normal_psd_ad4a73ca.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_sand_02_normal_psd_ad4a73ca_orm_1001663041.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_sand_02_normal_psd_ad4a73ca_orm_1001663041.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_bracket001_color_psd_1fd3edc1.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_bracket001_color_psd_1fd3edc1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_bracket001_normal_psd_bad036e5.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_bracket001_normal_psd_bad036e5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3189451888.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3189451888.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_02_color_psd_ad854784.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_02_color_psd_ad854784.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_02_normal_tga_ddebf549.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_02_normal_tga_ddebf549.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_02_normal_tga_ddebf549_orm_68278592.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_02_normal_tga_ddebf549_orm_68278592.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_04_color_psd_b5d8334a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_04_color_psd_b5d8334a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_04_normal_tga_e2990211.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_04_normal_tga_e2990211.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_04_normal_tga_e2990211_orm_1836652867.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_brick_ground_04_normal_tga_e2990211_orm_1836652867.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_building_ornament_color_psd_785e9596.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_building_ornament_color_psd_785e9596.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_concrete_02_color_psd_53d432d2.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_concrete_02_color_psd_53d432d2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_concrete_04_color_psd_7570a74d.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_concrete_04_color_psd_7570a74d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch002_color_psd_22d37ba0.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch002_color_psd_22d37ba0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch002_normal_psd_1d5c2baf.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch002_normal_psd_1d5c2baf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_578108523.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_578108523.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch003_color_psd_e77ad3a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch003_color_psd_e77ad3a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch003_normal_psd_5f536b6a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_arch003_normal_psd_5f536b6a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1467443108.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1467443108.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_column001_color_psd_3516e5a3.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_column001_color_psd_3516e5a3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_column001_normal_psd_b8897a19.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_column001_normal_psd_b8897a19.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_906822122.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_906822122.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon001_color_psd_89f67428.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon001_color_psd_89f67428.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon001_normal_psd_6ec58d9.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon001_normal_psd_6ec58d9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2287187647.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2287187647.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon002_color_psd_d8c30d34.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon002_color_psd_d8c30d34.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon002_normal_psd_df7ba653.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon002_normal_psd_df7ba653.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_948435476.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_948435476.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon003_color_psd_292aec2c.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon003_color_psd_292aec2c.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon003_normal_psd_563e45a5.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_merlon003_normal_psd_563e45a5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2165506537.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2165506537.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_niche001_color_psd_409f1687.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_niche001_color_psd_409f1687.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_niche001_normal_psd_69322471.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_niche001_normal_psd_69322471.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2950348359.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2950348359.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs001_color_psd_5d182c89.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs001_color_psd_5d182c89.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs001_normal_psd_93c14485.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs001_normal_psd_93c14485.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1411814366.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1411814366.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs002_color_psd_ff21ab16.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs002_color_psd_ff21ab16.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs002_normal_psd_ed6d04eb.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_kasbah_stairs002_normal_psd_ed6d04eb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1115756421.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1115756421.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_wall_plaster_smooth_01_color_tga_c628780e.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_wall_plaster_smooth_01_color_tga_c628780e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_wall_plaster_smooth_01_normal_tga_b5d5ec14.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_wall_plaster_smooth_01_normal_tga_b5d5ec14.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_wall_plaster_smooth_01_normal_tga_b5d5ec14_orm_3173193943.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_mudbrick_wall_plaster_smooth_01_normal_tga_b5d5ec14_orm_3173193943.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_color_psd_3b670aaf.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_color_psd_3b670aaf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_196bf20f.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_196bf20f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_196bf20f_orm_826823835.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_196bf20f_orm_826823835.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06b_color_psd_d0ddc2ff.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06b_color_psd_d0ddc2ff.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_b5317057.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_b5317057.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_b5317057_orm_3451009406.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06_normal_psd_b5317057_orm_3451009406.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06c_color_psd_570be460.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_06c_color_psd_570be460.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_11b_color_psd_633afb89.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_11b_color_psd_633afb89.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12_color_psd_e7cfaa7d.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12_color_psd_e7cfaa7d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12_normal_tga_8a39d377.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12_normal_tga_8a39d377.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12_normal_tga_8a39d377_orm_3100475117.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12_normal_tga_8a39d377_orm_3100475117.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12b_color_psd_2c6dd5d7.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12b_color_psd_2c6dd5d7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12c_color_psd_56c5a53.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_12c_color_psd_56c5a53.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_13b_color_psd_c1f11836.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_13b_color_psd_c1f11836.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15_color_psd_d9a670cc.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15_color_psd_d9a670cc.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15b2_color_psd_289bd7b1.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15b2_color_psd_289bd7b1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15b_color_psd_c196e944.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15b_color_psd_c196e944.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15c_color_psd_d44a5db8.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_15c_color_psd_d44a5db8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17b_color_psd_5828bfdc.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17b_color_psd_5828bfdc.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17c_color_psd_fa95076f.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_17c_color_psd_fa95076f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08_color_psd_189f8334.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08_color_psd_189f8334.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08_normal_psd_4ec2a332.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08_normal_psd_4ec2a332.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08_normal_psd_4ec2a332_orm_1549117820.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08_normal_psd_4ec2a332_orm_1549117820.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08b_color_psd_c48a6736.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_08b_color_psd_c48a6736.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20b_color_psd_8e8dbb87.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20b_color_psd_8e8dbb87.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20_normal_psd_8761a35e.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20_normal_psd_8761a35e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20_normal_psd_8761a35e_orm_355234724.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20_normal_psd_8761a35e_orm_355234724.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20_color_psd_edbb9ea3.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_plaster_20_color_psd_edbb9ea3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_roof_trim001_color_psd_2c339568.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_roof_trim001_color_psd_2c339568.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_roof_trim001_normal_psd_95ad4e12.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_roof_trim001_normal_psd_95ad4e12.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1828695359.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1828695359.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_395138600.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_395138600.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stairs001_color_psd_29c20c39.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stairs001_color_psd_29c20c39.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stairs001_normal_psd_1541fcbf.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stairs001_normal_psd_1541fcbf.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4164041530.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4164041530.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stairs002_color_psd_b9a83ebd.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stairs002_color_psd_b9a83ebd.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stairs002_normal_psd_c954de60.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stairs002_normal_psd_c954de60.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2719278121.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2719278121.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stairs003_color_psd_8f50421a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stairs003_color_psd_8f50421a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stairs003_normal_psd_92a9faba.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stairs003_normal_psd_92a9faba.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_285502384.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_285502384.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stone_ground_01_color_psd_60cf381d.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stone_ground_01_color_psd_60cf381d.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stone_ground_01_normal_psd_fd77e83a.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stone_ground_01_normal_psd_fd77e83a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_stone_ground_01_normal_psd_fd77e83a_orm_3928850357.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_stone_ground_01_normal_psd_fd77e83a_orm_3928850357.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tile_01_color_psd_8fa5e519.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tile_01_color_psd_8fa5e519.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tile_01_normal_psd_6222d113.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tile_01_normal_psd_6222d113.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tile_01_normal_psd_6222d113_orm_1553094844.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tile_01_normal_psd_6222d113_orm_1553094844.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tile_02_color_psd_3f539f25.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tile_02_color_psd_3f539f25.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tile_03_color_psd_e0078021.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tile_03_color_psd_e0078021.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tile_03_normal_psd_f462f7f4.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tile_03_normal_psd_f462f7f4.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tile_03_normal_psd_f462f7f4_orm_1357794392.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tile_03_normal_psd_f462f7f4_orm_1357794392.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tire001_color_psd_1ef33bb8.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tire001_color_psd_1ef33bb8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_tire001_normal_psd_f8c4c139.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_tire001_normal_psd_f8c4c139.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_540462037.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_540462037.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_wall_trim001_color_psd_47637529.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_wall_trim001_color_psd_47637529.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_wall_trim001_normal_psd_7bfedc72.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_wall_trim001_normal_psd_7bfedc72.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1907670144.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1907670144.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\metal_corrugated03b_color_tga_a2aaa5f5.png
+    assetPath: Assets\CS2\Maps\de_dust2\metal_corrugated03b_color_tga_a2aaa5f5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4009976946.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_4009976946.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\nuke_concrete_barrier_color_psd_2ab82dea.png
+    assetPath: Assets\CS2\Maps\de_dust2\nuke_concrete_barrier_color_psd_2ab82dea.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\nuke_concrete_barrier_rough_psd_af9cb2d5.png
+    assetPath: Assets\CS2\Maps\de_dust2\nuke_concrete_barrier_rough_psd_af9cb2d5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\nuke_concrete_barrier_ao_psd_6ff77244_orm_2954630743.png
+    assetPath: Assets\CS2\Maps\de_dust2\nuke_concrete_barrier_ao_psd_6ff77244_orm_2954630743.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\olive_bark_01_color_psd_6af689a3.png
+    assetPath: Assets\CS2\Maps\de_dust2\olive_bark_01_color_psd_6af689a3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\olive_branch_01_color_psd_203a55d5.png
+    assetPath: Assets\CS2\Maps\de_dust2\olive_branch_01_color_psd_203a55d5.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\olive_branch_01_vmat_g_tnormal_53b47c48.png
+    assetPath: Assets\CS2\Maps\de_dust2\olive_branch_01_vmat_g_tnormal_53b47c48.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_524959227.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_524959227.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\palm_frond_01_color_psd_84620c87.png
+    assetPath: Assets\CS2\Maps\de_dust2\palm_frond_01_color_psd_84620c87.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\palm_frond_01_normal_psd_a522c2c0.png
+    assetPath: Assets\CS2\Maps\de_dust2\palm_frond_01_normal_psd_a522c2c0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\palm_frond_01_normal_psd_a522c2c0_orm_2433717880.png
+    assetPath: Assets\CS2\Maps\de_dust2\palm_frond_01_normal_psd_a522c2c0_orm_2433717880.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\power_pole_02_color_psd_b9c2c3c7.png
+    assetPath: Assets\CS2\Maps\de_dust2\power_pole_02_color_psd_b9c2c3c7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_625131412.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_625131412.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\power_pole_03_color_psd_f579d966.png
+    assetPath: Assets\CS2\Maps\de_dust2\power_pole_03_color_psd_f579d966.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\power_pole_03_mask_rough_tga_af0b4a20.png
+    assetPath: Assets\CS2\Maps\de_dust2\power_pole_03_mask_rough_tga_af0b4a20.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2889103724.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2889103724.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\power_pole_color_psd_3094dac8.png
+    assetPath: Assets\CS2\Maps\de_dust2\power_pole_color_psd_3094dac8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2384890521.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2384890521.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\power_pole_insulators_color_psd_2db5df2.png
+    assetPath: Assets\CS2\Maps\de_dust2\power_pole_insulators_color_psd_2db5df2.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\power_pole_insulators_mask_rough_tga_5e797d8b.png
+    assetPath: Assets\CS2\Maps\de_dust2\power_pole_insulators_mask_rough_tga_5e797d8b.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1638976519.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1638976519.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sagebrush_01_color_psd_d5b0e1d7.png
+    assetPath: Assets\CS2\Maps\de_dust2\sagebrush_01_color_psd_d5b0e1d7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\satellite_dish_card_color_psd_b1e772f0.png
+    assetPath: Assets\CS2\Maps\de_dust2\satellite_dish_card_color_psd_b1e772f0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sign004_color_psd_1f57d1c8.png
+    assetPath: Assets\CS2\Maps\de_dust2\sign004_color_psd_1f57d1c8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2006511680.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2006511680.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sign006_color_psd_fe22aad1.png
+    assetPath: Assets\CS2\Maps\de_dust2\sign006_color_psd_fe22aad1.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_158150926.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_158150926.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sign_bracket001_color_psd_6d2ffdf3.png
+    assetPath: Assets\CS2\Maps\de_dust2\sign_bracket001_color_psd_6d2ffdf3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2255621060.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2255621060.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sign_directional001_color_psd_15d9bdba.png
+    assetPath: Assets\CS2\Maps\de_dust2\sign_directional001_color_psd_15d9bdba.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1617177715.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1617177715.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sign_streets001_color_psd_d0f6e08a.png
+    assetPath: Assets\CS2\Maps\de_dust2\sign_streets001_color_psd_d0f6e08a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2211463890.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_2211463890.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lamp_01_color_psd_20829c4f.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lamp_01_color_psd_20829c4f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lamp_01_mask_rough_tga_b5d1a2ce.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lamp_01_mask_rough_tga_b5d1a2ce.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3118339645.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3118339645.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lamp_02_color_psd_c59ed7f6.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lamp_02_color_psd_c59ed7f6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lamp_02_mask_rough_tga_774de494.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lamp_02_mask_rough_tga_774de494.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3949418205.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3949418205.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lamp_03_color_psd_579002cb.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lamp_03_color_psd_579002cb.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lamp_03_mask_rough_tga_1154c99a.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lamp_03_mask_rough_tga_1154c99a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3875886065.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3875886065.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lantern_01_color_psd_55c0d0e.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lantern_01_color_psd_55c0d0e.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lantern_01_mask_rough_tga_b03fb9f6.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lantern_01_mask_rough_tga_b03fb9f6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3552209968.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3552209968.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lantern_02_color_psd_136d37a6.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lantern_02_color_psd_136d37a6.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lantern_02_normal_psd_da8d778a.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lantern_02_normal_psd_da8d778a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lantern_02_ao_psd_bd8305af_orm_285388804.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lantern_02_ao_psd_bd8305af_orm_285388804.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lantern_03_color_psd_cf9c90d0.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lantern_03_color_psd_cf9c90d0.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\street_lantern_03_color_rough_tga_7f9c3983.png
+    assetPath: Assets\CS2\Maps\de_dust2\street_lantern_03_color_rough_tga_7f9c3983.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1838738377.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1838738377.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sumac_01_color_psd_c0a41d34.png
+    assetPath: Assets\CS2\Maps\de_dust2\sumac_01_color_psd_c0a41d34.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\sumac_01_vmat_g_tnormal_31e5bc20.png
+    assetPath: Assets\CS2\Maps\de_dust2\sumac_01_vmat_g_tnormal_31e5bc20.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1883294445.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1883294445.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\tarpkit_01_color_tga_18d62141.png
+    assetPath: Assets\CS2\Maps\de_dust2\tarpkit_01_color_tga_18d62141.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\tarpkit_01_normal_tga_664d5611.png
+    assetPath: Assets\CS2\Maps\de_dust2\tarpkit_01_normal_tga_664d5611.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\tarpkit_01_color_tga_18d62141_orm_1588237424.png
+    assetPath: Assets\CS2\Maps\de_dust2\tarpkit_01_color_tga_18d62141_orm_1588237424.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\weeds_cressa_01_color_psd_6657f607.png
+    assetPath: Assets\CS2\Maps\de_dust2\weeds_cressa_01_color_psd_6657f607.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\weeds_cressa_01_vmat_g_tnormal_d52512a9.png
+    assetPath: Assets\CS2\Maps\de_dust2\weeds_cressa_01_vmat_g_tnormal_d52512a9.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3911201480.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3911201480.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\wooden_fruit_crate_01_color_psd_8c92a3a7.png
+    assetPath: Assets\CS2\Maps\de_dust2\wooden_fruit_crate_01_color_psd_8c92a3a7.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1184638234.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1184638234.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\zebra_grass_01_color_psd_a9fe0757.png
+    assetPath: Assets\CS2\Maps\de_dust2\zebra_grass_01_color_psd_a9fe0757.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\zebra_grass_01_vmat_g_tnormal_31e5bc20.png
+    assetPath: Assets\CS2\Maps\de_dust2\zebra_grass_01_vmat_g_tnormal_31e5bc20.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1649659787.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_1649659787.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_broken_building_color_psd_e12c99b3.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_broken_building_color_psd_e12c99b3.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\dust_broken_building_normal_psd_a2e6887f.png
+    assetPath: Assets\CS2\Maps\de_dust2\dust_broken_building_normal_psd_a2e6887f.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3064570056.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_3064570056.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\hr_dust_wood_ceiling01_color_psd_a09b2466.png
+    assetPath: Assets\CS2\Maps\de_dust2\hr_dust_wood_ceiling01_color_psd_a09b2466.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\soccerball001_color_psd_b458144a.png
+    assetPath: Assets\CS2\Maps\de_dust2\soccerball001_color_psd_b458144a.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\soccerball001_normal_psd_3d3051f8.png
+    assetPath: Assets\CS2\Maps\de_dust2\soccerball001_normal_psd_3d3051f8.png
+  - type: 1
+    originalUri: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_528607721.png
+    assetPath: Assets\CS2\Maps\de_dust2\default_ao_tga_559f1ac6_orm_528607721.png
+  reportItems:
+  - type: 2
+    code: 3
+    messages: []

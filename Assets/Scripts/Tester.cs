@@ -1,19 +1,14 @@
-using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
-
-
+using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
+using Core.Input;
+using System;
+using System.Runtime.InteropServices;
 public class Tester : MonoBehaviour
 {
-    [SerializeField]private GameObject go;
-    UDPClient client;
+
     void Start()
     {
-        client=GetComponent<UDPClient>();
-        client.AddSyncObj(go);
-        client.StartClient();
+        Time.timeScale=0.2f;
     }
 }

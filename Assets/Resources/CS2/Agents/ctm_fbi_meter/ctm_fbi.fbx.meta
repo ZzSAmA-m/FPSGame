@@ -1,0 +1,1447 @@
+fileFormatVersion: 2
+guid: b3293aaa2f96a56489f211ad45cf0388
+ModelImporter:
+  serializedVersion: 24501
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+    searchTexturesGlobally: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'tp_backstab_crouching_k' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'spine_3' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\nClip 'tp_backstab_knife'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_backstab_overhead_cr' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_backstab_overhead_kn' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_breathing' has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_e_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_e_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_n_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_n_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_n_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_ne_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_ne_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_ne_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_nw_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_nw_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_nw_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_s_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_se_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_se_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_se_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_sw_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_sw_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_sw_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_w_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_crouch_w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_frontstab_crouching_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_frontstab_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_frontswing_b_crouchi' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_frontswing_b_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_frontswing_crouching' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_frontswing_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_e_pis' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_e_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_n_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_n_pis' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_n_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_s_pis' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_stand' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_stand_k' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_stand_r' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_w_pis' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_crouch_w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_e_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_e_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_n_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_n_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_n_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_s_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_stand_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_stand_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_stand_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_w_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_inair_w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_e_pist' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_e_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_n_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_n_pist' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_n_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_s_pist' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_stand_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_stand_kn' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_stand_ri' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_w_pist' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_crouch_w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_e_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_e_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_n_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_n_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_n_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_s_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_stand_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_stand_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_stand_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_w_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_jump_w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_cr.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_cr.002' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_cr.003' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_cr.004' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crou.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crouch' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crouch_1' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crouch_4' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crouch_9' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crouch_k' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crouch_n' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_crouch_r' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fa.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fa.002' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast.002' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_1' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_135' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_4' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_45_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_9' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_90_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_n' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_neg' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_p' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_back_fast_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.002' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.003' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.004' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.005' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.006' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.007' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.008' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.009' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.010' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.011' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_.012' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_cr.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_cr.002' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_cr.003' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_cr.004' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_cr.005' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_cr.006' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_crou' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_crouch' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fa.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fa.002' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fast' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fast_1' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fast_4' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fast_9' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fast_k' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fast_n' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_ladder_facing_fast_r' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_e2w_crossleg' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_e2w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_e2w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_n2s_crossleg' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_n2s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_n2s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_s2n_crossleg' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_s2n_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_s2n_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_e2w_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_e2w_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_e2w_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_n2s_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_n2s_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_n2s_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_s2n_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_s2n_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_s2n_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_w2e_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_w2e_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_slow_w2e_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_e' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_e_rifl' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_n' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_n_rifl' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_ne' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_nw' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_nw_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_s' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_s_rifl' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_se' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_se_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_sw' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_sw_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_w' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_start_w_rifl' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_w2e_crossleg' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_w2e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_w2e_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_e2w_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_e2w_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_e2w_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_n2s_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_n2s_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_n2s_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_s2n_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_s2n_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_s2n_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_w2e_cro' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_w2e_kni' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_planted_walk_w2e_rif' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_e_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_1'
+      has translation animation that will be discarded.\n\t'spine_2' has translation
+      animation that will be discarded.\n\t'spine_3' has translation animation that
+      will be discarded.\n\t'spine_3' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\nClip 'tp_run_e_rifle' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'spine_3' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\nClip 'tp_run_n_knife'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_n_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_1'
+      has translation animation that will be discarded.\n\t'spine_2' has translation
+      animation that will be discarded.\n\t'spine_3' has translation animation that
+      will be discarded.\n\t'spine_3' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\nClip 'tp_run_n_rifle' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'spine_3' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\nClip 'tp_run_ne_knife'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_ne_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_ne_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_nw_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_nw_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_nw_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_s_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_se_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_se_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_se_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_sw_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_sw_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_sw_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_w_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_run_w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_23_crouch_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_23_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_34_crouch_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_34_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_45_crouch_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_45_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_loop_180_c' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_loop_180_k' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_loop_45_cr' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_loop_45_kn' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_loop_90_cr' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_left_loop_90_kn' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_23_crouch' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_23_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_34_crouch' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_34_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_45_crouch' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_45_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_loop_.001' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_loop_180_' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_loop_45_c' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_loop_45_k' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_loop_90_c' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_turn_right_loop_90_k' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_e_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_e_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_e_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_n_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_n_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_n_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_ne_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_ne_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_ne_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_nw_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_nw_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_nw_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_s_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_s_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_s_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_se_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_se_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_se_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_sw_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_sw_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_sw_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_w_knife' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_w_pistol' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'tp_walk_w_rifle' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_3'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    importUVs: -1
+    importVertexColors: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+    calculateBlendshapeNormalsDeltaFromImportedNormals: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: ctm_fbi(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ctm_fbi
+      parentName: ctm_fbi(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: -1.4073175e-22, z: 8.5768105e-16, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: root_motion
+      parentName: ctm_fbi
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.7071067, y: -0.000000012587423, z: -0.00000001258742, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pelvis
+      parentName: root_motion
+      position: {x: -0.0000000025804787, y: 1.0877496, z: -0.07248006}
+      rotation: {x: -0.50000006, y: 0.49999994, z: 0.50000006, w: -0.4999999}
+      scale: {x: 1, y: 1, z: 1}
+    - name: spine_0
+      parentName: pelvis
+      position: {x: -0.023728967, y: 0.0022988305, z: 0.000000005642076}
+      rotation: {x: 0.00000007450581, y: -0.00000005960465, z: 0.057702053, w: -0.9983339}
+      scale: {x: 1.0000001, y: 1, z: 1.0000001}
+    - name: spine_1
+      parentName: spine_0
+      position: {x: -0.10328552, y: 0.000000078231096, z: 0.000000012861772}
+      rotation: {x: -0.00000008462974, y: 0.00000011024531, z: 0.05861059, w: 0.99828094}
+      scale: {x: 1.0000014, y: 1.0000018, z: 1.0000017}
+    - name: spine_2
+      parentName: spine_1
+      position: {x: -0.12049929, y: -0.00000003166498, z: -0.000000020300012}
+      rotation: {x: -0.000000017031304, y: -0.00000004267536, z: 0.091530636, w: 0.9958023}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000004}
+    - name: spine_3
+      parentName: spine_2
+      position: {x: -0.16123483, y: 0.00000026822087, z: 0.000000007457068}
+      rotation: {x: 0.00000018441045, y: -0.00000013245176, z: -0.12187808, w: 0.9925451}
+      scale: {x: 1.0000004, y: 1.0000007, z: 1.000001}
+    - name: neck_0
+      parentName: spine_3
+      position: {x: -0.16548748, y: -0.0000006854534, z: 0.000000023573193}
+      rotation: {x: -0.000000043868464, y: 0.00000003990473, z: -0.121743105, w: 0.9925617}
+      scale: {x: 1.000001, y: 1.0000008, z: 1.0000005}
+    - name: head_0
+      parentName: neck_0
+      position: {x: -0.14636207, y: -0.0000008493662, z: 0.000000009044323}
+      rotation: {x: 0.00000002703797, y: 0.000000081088494, z: -0.15107799, w: -0.9885219}
+      scale: {x: 1.0000013, y: 1.0000012, z: 1.0000014}
+    - name: eyeball_l
+      parentName: head_0
+      position: {x: -0.05272388, y: 0.096518874, z: 0.03325103}
+      rotation: {x: 0.5416127, y: -0.45299938, z: -0.52530354, w: 0.474872}
+      scale: {x: 1.0000023, y: 1.0000018, z: 1.0000017}
+    - name: eyeball_r
+      parentName: head_0
+      position: {x: -0.05292404, y: 0.09626684, z: -0.03490895}
+      rotation: {x: 0.48758382, y: -0.5120165, z: -0.4724338, w: 0.52622}
+      scale: {x: 1.0000024, y: 1.0000012, z: 1.0000011}
+    - name: eye_target
+      parentName: head_0
+      position: {x: -0.0000029802322, y: 2.5400057, z: 6.252776e-13}
+      rotation: {x: 0.50000006, y: -0.49999982, z: -0.5000001, w: 0.50000006}
+      scale: {x: 1.0000012, y: 1.0000005, z: 1.000001}
+    - name: jiggle_hood
+      parentName: neck_0
+      position: {x: -0.025970716, y: -0.09765136, z: -0.00027139534}
+      rotation: {x: -0.5833577, y: 0.36789545, z: -0.6015383, w: -0.4031111}
+      scale: {x: 1.0000044, y: 1, z: 1.000004}
+    - name: head_0_TWIST
+      parentName: neck_0
+      position: {x: -0.07318204, y: -0.00000067800283, z: 0.0000000045222324}
+      rotation: {x: 0.00000005892052, y: 0.000000009004945, z: 0.000000014901161, w: 1}
+      scale: {x: 1.0000008, y: 1.0000011, z: 1.000001}
+    - name: clavicle_L
+      parentName: spine_3
+      position: {x: -0.10951542, y: 0.07633442, z: 0.032270543}
+      rotation: {x: 0.10032034, y: 0.74602854, z: 0.10608988, w: 0.6497093}
+      scale: {x: 0.99999994, y: 1.0000006, z: 1.0000008}
+    - name: arm_upper_L
+      parentName: clavicle_L
+      position: {x: -0.17271748, y: -0.00000021606684, z: -0.0000027197752}
+      rotation: {x: 0.11640778, y: -0.06079802, z: -0.14209667, w: 0.9811021}
+      scale: {x: 1.0000006, y: 1.0000031, z: 1.0000007}
+    - name: arm_lower_L
+      parentName: arm_upper_L
+      position: {x: -0.29938605, y: -0.0000014491379, z: -0.000004483387}
+      rotation: {x: -0.0038916091, y: -0.019082451, z: -0.0256656, w: 0.9994809}
+      scale: {x: 1.0000006, y: 1.0000006, z: 1.0000012}
+    - name: hand_L
+      parentName: arm_lower_L
+      position: {x: -0.2815021, y: -0.0000007301569, z: 0.0000010021031}
+      rotation: {x: 0.6942866, y: 0.051539056, z: -0.009466712, w: 0.7177885}
+      scale: {x: 1.000001, y: 1.0000007, z: 0.9999998}
+    - name: finger_middle_meta_L
+      parentName: hand_L
+      position: {x: -0.032947242, y: -0.0034610173, z: -0.0068422873}
+      rotation: {x: 0.025885994, y: -0.019434655, z: 0.040197376, w: 0.9986673}
+      scale: {x: 0.99999994, y: 1.0000021, z: 1.0000029}
+    - name: finger_middle_0_L
+      parentName: finger_middle_meta_L
+      position: {x: -0.071279556, y: -0.000010956988, z: 0.0000007151393}
+      rotation: {x: -0.005713208, y: 0.0004845633, z: -0.03390684, w: 0.99940854}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.000002}
+    - name: finger_middle_1_L
+      parentName: finger_middle_0_L
+      position: {x: -0.04870679, y: -0.000011701486, z: 0.0000010328367}
+      rotation: {x: 0.001584936, y: -0.0004187613, z: -0.03443306, w: 0.9994057}
+      scale: {x: 0.99999875, y: 1.0000014, z: 1.0000005}
+    - name: finger_middle_2_L
+      parentName: finger_middle_1_L
+      position: {x: -0.038543656, y: -0.000008559553, z: 0.0000011892989}
+      rotation: {x: 0.005684274, y: 0.0031872252, z: -0.09561207, w: 0.9953974}
+      scale: {x: 0.99999994, y: 1.0000024, z: 1.0000032}
+    - name: finger_pinky_meta_L
+      parentName: hand_L
+      position: {x: -0.03253972, y: 0.006638501, z: 0.02535959}
+      rotation: {x: -0.144103, y: -0.035498973, z: 0.026718415, w: 0.9885648}
+      scale: {x: 1.0000018, y: 1.0000026, z: 1.000003}
+    - name: finger_pinky_0_L
+      parentName: finger_pinky_meta_L
+      position: {x: -0.05511756, y: -0.000010155141, z: -0.0000004803296}
+      rotation: {x: -0.04506786, y: 0.0039582835, z: -0.036990948, w: 0.998291}
+      scale: {x: 1.0000015, y: 1.0000011, z: 1.0000008}
+    - name: finger_pinky_1_L
+      parentName: finger_pinky_0_L
+      position: {x: -0.042515166, y: -0.000010258518, z: -0.0000013578683}
+      rotation: {x: -0.00077878253, y: -0.0010379932, z: -0.035900466, w: 0.99935454}
+      scale: {x: 0.99999946, y: 1.0000019, z: 1.0000017}
+    - name: finger_pinky_2_L
+      parentName: finger_pinky_1_L
+      position: {x: -0.02097576, y: -0.000008560717, z: -0.0000017825514}
+      rotation: {x: 0.022723075, y: 0.008720548, z: -0.037433244, w: 0.9990027}
+      scale: {x: 1.0000012, y: 1.0000026, z: 1.0000039}
+    - name: finger_index_meta_L
+      parentName: hand_L
+      position: {x: -0.03031277, y: -0.0020919384, z: -0.024556698}
+      rotation: {x: 0.130261, y: -0.094136536, z: 0.05000947, w: 0.9857329}
+      scale: {x: 0.9999991, y: 1.0000019, z: 1.0000033}
+    - name: finger_index_0_L
+      parentName: finger_index_meta_L
+      position: {x: -0.07280278, y: -0.000010447577, z: 0.0000017881393}
+      rotation: {x: -0.061521128, y: 0.00436227, z: -0.032335293, w: 0.99757236}
+      scale: {x: 1.000001, y: 0.9999997, z: 0.9999997}
+    - name: finger_index_1_L
+      parentName: finger_index_0_L
+      position: {x: -0.048434936, y: -0.000009164214, z: 0.0000012218952}
+      rotation: {x: 0.00016404684, y: -0.00006827477, z: -0.03426935, w: 0.9994126}
+      scale: {x: 0.9999972, y: 1.000002, z: 1.0000004}
+    - name: finger_index_2_L
+      parentName: finger_index_1_L
+      position: {x: -0.033045538, y: -0.000005953014, z: 0.0000013709068}
+      rotation: {x: 0.0012665833, y: 0.0005870794, z: -0.055865247, w: 0.9984374}
+      scale: {x: 0.99999994, y: 1.0000012, z: 1.0000013}
+    - name: finger_thumb_0_L
+      parentName: hand_L
+      position: {x: -0.031925704, y: 0.015873577, z: -0.032940637}
+      rotation: {x: -0.52830654, y: 0.32332557, z: -0.30905, w: -0.72169304}
+      scale: {x: 1.0000002, y: 1.0000064, z: 1.0000014}
+    - name: finger_thumb_1_L
+      parentName: finger_thumb_0_L
+      position: {x: -0.04713315, y: -0.0000048205256, z: 0.000006475486}
+      rotation: {x: -0.0022562738, y: 0.0005457847, z: -0.032717146, w: 0.99946195}
+      scale: {x: 1.0000025, y: 0.999999, z: 1.0000012}
+    - name: finger_thumb_2_L
+      parentName: finger_thumb_1_L
+      position: {x: -0.03751012, y: -0.0000018514693, z: 0.0000075679272}
+      rotation: {x: -0.0058694286, y: -0.004885345, z: -0.142148, w: 0.989816}
+      scale: {x: 1.0000005, y: 1.0000032, z: 1.0000014}
+    - name: finger_ring_meta_L
+      parentName: hand_L
+      position: {x: -0.032540023, y: -0.0007264889, z: 0.008912187}
+      rotation: {x: 0.0025678566, y: -0.025348552, z: 0.03495664, w: 0.999064}
+      scale: {x: 1.0000014, y: 1.0000037, z: 1.0000049}
+    - name: finger_ring_0_L
+      parentName: finger_ring_meta_L
+      position: {x: -0.06460391, y: -0.000010587741, z: 0.0000013550743}
+      rotation: {x: -0.044402156, y: 0.0036801929, z: -0.034142777, w: 0.99842334}
+      scale: {x: 1.0000002, y: 0.9999996, z: 0.99999887}
+    - name: finger_ring_1_L
+      parentName: finger_ring_0_L
+      position: {x: -0.04775886, y: -0.000010054442, z: 0.0000010281801}
+      rotation: {x: -0.00008419153, y: 0.000020796426, z: -0.033191364, w: 0.9994491}
+      scale: {x: 0.99999696, y: 1.000003, z: 0.99999887}
+    - name: finger_ring_2_L
+      parentName: finger_ring_1_L
+      position: {x: -0.033577368, y: -0.000005926122, z: 0.0000011958182}
+      rotation: {x: -0.0007441441, y: -0.0003137909, z: -0.020441597, w: 0.9997908}
+      scale: {x: 1.0000017, y: 1.000001, z: 1.0000042}
+    - name: arm_lower_L_TWIST
+      parentName: arm_lower_L
+      position: {x: -0.093835585, y: -0.00000085681677, z: 0.0000011101365}
+      rotation: {x: 0.012197828, y: 0.0000002994391, z: 0.00000013440102, w: 0.9999256}
+      scale: {x: 1.0000007, y: 1.0000004, z: 1.0000012}
+    - name: arm_lower_L_TWIST1
+      parentName: arm_lower_L
+      position: {x: -0.18766876, y: -0.00000074133277, z: 0.0000010374933}
+      rotation: {x: 0.012197697, y: 0.00000021119635, z: 0.000000059895264, w: 0.9999257}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.000001}
+    - name: arm_upper_L_TWIST
+      parentName: arm_upper_L
+      position: {x: -0.09979184, y: -0.000001784414, z: -0.0000048028305}
+      rotation: {x: -0.029516667, y: -0.00000032782555, z: -0.00000027567148, w: 0.99956435}
+      scale: {x: 1.0000012, y: 1.0000024, z: 1.0000021}
+    - name: arm_upper_L_TWIST1
+      parentName: arm_upper_L
+      position: {x: -0.19958884, y: -0.0000016130507, z: -0.0000047683716}
+      rotation: {x: -0.014759773, y: -0.0000002980231, z: -0.000000067055204, w: 0.9998911}
+      scale: {x: 1.0000008, y: 1.0000017, z: 1.000002}
+    - name: scapula_L
+      parentName: clavicle_L
+      position: {x: -0.15235694, y: -0.010400452, z: -0.050011188}
+      rotation: {x: 0.718008, y: 0.3176877, z: -0.5960751, w: 0.16802894}
+      scale: {x: 1.000002, y: 1.0000006, z: 1.0000045}
+    - name: clavicle_R
+      parentName: spine_3
+      position: {x: -0.10951602, y: 0.07633436, z: -0.03227049}
+      rotation: {x: -0.7460289, y: 0.100321375, z: 0.649709, w: -0.10608941}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000012}
+    - name: arm_upper_R
+      parentName: clavicle_R
+      position: {x: 0.17271753, y: 0.00000023841858, z: 0.0000028850075}
+      rotation: {x: 0.11640745, y: -0.060797032, z: -0.14209725, w: 0.98110217}
+      scale: {x: 0.9999997, y: 1.0000005, z: 0.9999991}
+    - name: arm_lower_R
+      parentName: arm_upper_R
+      position: {x: 0.2993852, y: 0.0000019036233, z: 0.0000053141266}
+      rotation: {x: -0.0038923305, y: -0.01908225, z: -0.025665373, w: 0.99948084}
+      scale: {x: 0.9999996, y: 1.0000005, z: 1.0000002}
+    - name: hand_R
+      parentName: arm_lower_R
+      position: {x: 0.28150237, y: 0.0000008549541, z: -0.000000092666596}
+      rotation: {x: 0.69428587, y: 0.051539112, z: -0.009466527, w: 0.7177891}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: finger_middle_meta_R
+      parentName: hand_R
+      position: {x: 0.03294638, y: 0.0034631952, z: 0.006842427}
+      rotation: {x: 0.025886884, y: -0.019441947, z: 0.040203445, w: 0.99866694}
+      scale: {x: 1.0000002, y: 1.0000006, z: 1}
+    - name: finger_middle_0_R
+      parentName: finger_middle_meta_R
+      position: {x: 0.07128031, y: 0.000011001401, z: -0.0000006672053}
+      rotation: {x: -0.0057136123, y: 0.00048759364, z: -0.033900943, w: 0.9994088}
+      scale: {x: 0.99999803, y: 1.0000006, z: 0.9999996}
+    - name: finger_middle_1_R
+      parentName: finger_middle_0_R
+      position: {x: 0.04870572, y: 0.000011239783, z: -0.0000006267801}
+      rotation: {x: 0.0015834571, y: -0.00041733007, z: -0.0344341, w: 0.9994057}
+      scale: {x: 0.99999946, y: 1.0000025, z: 1.0000001}
+    - name: finger_middle_2_R
+      parentName: finger_middle_1_R
+      position: {x: 0.038543858, y: 0.000008031027, z: -0.0000008335337}
+      rotation: {x: 0.0056849993, y: 0.003187342, z: -0.09561203, w: 0.9953974}
+      scale: {x: 0.99999994, y: 1.0000032, z: 1}
+    - name: finger_pinky_meta_R
+      parentName: hand_R
+      position: {x: 0.03253823, y: -0.0066385954, z: -0.025358975}
+      rotation: {x: -0.14409335, y: -0.03551081, z: 0.026730666, w: 0.98856544}
+      scale: {x: 0.99999994, y: 1.0000007, z: 1.0000002}
+    - name: finger_pinky_0_R
+      parentName: finger_pinky_meta_R
+      position: {x: 0.055116095, y: 0.0000120438635, z: 0.00000054750126}
+      rotation: {x: -0.04506761, y: 0.003961884, z: -0.036996864, w: 0.99829084}
+      scale: {x: 0.99999934, y: 1.0000002, z: 1.0000001}
+    - name: finger_pinky_1_R
+      parentName: finger_pinky_0_R
+      position: {x: 0.04251603, y: 0.000012515113, z: 0.0000020070001}
+      rotation: {x: -0.00077835424, y: -0.0010483264, z: -0.03583481, w: 0.99935687}
+      scale: {x: 0.9999985, y: 1.000001, z: 1.0000004}
+    - name: finger_pinky_2_R
+      parentName: finger_pinky_1_R
+      position: {x: 0.020973865, y: 0.000006850809, z: 0.0000013243407}
+      rotation: {x: 0.02272306, y: 0.008720253, z: -0.037433453, w: 0.9990027}
+      scale: {x: 0.99999946, y: 1.000001, z: 1.0000005}
+    - name: finger_index_meta_R
+      parentName: hand_R
+      position: {x: 0.030311493, y: 0.0020913666, z: 0.024557466}
+      rotation: {x: 0.13026181, y: -0.094136596, z: 0.050009407, w: 0.98573285}
+      scale: {x: 0.9999998, y: 1.0000006, z: 0.99999994}
+    - name: finger_index_0_R
+      parentName: finger_index_meta_R
+      position: {x: 0.07280342, y: 0.000013040379, z: -0.000002771616}
+      rotation: {x: -0.06152053, y: 0.004369838, z: -0.032318052, w: 0.9975729}
+      scale: {x: 0.999999, y: 1.0000001, z: 1.0000004}
+    - name: finger_index_1_R
+      parentName: finger_index_0_R
+      position: {x: 0.048434995, y: 0.000009051524, z: -0.0000008419156}
+      rotation: {x: 0.00016475457, y: -0.000078143494, z: -0.034284692, w: 0.9994121}
+      scale: {x: 0.99999994, y: 1.0000044, z: 1}
+    - name: finger_index_2_R
+      parentName: finger_index_1_R
+      position: {x: 0.033043485, y: 0.000006860122, z: -0.0000015757978}
+      rotation: {x: 0.001265943, y: 0.00058717106, z: -0.05586374, w: 0.99843746}
+      scale: {x: 1.0000007, y: 1.0000015, z: 1.0000007}
+    - name: finger_thumb_0_R
+      parentName: hand_R
+      position: {x: 0.031924587, y: -0.015872067, z: 0.03294106}
+      rotation: {x: 0.5283032, y: -0.3233212, z: 0.30905807, w: 0.72169405}
+      scale: {x: 0.9999984, y: 0.9999998, z: 1.0000014}
+    - name: finger_thumb_1_R
+      parentName: finger_thumb_0_R
+      position: {x: 0.047132477, y: 0.0000056400895, z: -0.0000071898103}
+      rotation: {x: -0.0022491799, y: 0.0005209145, z: -0.03271533, w: 0.99946207}
+      scale: {x: 1.0000017, y: 1.0000005, z: 1.0000011}
+    - name: finger_thumb_2_R
+      parentName: finger_thumb_1_R
+      position: {x: 0.037507266, y: 0.0000023283064, z: -0.00001030229}
+      rotation: {x: -0.0058694845, y: -0.0048853937, z: -0.14214672, w: 0.9898162}
+      scale: {x: 1.0000007, y: 1.0000018, z: 1.0000017}
+    - name: finger_ring_meta_R
+      parentName: hand_R
+      position: {x: 0.032539494, y: 0.00072770985, z: -0.00891199}
+      rotation: {x: 0.0025733707, y: -0.025352536, z: 0.034962457, w: 0.9990637}
+      scale: {x: 0.9999996, y: 1.0000006, z: 0.9999997}
+    - name: finger_ring_0_R
+      parentName: finger_ring_meta_R
+      position: {x: 0.064602464, y: 0.000013627112, z: -0.0000014426187}
+      rotation: {x: -0.04440103, y: 0.003678829, z: -0.034121577, w: 0.9984241}
+      scale: {x: 0.9999991, y: 1.000001, z: 1}
+    - name: finger_ring_1_R
+      parentName: finger_ring_0_R
+      position: {x: 0.047757406, y: 0.00001027761, z: -0.00000092200935}
+      rotation: {x: -0.00008414311, y: 0.000020163594, z: -0.033196375, w: 0.9994489}
+      scale: {x: 0.9999977, y: 1.0000027, z: 0.99999994}
+    - name: finger_ring_2_R
+      parentName: finger_ring_1_R
+      position: {x: 0.033575624, y: 0.000006363727, z: -0.0000013131648}
+      rotation: {x: -0.0007442262, y: -0.00031385882, z: -0.020441607, w: 0.9997907}
+      scale: {x: 0.9999994, y: 1.0000002, z: 1}
+    - name: arm_lower_R_TWIST
+      parentName: arm_lower_R
+      position: {x: 0.09383614, y: 0.0000009611249, z: -0.000001328066}
+      rotation: {x: 0.0060989684, y: 0.00000037244783, z: -0.000000029802319, w: 0.9999814}
+      scale: {x: 1.0000001, y: 1.000001, z: 1.0000012}
+    - name: arm_lower_R_TWIST1
+      parentName: arm_lower_R
+      position: {x: 0.18766955, y: 0.0000010170043, z: -0.000000895001}
+      rotation: {x: 0.01219782, y: 0.0000002037458, z: -0.0000001490116, w: 0.9999257}
+      scale: {x: 1.0000001, y: 1.0000012, z: 1.0000013}
+    - name: arm_upper_R_TWIST
+      parentName: arm_upper_R
+      position: {x: 0.099791005, y: 0.00000195764, z: 0.000005763024}
+      rotation: {x: -0.029516608, y: -0.00000008940697, z: -0.00000020116568, w: 0.99956435}
+      scale: {x: 1.0000007, y: 1.0000005, z: 1.0000008}
+    - name: arm_upper_R_TWIST1
+      parentName: arm_upper_R
+      position: {x: 0.19958812, y: 0.0000020284206, z: 0.0000058244914}
+      rotation: {x: -0.018224893, y: 0.00000008940696, z: -0.00000020861623, w: 0.99983394}
+      scale: {x: 1.0000008, y: 1.0000017, z: 1.000001}
+    - name: scapula_R
+      parentName: clavicle_R
+      position: {x: 0.15235734, y: 0.010400668, z: 0.050010543}
+      rotation: {x: 0.71802205, y: 0.31767198, z: -0.5960633, w: 0.16804029}
+      scale: {x: 1.0000011, y: 1.0000002, z: 1.0000007}
+    - name: jiggle_primary
+      parentName: spine_3
+      position: {x: 0.15721546, y: -0.13027152, z: -0.19769502}
+      rotation: {x: -0.015574188, y: 0.7798852, z: 0.6254172, w: -0.019747503}
+      scale: {x: 1.0000006, y: 1.0000007, z: 0.99999994}
+    - name: jiggle_back_micropouches
+      parentName: spine_3
+      position: {x: 0.0027742651, y: -0.16767104, z: 0.020194579}
+      rotation: {x: -0.6179492, y: 0.36691153, z: 0.5384682, w: 0.4399623}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: scap_AIMUP
+      parentName: spine_3
+      position: {x: -0.18475267, y: -0.0773482, z: -1.6833068e-10}
+      rotation: {x: -0.5145848, y: 0.48497647, z: 0.5145851, w: 0.48497683}
+      scale: {x: 1, y: 1, z: 1}
+    - name: jiggle_front_pouch_01
+      parentName: spine_2
+      position: {x: 0.02687111, y: 0.09878054, z: -0.21261132}
+      rotation: {x: -0.6319178, y: 0.7201537, z: 0.21823248, w: 0.18556195}
+      scale: {x: 0.99999994, y: 0.9999997, z: 1.0000001}
+    - name: jiggle_front_pouch_02
+      parentName: spine_2
+      position: {x: 0.036981467, y: 0.17633197, z: -0.108869016}
+      rotation: {x: -0.5678292, y: 0.6106357, z: 0.39002022, w: 0.39061278}
+      scale: {x: 0.9999997, y: 0.99999994, z: 0.99999994}
+    - name: jiggle_front_micropouches
+      parentName: spine_2
+      position: {x: 0.022092763, y: 0.13174382, z: 0.143534}
+      rotation: {x: -0.281906, y: 0.36669582, z: 0.606197, w: 0.6469841}
+      scale: {x: 1.0000004, y: 0.9999998, z: 1.0000001}
+    - name: scap_R_AIMAT
+      parentName: spine_2
+      position: {x: -0.10327984, y: -0.06428498, z: -0.12045792}
+      rotation: {x: -0.45164093, y: 0.5440775, z: 0.45164108, w: 0.54407763}
+      scale: {x: 1, y: 0.9999997, z: 0.99999994}
+    - name: scap_L_AIMAT
+      parentName: spine_2
+      position: {x: -0.103279844, y: -0.06428495, z: 0.12044655}
+      rotation: {x: -0.45164093, y: 0.5440775, z: 0.45164108, w: 0.54407763}
+      scale: {x: 0.99999994, y: 0.99999946, z: 0.9999998}
+    - name: leg_upper_L
+      parentName: pelvis
+      position: {x: 0.09579266, y: 0.023202399, z: 0.09383326}
+      rotation: {x: -0.018703373, y: -0.13071404, z: 0.9911956, w: -0.009761245}
+      scale: {x: 1.0000004, y: 1.0000002, z: 0.9999991}
+    - name: leg_lower_L
+      parentName: leg_upper_L
+      position: {x: -0.4547345, y: 0.00000006490154, z: -0.00000015553087}
+      rotation: {x: -0.00000022735914, y: -0.000000027474018, z: -0.06423285, w: 0.99793494}
+      scale: {x: 1.0000004, y: 1.0000007, z: 1.0000015}
+    - name: ankle_L
+      parentName: leg_lower_L
+      position: {x: -0.4302054, y: 0.00000020861626, z: -0.000000067288056}
+      rotation: {x: -0.8320592, y: -0.55433, z: -0.01784778, w: 0.00878885}
+      scale: {x: 0.99999934, y: 0.9999993, z: 0.9999997}
+    - name: ball_L
+      parentName: ankle_L
+      position: {x: -0.16077279, y: 0.0000001899898, z: -0.00000033373362}
+      rotation: {x: 0.0000000493601, y: -0.000000029103832, z: -0.2476211, w: 0.968857}
+      scale: {x: 0.9999994, y: 0.9999999, z: 1}
+    - name: leg_upper_L_TWIST
+      parentName: leg_upper_L
+      position: {x: -0.15157841, y: 0.00000009749783, z: -0.000000019557774}
+      rotation: {x: 0.000000014872058, y: -0.000000055646527, z: -0.000000037485737, w: 1}
+      scale: {x: 0.9999999, y: 1.0000004, z: 1.0000013}
+    - name: leg_upper_L_TWIST1
+      parentName: leg_upper_L
+      position: {x: -0.3031564, y: 0.000000080734026, z: -0.000000115484}
+      rotation: {x: 0.000000014901161, y: -0, z: 2.3283064e-10, w: 1}
+      scale: {x: 0.99999976, y: 0.9999999, z: 1.0000005}
+    - name: jiggle_climbinggear_01
+      parentName: leg_upper_L
+      position: {x: 0.09002629, y: -0.11168793, z: 0.07133549}
+      rotation: {x: -0.5757965, y: -0.6835701, z: 0.32975543, w: -0.30405894}
+      scale: {x: 0.9999995, y: 0.9999991, z: 1.0000002}
+    - name: jiggle_climbinggear_02
+      parentName: jiggle_climbinggear_01
+      position: {x: -0.008193595, y: -0.07266757, z: 0.0009949687}
+      rotation: {x: -0.000000119209275, y: -0.0000008046626, z: -0.000000059604638, w: 1}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000001}
+    - name: leg_upper_R
+      parentName: pelvis
+      position: {x: 0.09579348, y: 0.023202341, z: -0.0938334}
+      rotation: {x: 0.13071436, y: -0.01870355, z: -0.009761155, w: -0.99119556}
+      scale: {x: 0.99999976, y: 1, z: 1}
+    - name: leg_lower_R
+      parentName: leg_upper_R
+      position: {x: 0.45473412, y: 0.000000043713953, z: 0.00000014901161}
+      rotation: {x: -0.00000005960465, y: -0.00000015832485, z: -0.06423295, w: 0.99793494}
+      scale: {x: 1.0000007, y: 1.0000017, z: 1.0000007}
+    - name: ankle_R
+      parentName: leg_lower_R
+      position: {x: 0.4302048, y: -0.00000034086406, z: -0.00000009336509}
+      rotation: {x: 0.8320591, y: 0.55433017, z: 0.017848028, w: -0.008788689}
+      scale: {x: 1.0000008, y: 1.0000014, z: 1.0000015}
+    - name: ball_R
+      parentName: ankle_R
+      position: {x: 0.16077316, y: -0.00000018719584, z: 0.0000005107722}
+      rotation: {x: 0.0000009401703, y: -0.00000043516056, z: -0.24762137, w: 0.96885693}
+      scale: {x: 0.99999946, y: 1.000003, z: 1.0000012}
+    - name: leg_upper_R_TWIST
+      parentName: leg_upper_R
+      position: {x: 0.15157768, y: 0.000000016705599, z: -0.00000005029142}
+      rotation: {x: 0.000000029802319, y: -0.00000009499489, z: 0.000000047730275, w: 1}
+      scale: {x: 1.0000007, y: 1.0000007, z: 1.0000011}
+    - name: leg_upper_R_TWIST1
+      parentName: leg_upper_R
+      position: {x: 0.30315584, y: 0.000000044645276, z: -0.000000030733645}
+      rotation: {x: -0.00000004470348, y: -0.000000054016702, z: -0.00000005331821, w: 1}
+      scale: {x: 1.0000002, y: 1.0000017, z: 1.0000005}
+    - name: jiggle_holster
+      parentName: leg_upper_R
+      position: {x: 0.11654452, y: 0.022460682, z: -0.12659924}
+      rotation: {x: -0.70425344, y: 0.68926215, z: 0.049949992, w: 0.16263399}
+      scale: {x: 1.0000002, y: 1, z: 1.0000012}
+    - name: wpnPivot
+      parentName: root_motion
+      position: {x: -0.0000000031394685, y: 1.4930538, z: -0.08818088}
+      rotation: {x: -0, y: -0.0000000017784192, z: 8.881784e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wpn
+      parentName: wpnPivot
+      position: {x: 0.0000000034531167, y: -1.4930542, z: 0.088180944}
+      rotation: {x: 1.579552e-24, y: 0.0000000017784174, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: defusekit
+      parentName: ctm_fbi(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: -1.8216875e-22, z: 8.5768105e-16, w: 0.7071067}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: firstperson_default_gloves_arms
+      parentName: ctm_fbi(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: -1.8216875e-22, z: 8.5768105e-16, w: 0.7071067}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: firstperson_sleeves
+      parentName: ctm_fbi(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: -1.8216875e-22, z: 8.5768105e-16, w: 0.7071067}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: thirdperson_body
+      parentName: ctm_fbi(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: -1.8216875e-22, z: 8.5768105e-16, w: 0.7071067}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: thirdperson_default_gloves
+      parentName: ctm_fbi(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: -1.8216875e-22, z: 8.5768105e-16, w: 0.7071067}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

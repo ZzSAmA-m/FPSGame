@@ -62,6 +62,13 @@ namespace Mirror
         GUIContent title;
         Styles styles = new Styles();
 
+        public override void Cleanup()
+        {
+            styles = null;
+            title = null;
+            base.Cleanup();
+        }
+
         public override GUIContent GetPreviewTitle()
         {
             if (title == null)

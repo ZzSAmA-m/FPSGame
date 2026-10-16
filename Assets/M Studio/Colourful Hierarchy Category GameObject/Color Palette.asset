@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorDesigns:
   - keyChar: //
-    textColor: {r: 1, g: 1, b: 1, a: 1}
-    backgroundColor: {r: 0, g: 0.10323961, b: 0.10323961, a: 1}
+    textColor: {r: 0, g: 0, b: 0, a: 1}
+    backgroundColor: {r: 0.28616333, g: 1, b: 1, a: 1}
     textAlignment: 4
-    fontStyle: 3
+    fontStyle: 0
   - keyChar: ///
     textColor: {r: 0.26415092, g: 0.01578255, b: 0.01578255, a: 1}
     backgroundColor: {r: 1, g: 1, b: 1, a: 1}
