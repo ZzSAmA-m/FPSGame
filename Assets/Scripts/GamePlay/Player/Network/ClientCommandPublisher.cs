@@ -1,6 +1,7 @@
 using Core.Input;
 using Core.ZLog;
 using Mirror;
+using Network.Client;
 using Network.Common;
 using Network.Common.Messages;
 using UnityEngine;
@@ -57,10 +58,7 @@ namespace GamePlay.Player.Network
         }
         void Publish(ref PlayerInput input)
         {
-            if (NetworkManager.singleton is not FPSNetworkManager manager || manager.Bridge == null)
-            {
-                return;
-            }
+            var manager=ClientManager.Instance??throw new System.Exception("找不到ClientManager");
             var command=new PlayerCommandMessage
             {
                 sequence = ++_sequence,
@@ -72,7 +70,7 @@ namespace GamePlay.Player.Network
                 key2 = input.key2,
                 key3 = input.key3
             };
-            manager.Bridge.SendPlayerCommand(command);
+            manager.PublishPlayerInputCmd(ref command);
             ZLog.Log<ClientCommandPublisher>("Send Command: "+command);
         }
     }

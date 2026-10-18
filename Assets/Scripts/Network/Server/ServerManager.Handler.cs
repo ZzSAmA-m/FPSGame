@@ -4,7 +4,6 @@ using Core.ZLog;
 using Mirror;
 using Network.Common;
 using Network.Common.Messages;
-using Network.Server.Session;
 using UnityEngine;
 
 namespace Network.Server
@@ -17,12 +16,13 @@ namespace Network.Server
         /// </summary>
         private void HandlePlayerCommand(NetworkConnectionToClient sender, PlayerCommandMessage command)
         {
-            if (!Sessions.TryGet(sender, out ClientSession session) ||
-                session.State != ClientSessionState.Playing ||
-                session.PlayerIdentity == null)
-            {
-                return;
-            }
+            // if (!Sessions.TryGet(sender, out ClientSession session) ||
+            //     session.State != ClientSessionState.Playing ||
+            //     session.PlayerIdentity == null)
+            // {
+            //     return;
+            // }
+            var session=Sessions.GetClientSession(sender.connectionId);
 
             if (_lastCommandSequence.TryGetValue(sender.connectionId, out uint lastSequence) &&
                 command.sequence <= lastSequence)
@@ -31,19 +31,15 @@ namespace Network.Server
             }
 
             _lastCommandSequence[sender.connectionId] = command.sequence;
-            ApplyCommand(session.PlayerIdentity, command);
+            ApplyCommand(session.Conn.identity, command);
             ZLog.Log<ServerManager>("Receive Command: "+command);
         }
 
 
         private void HandleHelloRequest(NetworkConnectionToClient connection, HelloRequest request)
         {
-            if (!Sessions.TryGet(connection, out ClientSession session))
-            {
-                RejectAndDisconnect(connection, "服务器没有找到对应会话。");
-                return;
-            }
 
+            var session=Sessions.GetClientSession(connection.connectionId);
             if (request.protocolVersion != NetworkProtocol.Version)
             {
                 RejectAndDisconnect(
@@ -53,11 +49,6 @@ namespace Network.Server
             }
 
             string clientVersion = SanitizeClientVersion(request.clientVersion);
-            if (!session.VerifyProtocol(clientVersion))
-            {
-                RejectAndDisconnect(connection, "握手重复或会话阶段不正确。");
-                return;
-            }
 
             _bridge.SendHelloToClient(connection, new HelloResponse
             {

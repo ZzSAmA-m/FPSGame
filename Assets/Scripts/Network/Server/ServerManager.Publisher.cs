@@ -5,7 +5,6 @@ using Core.ZLog;
 using Mirror;
 using Network.Common;
 using Network.Common.Messages;
-using Network.Server.Session;
 using UnityEngine;
 //ServerManager.Publisher,负责发布消息
 namespace Network.Server
@@ -40,25 +39,25 @@ namespace Network.Server
         /// </summary>
         void Publish()
         {
-            if(!PublisherEnabled)return;
-            PlayerSnapshotMessage snapshot = new()
-            {
-                tick=++Tick,
-                durationTime=PublishDurationTime,
-                playerPoses=new PlayerPose[ClientCount],
-            };
-            int posPtr=0;
-            foreach(var session in Sessions.Sessions)
-            {
-                var trans=session.PlayerIdentity.transform;
-                var pose =new PlayerPose
-                {
-                    netId=session.ConnectionId,
-                    position=trans.position,
-                    facingDirection=Vector3.zero //之后实现视角同步,先统一为(0,0,0)
-                };
-                snapshot.playerPoses[posPtr++]=pose;
-            }
+            // if(!PublisherEnabled)return;
+            // PlayerSnapshotMessage snapshot = new()
+            // {
+            //     tick=++Tick,
+            //     durationTime=PublishDurationTime,
+            //     playerPoses=new PlayerPose[ClientCount],
+            // };
+            // int posPtr=0;
+            // foreach(var session in Sessions.Sessions)
+            // {
+            //     var trans=session.PlayerIdentity.transform;
+            //     var pose =new PlayerPose
+            //     {
+            //         netId=session.ConnectionId,
+            //         position=trans.position,
+            //         facingDirection=Vector3.zero //之后实现视角同步,先统一为(0,0,0)
+            //     };
+            //     snapshot.playerPoses[posPtr++]=pose;
+            // }
 
         }
 

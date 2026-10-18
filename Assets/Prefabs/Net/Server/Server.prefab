@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7882643802320288513}
   - component: {fileID: 7526632275201256846}
   - component: {fileID: -5551504492076730535}
+  - component: {fileID: 7039233780073851586}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -57,3 +58,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02361317d78e564a981d5e4709f23b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DontDestroy
+--- !u!114 &7039233780073851586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6395141129207222620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb65a0985ab702409a3a4dd06e02fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Network::Network.ServerManagerDebugger

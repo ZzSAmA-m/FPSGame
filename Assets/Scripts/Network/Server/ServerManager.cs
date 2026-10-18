@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Core.ZLog;
 using Mirror;
+using Network.Client;
 using Network.Common;
 using Network.Common.Messages;
-using Network.Server.Session;
 using UnityEngine;
 
 namespace Network.Server
@@ -22,11 +22,9 @@ namespace Network.Server
         private bool _initialized;
         private readonly Dictionary<int, uint> _lastCommandSequence = new();
 
-        /// <summary>当前服务器进程中的会话注册表。</summary>
-        public SessionRegistry Sessions { get; } = new();
 
-        /// <summary>当前连接数量。</summary>
-        public int ClientCount => Sessions.Count;
+        public ClientSessions Sessions{get;private set;}=new();
+
 
         /// <summary>
         /// 注入网络边界并开始接收协议消息。
@@ -46,78 +44,7 @@ namespace Network.Server
             ZLog.Log<ServerManager>("服务器应用层已初始化");
         }
 
-        /// <summary>
-        /// 登记 Mirror 新连接。重复 connectionId 会被拒绝。
-        /// </summary>
-        public bool RegisterConnection(NetworkConnectionToClient connection)
-        {
-            EnsureInitialized();
-
-            if (!Sessions.TryAdd(connection, out ClientSession session))
-            {
-                Debug.LogError($"[ServerManager] 无法登记重复或无效连接：{connection}");
-                return false;
-            }
-
-            Debug.Log($"[ServerManager] 已建立 {session}。");
-            return true;
-        }
-
-        /// <summary>
-        /// 将会话推进到 Ready。没有完成协议握手的连接不能进入游戏世界。
-        /// </summary>
-        public bool MarkClientReady(NetworkConnectionToClient connection)
-        {
-            EnsureInitialized();
-
-            if (!Sessions.TryGet(connection, out ClientSession session) || !session.MarkReady())
-            {
-                Debug.LogWarning($"[ServerManager] 拒绝 Ready:连接尚未完成协议握手。connection={connection}");
-                return false;
-            }
-
-            Debug.Log($"[ServerManager] 客户端已 Ready:{session}");
-            return true;
-        }
-
-        /// <summary>
-        /// 把 Mirror 生成的玩家实体绑定到会话。
-        /// </summary>
-        public bool AttachPlayer(NetworkConnectionToClient connection, NetworkIdentity playerIdentity)
-        {
-            EnsureInitialized();
-
-            if (!Sessions.TryGet(connection, out ClientSession session) ||
-                !session.AttachPlayer(playerIdentity))
-            {
-                ZLog.LogError<ServerManager>($" 玩家绑定失败:会话阶段不正确或实体为空。connection={connection}");
-                return false;
-            }
-
-            ZLog.Log<ServerManager>($" 玩家实体已绑定：{session}, netId={playerIdentity.netId}");
-            return true;
-        }
-
-        /// <summary>
-        /// 在 Mirror 销毁玩家对象之前移除会话索引。
-        /// </summary>
-        public void UnregisterConnection(NetworkConnectionToClient connection)
-        {
-            if (!_initialized)
-            {
-                return;
-            }
-
-            if (Sessions.TryRemove(connection, out ClientSession session))
-            {
-                _lastCommandSequence.Remove(connection.connectionId);
-                Debug.Log($"[ServerManager] 已移除客户端会话：{session}");
-            }
-        }
-
-        /// <summary>
-        /// 停止接收协议消息并清理所有进程内会话。
-        /// </summary>
+     
         public void Shutdown()
         {
             if (!_initialized)
@@ -128,13 +55,15 @@ namespace Network.Server
             _bridge.ServerHelloReceived -= HandleHelloRequest;
             _bridge.PlayerCommandReceived -= HandlePlayerCommand;
             _lastCommandSequence.Clear();
-            Sessions.Clear();
             _bridge = null;
             _initialized = false;
             Debug.Log("[ServerManager] 服务器应用层已关闭。");
         }
 
-        
+        public void AddClient(NetworkConnectionToClient conn)
+        {
+            Sessions.AddClientSession(conn);
+        }
 
         
 

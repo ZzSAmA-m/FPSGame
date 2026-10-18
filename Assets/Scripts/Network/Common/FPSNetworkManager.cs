@@ -65,6 +65,11 @@ namespace Network.Common
 
             ZLog.Log<FPSNetworkManager>($" 客户端已启动，模式={NetState}");
         }
+        public override void OnServerConnect(NetworkConnectionToClient conn)
+        {
+            base.OnServerConnect(conn);
+            ServerManagerInst.AddClient(conn);
+        }
         /// <summary>生成完整玩家预制体，并将 NetworkIdentity 绑定到对应会话。</summary>
         public override void OnServerAddPlayer(NetworkConnectionToClient connection)
         {
@@ -75,17 +80,10 @@ namespace Network.Common
                     $"{playerPrefab.name} [connId={connection.connectionId}]";
             }
 
-            if (ServerManagerInst == null ||
-                !ServerManagerInst.AttachPlayer(connection, connection.identity))
-            {
-                Debug.LogError($"[FPSNetworkManager] 玩家会话绑定失败，将断开：{connection}");
-                NetworkServer.DestroyPlayerForConnection(connection);
-                connection.Disconnect();
-                return;
-            }
+            
 
-            Debug.Log(
-                $"[FPSNetworkManager] 已生成联网玩家:connId={connection.connectionId}, " +
+            ZLog.Log<FPSNetworkManager>(
+                $"已生成联网玩家:connId={connection.connectionId}, " +
                 $"netId={connection.identity.netId}");
         }
 
@@ -98,39 +96,11 @@ namespace Network.Common
             // HelloRequest 与随后由 base 发送的 Ready/AddPlayer 都走可靠通道，
             // 因而服务器会先验证协议，再允许会话进入 Ready。
             _bridge.SendHelloToServer(Application.version);
+            
             base.OnClientConnect();
         }
 
-        /// <summary>服务端为新 Transport 连接创建会话。</summary>
-        public override void OnServerConnect(NetworkConnectionToClient connection)
-        {
-            base.OnServerConnect(connection);
 
-            if (ServerManagerInst == null || !ServerManagerInst.RegisterConnection(connection))
-            {
-                Debug.LogError($"[FPSNetworkManager] 新连接登记失败，将断开：{connection}");
-                connection.Disconnect();
-            }
-        }
-
-        /// <summary>协议握手通过后才允许客户端进入 Mirror Ready 状态。</summary>
-        public override void OnServerReady(NetworkConnectionToClient connection)
-        {
-            if (ServerManagerInst == null || !ServerManagerInst.MarkClientReady(connection))
-            {
-                connection.Disconnect();
-                return;
-            }
-
-            base.OnServerReady(connection);
-        }
-
-        /// <summary>在 Mirror 销毁 Owned Objects 前先移除应用层会话。</summary>
-        public override void OnServerDisconnect(NetworkConnectionToClient connection)
-        {
-            ServerManagerInst?.UnregisterConnection(connection);
-            base.OnServerDisconnect(connection);
-        }
 
         /// <summary>客户端停止时注销客户端 Handler 和事件订阅。</summary>
         public override void OnStopClient()

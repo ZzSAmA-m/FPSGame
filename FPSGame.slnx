@@ -59,10 +59,10 @@
   <Project Path="Unity.RenderPipelines.Universal.2D.Editor.Overrides.csproj" />
   <Project Path="Mirror.Authenticators.csproj" />
   <Project Path="PrimeTween.Demo.csproj" />
+  <Project Path="Network.csproj" />
   <Project Path="Mirror.Transports.csproj" />
   <Project Path="Unity.AI.Navigation.Editor.csproj" />
   <Project Path="EncryptionTransportEditor.csproj" />
-  <Project Path="Network.csproj" />
   <Project Path="Unity.Multiplayer.Center.Common.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Runtime.Shared.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />

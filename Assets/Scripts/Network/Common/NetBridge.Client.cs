@@ -76,7 +76,7 @@ namespace Network.Common
         }
 
         /// <summary> 本地玩家把一个采样窗口内的操作命令发给服务器,走不可靠通道 </summary>
-        public bool SendPlayerCommand(PlayerCommandMessage command)
+        public bool SendPlayerCommand(ref PlayerCommandMessage command)
         {
             if (!NetworkClient.isConnected)
             {

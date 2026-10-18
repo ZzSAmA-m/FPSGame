@@ -1,12 +1,15 @@
 using System;
+using Core.Utility;
 using Core.ZLog;
+using Mirror;
 using Network.Common;
 using UnityEngine;
 
 namespace Network.Client
 {
-    public sealed partial class ClientManager : MonoBehaviour
+    public sealed partial class ClientManager : Singleton<ClientManager>
     {
+        public int ClientId{get;}
         private NetBridge _bridge;
 
         public void Initialize(NetBridge bridge)

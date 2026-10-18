@@ -1,12 +1,14 @@
 using System;
 using Core.ZLog;
 using Network.Common;
+
+using Core.Utility;
 using Network.Common.Messages;
 using UnityEngine;
 
 namespace Network.Client
 {
-    public sealed partial class ClientManager : MonoBehaviour
+    public sealed partial class ClientManager : Singleton<ClientManager>
     {
         private void HandleHelloResponse(HelloResponse response)
         {
