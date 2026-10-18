@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using GamePlay.FSM;
 using GamePlay.Player;
 using GamePlay.Player.MotionFSM;
-using Mirror.Examples.Basic;
 using UnityEngine;
 
 public class PlayerMS_Alive_BodyDown_Stand : IState

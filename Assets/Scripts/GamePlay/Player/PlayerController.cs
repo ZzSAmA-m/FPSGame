@@ -1,8 +1,11 @@
 using Core.Event;
+using Core.Input;
 using Core.Utility;
 using GamePlay.Player.MotionFSM;
 using GamePlay.Player.Network;
 using Mirror;
+using Network.Common;
+using Network.Common.Messages;
 using UnityEngine;
 
 namespace GamePlay.Player
@@ -14,7 +17,7 @@ namespace GamePlay.Player
     /// 这里只决定“本机看到 FP 还是 TP、是否绑定本地输入”，不负责网络传输。
     /// 使用 Mirror 的生命周期回调比在 Start 中读取 isLocalPlayer 更可靠，也能对称清理。
     /// </remarks>
-    public class PlayerController : NetworkBehaviour
+    public class PlayerController : NetworkBehaviour, IServerCommandTarget
     {
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private PlayerMovementController _playerMovementController;
@@ -27,6 +30,11 @@ namespace GamePlay.Player
 
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private PlayerCameraController _playerCameraController;
+        [SerializeField, Sirenix.OdinInspector.ReadOnly]
+        private PlayerSightController _playerSightController;
+        [SerializeField, Sirenix.OdinInspector.ReadOnly]
+        private PlayerWeaponController _playerWeaponController;
+        
         [SerializeField]
         private PlayerNetworkManager _playerNetworkManager;
         public PlayerNetworkManager PlayerNetworkManager=>_playerNetworkManager;
@@ -37,6 +45,8 @@ namespace GamePlay.Player
             _playerModelController = GetComponent<PlayerModelController>();
             _playerAnimatorController = GetComponent<PlayerAnimatorController>();
             _playerCameraController = GetComponent<PlayerCameraController>();
+            _playerSightController=GetComponent<PlayerSightController>();
+            _playerWeaponController=GetComponent<PlayerWeaponController>();
         }
         void Start()
         {
@@ -85,6 +95,28 @@ namespace GamePlay.Player
             EventCenter.InputEvent.UnbindPlayerFromInputDriverEvent.RaiseEvent(gameObject);
             _playerCameraController.DisAttachCamera2Player();
             base.OnStopLocalPlayer();
+        }
+
+        public void ApplyServerCommand(ref PlayerCommandMessage command)
+        {
+            _playerNetworkManager.NetPlayerMovement.ApplyMovement(command.move);
+
+            PlayerInput input = new PlayerInput
+            {
+                look = command.look,
+                space = command.jump,
+                lMouse = command.fire,
+                key1 = command.key1,
+                key2 = command.key2,
+                key3 = command.key3
+            };
+            Simulate(ref input);
+        }
+
+        public void Simulate(ref PlayerInput input)
+        {
+            _playerSightController.Simulate(ref input);
+            _playerWeaponController.Simulate(ref input);
         }
     }
 }

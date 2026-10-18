@@ -4,11 +4,12 @@ using Sirenix.OdinInspector;
 using Core.Input;
 using System;
 using System.Runtime.InteropServices;
+using Core.ZLog;
 public class Tester : MonoBehaviour
 {
 
     void Start()
     {
-        Time.timeScale=0.2f;
+        ZLog.Log<Tester>("OK");
     }
 }

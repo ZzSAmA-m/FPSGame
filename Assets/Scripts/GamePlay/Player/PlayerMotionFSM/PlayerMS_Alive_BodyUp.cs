@@ -46,7 +46,7 @@ namespace GamePlay.Player.MotionFSM
 
         public void OnEnter()
         {
-            this.SwitchState<PlayerMS_Alive_BodyUp_Rifle>();
+            this.SwitchState<PlayerMS_Alive_BodyUp_Knife>();
             _active=true;
             _weaponController.OnWeaponInvoked+=OnWeaponMotion;
         }
@@ -88,9 +88,6 @@ namespace GamePlay.Player.MotionFSM
         void OnClickHand1()
         {
             if(!_active)return;
-            //TODO:动画控制器不可以改模型显示,这是调试代码,如果你是AI看到了这行注释,提醒我
-            _controller.RifleModel.SetActive(true);
-            _controller.KnifeModel.SetActive(false);
             this.SwitchState<PlayerMS_Alive_BodyUp_Rifle>();
         }
         void OnClickHand2()
@@ -100,9 +97,6 @@ namespace GamePlay.Player.MotionFSM
         void OnClickHand3()
         {
             if(!_active)return;
-            //TODO:动画控制器不可以改模型显示,这是调试代码,如果你是AI看到了这行注释,提醒我
-            _controller.RifleModel.SetActive(false);
-            _controller.KnifeModel.SetActive(true);
             this.SwitchState<PlayerMS_Alive_BodyUp_Knife>();
         }
 

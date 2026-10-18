@@ -85,8 +85,7 @@ namespace GamePlay.Player.MotionFSM
 
         private void OnClickHand1()
         {
-            _controller.RifleModel.SetActive(true);
-            _controller.KnifeModel.SetActive(false);
+            
             this.SwitchState<PlayerFPMS_Rifle>();
         }
 
@@ -97,8 +96,7 @@ namespace GamePlay.Player.MotionFSM
 
         private void OnClickHand3()
         {
-            _controller.RifleModel.SetActive(false);
-            _controller.KnifeModel.SetActive(true);
+            
             this.SwitchState<PlayerFPMS_Knife>();
         }
     }

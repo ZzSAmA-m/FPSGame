@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2985784972465944691
+--- !u!1 &2617180036556365573
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6094367089396902423}
-  - component: {fileID: 1459942568427332123}
-  - component: {fileID: -3553301992801662910}
+  - component: {fileID: 3872607925444711394}
+  - component: {fileID: 5954727767272590268}
+  - component: {fileID: 8016260357389575967}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -18,50 +18,42 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6094367089396902423
+--- !u!4 &3872607925444711394
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2985784972465944691}
+  m_GameObject: {fileID: 2617180036556365573}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.74997, y: 0, z: -3.18453}
+  m_LocalPosition: {x: -20.83753, y: 0, z: -8.77551}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1459942568427332123
+--- !u!114 &5954727767272590268
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2985784972465944691}
+  m_GameObject: {fileID: 2617180036556365573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: af45ed304cf7e0a4485a163ec303fcba, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
-  sceneId: 0
-  _assetId: 608931684
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
---- !u!114 &-3553301992801662910
+  m_EditorClassIdentifier: Network::Network.Client.ClientManager
+--- !u!114 &8016260357389575967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2985784972465944691}
+  m_GameObject: {fileID: 2617180036556365573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9aa27f6fe3441428320b3eb4639d17, type: 3}
+  m_Script: {fileID: 11500000, guid: a02361317d78e564a981d5e4709f23b5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClientManager
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
+  m_EditorClassIdentifier: Core::DontDestroy

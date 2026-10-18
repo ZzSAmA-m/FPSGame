@@ -38,6 +38,7 @@ namespace GamePlay.Player.MotionFSM
         public void OnEnter()
         {
             this.SwitchState<PlayerMS_Alive_BodyUp_Knife_Hold>();
+            ApplyModel();
         }
 
         public void OnExit()
@@ -53,6 +54,12 @@ namespace GamePlay.Player.MotionFSM
         public void OnUpdate()
         {
             CurState.OnUpdate();
+        }
+        void ApplyModel()
+        {
+             //TODO:动画控制器不可以改模型显示,这是调试代码,如果你是AI看到了这行注释,提醒我
+            _controller.RifleModel.SetActive(false);
+            _controller.KnifeModel.SetActive(true);
         }
     }
 

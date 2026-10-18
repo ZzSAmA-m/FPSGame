@@ -1,7 +1,6 @@
 using Core.Event;
 using Core.Input;
 using Mirror;
-using Mirror.BouncyCastle.Tls;
 using UnityEngine;
 
 namespace GamePlay.Player

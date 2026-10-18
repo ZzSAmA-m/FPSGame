@@ -248,10 +248,10 @@ GameObject:
   - component: {fileID: 6814248670821641159}
   - component: {fileID: 8505113628775469570}
   - component: {fileID: 4640468467155608527}
+  - component: {fileID: 6094752236810543945}
   - component: {fileID: 3932797591887321630}
   - component: {fileID: 8836023211097811382}
   - component: {fileID: 8794557632280859860}
-  - component: {fileID: 6094752236810543945}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -321,6 +321,8 @@ MonoBehaviour:
   _playerModelController: {fileID: 0}
   _playerAnimatorController: {fileID: 0}
   _playerCameraController: {fileID: 0}
+  _playerSightController: {fileID: 0}
+  _playerWeaponController: {fileID: 0}
   _playerNetworkManager: {fileID: 8640866176300021691}
 --- !u!114 &8718418270670488424
 MonoBehaviour:
@@ -390,6 +392,18 @@ MonoBehaviour:
   _minPitch: -89
   _maxPitch: 89
   _view: {fileID: 7007518467399085996}
+--- !u!114 &6094752236810543945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e1d481993854714297860f223b63c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponController
 --- !u!114 &3932797591887321630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,18 +459,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &6094752236810543945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9216788586805276984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e1d481993854714297860f223b63c85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponController
 --- !u!1001 &1464887240275943563
 PrefabInstance:
   m_ObjectHideFlags: 0

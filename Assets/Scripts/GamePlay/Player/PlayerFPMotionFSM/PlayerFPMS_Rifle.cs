@@ -22,6 +22,7 @@ namespace GamePlay.Player.MotionFSM{
         public void OnEnter()
         {
             _controller.PlayAnim(PlayerAnimatorName.FP.draw_ak,_controller.FPLayer);
+            ApplyModel();
         }
 
         public void OnExit()
@@ -37,6 +38,11 @@ namespace GamePlay.Player.MotionFSM{
         public void OnUpdate()
         {
 
+        }
+        void ApplyModel()
+        {
+            _controller.RifleModel.SetActive(true);
+            _controller.KnifeModel.SetActive(false);
         }
     }
 }

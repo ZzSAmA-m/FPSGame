@@ -740,6 +740,7 @@ MonoBehaviour:
   evaluationInterval: 3
   timeInterpolationGui: 0
   _server: {fileID: 6395141129207222620, guid: 366329f8cc4b10146b0108f0af5a0c74, type: 3}
+  _client: {fileID: 2617180036556365573, guid: ebcf3587fbc6d5442bb31a3f0ef2da25, type: 3}
 --- !u!114 &1779936296
 MonoBehaviour:
   m_ObjectHideFlags: 0

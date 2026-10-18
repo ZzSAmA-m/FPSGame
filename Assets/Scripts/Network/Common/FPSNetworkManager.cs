@@ -1,6 +1,8 @@
 using System;
 using Core.Utility;
+using Core.ZLog;
 using Mirror;
+using Network.Client;
 using Network.Common.Messages;
 using Network.Server;
 using UnityEngine;
@@ -17,9 +19,10 @@ namespace Network.Common
     [RequireComponent(typeof(NetBridge))]
     public sealed class FPSNetworkManager : NetworkManager
     {
-        [SerializeField, Tooltip("承载 ServerManager 的服务器运行时预制体。")]
+        [SerializeField, Tooltip("承载 ServerManager 的服务器运行时预制体")]
         private GameObject _server;
-
+        [SerializeField, Tooltip("承载 ClientManager 的客户端运行时预制体")]
+        private GameObject _client;
         private NetBridge _bridge;
 
         /// <summary>当前进程的网络角色。Host 会同时具备 Server 与 Client。</summary>
@@ -30,7 +33,8 @@ namespace Network.Common
         public NetBridge Bridge => _bridge;
 
         /// <summary>仅在服务器运行期间存在的应用层实例。</summary>
-        public ServerManager ServerManager { get; private set; }
+        public ServerManager ServerManagerInst { get; private set; }
+        public ClientManager ClientManagerInst { get; private set; }
 
         public override void Awake()
         {
@@ -48,18 +52,18 @@ namespace Network.Common
             _bridge.StartServer();
             RefreshNetState();
 
-            Debug.Log($"[FPSNetworkManager] 服务端已启动，模式={NetState}。");
+            ZLog.Log<FPSNetworkManager>($" 服务端已启动，模式={NetState}");
         }
         /// <summary>客户端侧启动时注册响应入口；Host 会同时执行双端启动。</summary>
         public override void OnStartClient()
         {
             base.OnStartClient();
-
-            _bridge.ClientHelloReceived += HandleHelloResponse;
+            CreateClientRuntime();
+            
             _bridge.StartClient();
             RefreshNetState();
 
-            Debug.Log($"[FPSNetworkManager] 客户端已启动，模式={NetState}。");
+            ZLog.Log<FPSNetworkManager>($" 客户端已启动，模式={NetState}");
         }
         /// <summary>生成完整玩家预制体，并将 NetworkIdentity 绑定到对应会话。</summary>
         public override void OnServerAddPlayer(NetworkConnectionToClient connection)
@@ -71,8 +75,8 @@ namespace Network.Common
                     $"{playerPrefab.name} [connId={connection.connectionId}]";
             }
 
-            if (ServerManager == null ||
-                !ServerManager.AttachPlayer(connection, connection.identity))
+            if (ServerManagerInst == null ||
+                !ServerManagerInst.AttachPlayer(connection, connection.identity))
             {
                 Debug.LogError($"[FPSNetworkManager] 玩家会话绑定失败，将断开：{connection}");
                 NetworkServer.DestroyPlayerForConnection(connection);
@@ -102,7 +106,7 @@ namespace Network.Common
         {
             base.OnServerConnect(connection);
 
-            if (ServerManager == null || !ServerManager.RegisterConnection(connection))
+            if (ServerManagerInst == null || !ServerManagerInst.RegisterConnection(connection))
             {
                 Debug.LogError($"[FPSNetworkManager] 新连接登记失败，将断开：{connection}");
                 connection.Disconnect();
@@ -112,7 +116,7 @@ namespace Network.Common
         /// <summary>协议握手通过后才允许客户端进入 Mirror Ready 状态。</summary>
         public override void OnServerReady(NetworkConnectionToClient connection)
         {
-            if (ServerManager == null || !ServerManager.MarkClientReady(connection))
+            if (ServerManagerInst == null || !ServerManagerInst.MarkClientReady(connection))
             {
                 connection.Disconnect();
                 return;
@@ -124,22 +128,27 @@ namespace Network.Common
         /// <summary>在 Mirror 销毁 Owned Objects 前先移除应用层会话。</summary>
         public override void OnServerDisconnect(NetworkConnectionToClient connection)
         {
-            ServerManager?.UnregisterConnection(connection);
+            ServerManagerInst?.UnregisterConnection(connection);
             base.OnServerDisconnect(connection);
         }
 
         /// <summary>客户端停止时注销客户端 Handler 和事件订阅。</summary>
         public override void OnStopClient()
         {
-            _bridge.ClientHelloReceived -= HandleHelloResponse;
+            
             _bridge.StopClient();
             base.OnStopClient();
-
+            if (ClientManagerInst != null)
+            {
+                ClientManagerInst.ShutDown();
+                Destroy(ClientManagerInst.gameObject);
+                ClientManagerInst=null;
+            }
             // Mirror 的 Stop 回调发生在静态 active 标记完全落下之前，
             // 因此这里按“客户端即将停止”的事实计算，而不是读取尚未刷新的 active。
             NetState = NetworkServer.active ? NetState.Server : NetState.None;
 
-            Debug.Log($"[FPSNetworkManager] 客户端已停止，模式={NetState}。");
+            ZLog.Log<FPSNetworkManager>($" 客户端已停止，模式={NetState}。");
         }
 
         /// <summary>服务器停止时逆序关闭消息入口和应用层运行时。</summary>
@@ -147,11 +156,11 @@ namespace Network.Common
         {
             _bridge.StopServer();
 
-            if (ServerManager != null)
+            if (ServerManagerInst != null)
             {
-                ServerManager.Shutdown();
-                Destroy(ServerManager.gameObject);
-                ServerManager = null;
+                ServerManagerInst.Shutdown();
+                Destroy(ServerManagerInst.gameObject);
+                ServerManagerInst = null;
             }
 
             base.OnStopServer();
@@ -159,7 +168,7 @@ namespace Network.Common
             // 同理，回调期间 NetworkServer.active 仍可能为 true。
             NetState = NetworkClient.active ? NetState.Client : NetState.None;
 
-            Debug.Log($"[FPSNetworkManager] 服务端已停止，模式={NetState}。");
+            ZLog.Log<FPSNetworkManager>($" 服务端已停止，模式={NetState}。");
         }
 
         private void CreateServerRuntime()
@@ -168,26 +177,25 @@ namespace Network.Common
             GameObject serverObject = Instantiate(_server);
             serverObject.name = _server.name;
 
-            ServerManager = serverObject.GetComponent<ServerManager>();
+            ServerManagerInst = serverObject.GetComponent<ServerManager>();
 
             
-            ServerManager.Initialize(_bridge);
+            ServerManagerInst.Initialize(_bridge);
         }
-
-        private void HandleHelloResponse(HelloResponse response)
+        private void CreateClientRuntime()
         {
-            if (!response.accepted)
-            {
-                Debug.LogError(
-                    $"[FPSNetworkManager] 服务器拒绝协议握手：{response.message} " +
-                    $"(serverProtocol={response.protocolVersion})");
-                return;
-            }
 
-            Debug.Log(
-                $"[FPSNetworkManager] 协议握手完成：{response.message} " +
-                $"(protocol={response.protocolVersion})");
+            GameObject clientObject = Instantiate(_client);
+            clientObject.name = _client.name;
+
+            ClientManagerInst = clientObject.GetComponent<ClientManager>();
+
+            
+            ClientManagerInst.Initialize(_bridge);
         }
+        
+
+        
 
         private void RefreshNetState()
         {

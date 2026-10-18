@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using Network.Common.Messages;
 using UnityEngine;
@@ -6,6 +7,10 @@ namespace Network.Common
 {
     public sealed partial class NetBridge : MonoBehaviour
     {
+
+        /// <summary>客户端收到服务器握手响应时触发。</summary>
+        public event Action<HelloResponse> ClientHelloReceived;
+
         /// <summary>
         /// 注册客户端消息入口。Host 模式会同时注册客户端和服务端入口，这是正常行为。
         /// </summary>
@@ -15,10 +20,13 @@ namespace Network.Common
             {
                 return;
             }
-
+           
             NetworkClient.RegisterHandler<HelloResponse>(HandleClientHello);
+            NetworkClient.RegisterHandler<PlayerSnapshotMessage>(HandlePlayerSnapshot);
             _clientHandlersRegistered = true;
         }
+
+        
 
         /// <summary>注销由本组件注册的客户端消息入口。</summary>
         public void StopClient()
@@ -85,6 +93,12 @@ namespace Network.Common
         private void HandleClientHello(HelloResponse response)
         {
             ClientHelloReceived?.Invoke(response);
+        }
+
+
+        private void HandlePlayerSnapshot(PlayerSnapshotMessage message)
+        {
+            
         }
         #endregion
     }

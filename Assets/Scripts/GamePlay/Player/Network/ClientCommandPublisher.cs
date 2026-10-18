@@ -1,4 +1,5 @@
 using Core.Input;
+using Core.ZLog;
 using Mirror;
 using Network.Common;
 using Network.Common.Messages;
@@ -72,7 +73,7 @@ namespace GamePlay.Player.Network
                 key3 = input.key3
             };
             manager.Bridge.SendPlayerCommand(command);
-            Debug.Log("Send Command: "+command);
+            ZLog.Log<ClientCommandPublisher>("Send Command: "+command);
         }
     }
 

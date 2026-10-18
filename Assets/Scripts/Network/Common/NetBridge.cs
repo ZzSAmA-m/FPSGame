@@ -19,13 +19,8 @@ namespace Network.Common
         private bool _serverHandlersRegistered;
         private bool _clientHandlersRegistered;
 
-        /// <summary>服务端收到客户端握手消息时触发。</summary>
-        public event Action<NetworkConnectionToClient, HelloRequest> ServerHelloReceived;
 
-        /// <summary>客户端收到服务器握手响应时触发。</summary>
-        public event Action<HelloResponse> ClientHelloReceived;
 
-        /// <summary>服务器收到本地玩家的操作命令时触发。</summary>
-        public event Action<NetworkConnectionToClient, PlayerCommandMessage> PlayerCommandReceived;
+       
     }
 }

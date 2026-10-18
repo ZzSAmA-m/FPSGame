@@ -1,14 +1,21 @@
+using System;
 using Mirror;
 using Network.Common.Messages;
 using UnityEngine;
+
 
 namespace Network.Common
 {
     public sealed partial class NetBridge : MonoBehaviour
     {
-        /// <summary>
-        /// 注册服务端消息入口。重复调用是安全的，不会重复覆盖 Handler。
-        /// </summary>
+
+         /// <summary>服务器收到本地玩家的操作命令时触发。</summary>
+        public event Action<NetworkConnectionToClient, PlayerCommandMessage> PlayerCommandReceived;
+
+        /// <summary>服务端收到客户端握手消息时触发。</summary>
+        public event Action<NetworkConnectionToClient, HelloRequest> ServerHelloReceived;
+
+        /// <summary> 注册服务端消息入口。重复调用是安全的，不会重复覆盖 Handler。</summary>
         public void StartServer()
         {
             if (_serverHandlersRegistered)

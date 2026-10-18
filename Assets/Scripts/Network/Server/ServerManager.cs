@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Core.Input;
-using GamePlay.Player;
+using Core.ZLog;
 using Mirror;
 using Network.Common;
 using Network.Common.Messages;
@@ -17,7 +16,7 @@ namespace Network.Server
     /// 这个类不再保存玩家 NetworkBehaviour 列表，也不通过全局 EventCenter 接收网络事件。
     /// FPSNetworkManager 会直接把 Mirror 生命周期回调转交到这里，使调用顺序清晰、可追踪。
     /// </remarks>
-    public sealed class ServerManager : MonoBehaviour
+    public sealed partial class ServerManager : MonoBehaviour
     {
         private NetBridge _bridge;
         private bool _initialized;
@@ -39,14 +38,12 @@ namespace Network.Server
                 throw new InvalidOperationException("[ServerManager] 不能重复初始化服务器运行时。");
             }
 
-            _bridge = bridge != null
-                ? bridge
-                : throw new ArgumentNullException(nameof(bridge));
+            _bridge = bridge ??throw new ArgumentNullException(nameof(bridge));
             _bridge.ServerHelloReceived += HandleHelloRequest;
             _bridge.PlayerCommandReceived += HandlePlayerCommand;
             _initialized = true;
 
-            Debug.Log("[ServerManager] 服务器应用层已初始化。");
+            ZLog.Log<ServerManager>("服务器应用层已初始化");
         }
 
         /// <summary>
@@ -93,11 +90,11 @@ namespace Network.Server
             if (!Sessions.TryGet(connection, out ClientSession session) ||
                 !session.AttachPlayer(playerIdentity))
             {
-                Debug.LogError($"[ServerManager] 玩家绑定失败:会话阶段不正确或实体为空。connection={connection}");
+                ZLog.LogError<ServerManager>($" 玩家绑定失败:会话阶段不正确或实体为空。connection={connection}");
                 return false;
             }
 
-            Debug.Log($"[ServerManager] 玩家实体已绑定：{session}, netId={playerIdentity.netId}");
+            ZLog.Log<ServerManager>($" 玩家实体已绑定：{session}, netId={playerIdentity.netId}");
             return true;
         }
 
@@ -137,108 +134,9 @@ namespace Network.Server
             Debug.Log("[ServerManager] 服务器应用层已关闭。");
         }
 
-        private void HandleHelloRequest(NetworkConnectionToClient connection, HelloRequest request)
-        {
-            if (!Sessions.TryGet(connection, out ClientSession session))
-            {
-                RejectAndDisconnect(connection, "服务器没有找到对应会话。");
-                return;
-            }
+        
 
-            if (request.protocolVersion != NetworkProtocol.Version)
-            {
-                RejectAndDisconnect(
-                    connection,
-                    $"协议不兼容:client={request.protocolVersion}, server={NetworkProtocol.Version}");
-                return;
-            }
-
-            string clientVersion = SanitizeClientVersion(request.clientVersion);
-            if (!session.VerifyProtocol(clientVersion))
-            {
-                RejectAndDisconnect(connection, "握手重复或会话阶段不正确。");
-                return;
-            }
-
-            _bridge.SendHelloToClient(connection, new HelloResponse
-            {
-                protocolVersion = NetworkProtocol.Version,
-                accepted = true,
-                message = "协议握手成功。"
-            });
-
-            Debug.Log($"[ServerManager] 协议握手通过：{session}");
-        }
-
-        /// <summary>
-        /// 处理本地玩家上报的一个采样窗口。
-        /// 只接受正在对局的会话，并按序号丢掉重复或过期命令。
-        /// </summary>
-        private void HandlePlayerCommand(NetworkConnectionToClient sender, PlayerCommandMessage command)
-        {
-            if (!Sessions.TryGet(sender, out ClientSession session) ||
-                session.State != ClientSessionState.Playing ||
-                session.PlayerIdentity == null)
-            {
-                return;
-            }
-
-            if (_lastCommandSequence.TryGetValue(sender.connectionId, out uint lastSequence) &&
-                command.sequence <= lastSequence)
-            {
-                return;
-            }
-
-            _lastCommandSequence[sender.connectionId] = command.sequence;
-            ApplyCommand(session.PlayerIdentity, command);
-            Debug.Log("Receive Command: "+command);
-        }
-
-        /// <summary>
-        /// 在服务器上表现一个采样窗口：位移、转向，以及跳跃、开火和切枪。
-        /// </summary>
-        private static void ApplyCommand(NetworkIdentity player, PlayerCommandMessage command)
-        {
-            // Transform body = player.transform;
-            // CharacterController cc = body.GetComponent<CharacterController>();
-            // if (cc != null)
-            // {
-            //     cc.enabled = false;
-            // }
-
-            // Vector3 position = body.position;
-            // position.x += command.move.x;
-            // position.z += command.move.y;
-            // body.position = position;
-
-            // if (cc != null)
-            // {
-            //     cc.enabled = true;
-            // }
-
-            var netMove=player.GetComponent<PlayerController>().PlayerNetworkManager.NetPlayerMovement;
-            netMove.ApplyMovement(command.move);
-
-            PlayerInput input = new PlayerInput
-            {
-                look = command.look,
-                space = command.jump,
-                lMouse = command.fire,
-                key1 = command.key1,
-                key2 = command.key2,
-                key3 = command.key3
-            };
-
-            if (player.TryGetComponent(out PlayerSightController sight))
-            {
-                sight.Simulate(ref input);
-            }
-
-            if (player.TryGetComponent(out PlayerWeaponController weapon))
-            {
-                weapon.Simulate(ref input);
-            }
-        }
+        
 
         private void RejectAndDisconnect(NetworkConnectionToClient connection, string reason)
         {

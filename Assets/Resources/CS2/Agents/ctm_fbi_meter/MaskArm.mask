@@ -64,7 +64,7 @@ AvatarMask:
   - m_Path: ctm_fbi/root_motion/pelvis/spine_0/spine_1/spine_2/scap_R_AIMAT
     m_Weight: 1
   - m_Path: ctm_fbi/root_motion/pelvis/spine_0/spine_1/spine_2/spine_3
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: ctm_fbi/root_motion/pelvis/spine_0/spine_1/spine_2/spine_3/clavicle_L
     m_Weight: 1
   - m_Path: ctm_fbi/root_motion/pelvis/spine_0/spine_1/spine_2/spine_3/clavicle_L/arm_upper_L

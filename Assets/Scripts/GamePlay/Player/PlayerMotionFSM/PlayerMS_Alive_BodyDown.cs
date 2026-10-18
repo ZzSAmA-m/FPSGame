@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using GamePlay.FSM;
-using Mirror.Examples.Basic;
 using UnityEngine;
 
 namespace GamePlay.Player.MotionFSM
