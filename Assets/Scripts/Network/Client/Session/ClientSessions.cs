@@ -9,7 +9,8 @@ namespace Network.Client
     public class ClientSessions
     {
         private Dictionary<int,ClientSession> _clients=new();
-
+        public int Count=>_clients.Count;
+        public IEnumerable<KeyValuePair<int,ClientSession>> Clients=>_clients;
         public void AddClientSession(NetworkConnectionToClient conn)
         {
             ClientSession session = new(conn.connectionId,conn);

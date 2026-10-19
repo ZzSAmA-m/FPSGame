@@ -58,10 +58,10 @@ namespace Network.Common
         public override void OnStartClient()
         {
             base.OnStartClient();
-            CreateClientRuntime();
             
             _bridge.StartClient();
             RefreshNetState();
+            CreateClientRuntime();
 
             ZLog.Log<FPSNetworkManager>($" 客户端已启动，模式={NetState}");
         }

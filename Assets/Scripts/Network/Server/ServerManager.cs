@@ -39,12 +39,13 @@ namespace Network.Server
             _bridge = bridge ??throw new ArgumentNullException(nameof(bridge));
             _bridge.ServerHelloReceived += HandleHelloRequest;
             _bridge.PlayerCommandReceived += HandlePlayerCommand;
+            _bridge.GetClientIdMsgReceived += HandleGetClientIdMsg;
             _initialized = true;
 
             ZLog.Log<ServerManager>("服务器应用层已初始化");
         }
 
-     
+        
         public void Shutdown()
         {
             if (!_initialized)
@@ -54,6 +55,7 @@ namespace Network.Server
 
             _bridge.ServerHelloReceived -= HandleHelloRequest;
             _bridge.PlayerCommandReceived -= HandlePlayerCommand;
+            
             _lastCommandSequence.Clear();
             _bridge = null;
             _initialized = false;

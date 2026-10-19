@@ -61,6 +61,14 @@ namespace Network.Server
         }
 
 
+        private void HandleGetClientIdMsg(NetworkConnectionToClient client)
+        {
+            var id = Sessions.GetClientSession(client.connectionId).Id;
+            var result=new GetClientIdResponse{Id=id};
+            _bridge.SendClientId(client,ref result);
+        }
+
+
         /// <summary>
         /// 在服务器上表现一个采样窗口：位移、转向，以及跳跃、开火和切枪。
         /// </summary>

@@ -24,5 +24,15 @@ namespace Network.Client
                 $"[FPSNetworkManager] 协议握手完成：{response.message} " +
                 $"(protocol={response.protocolVersion})");
         }
+        
+        private void HandlePlayerSnapshot(PlayerSnapshotMessage message)
+        {
+            ZLog.Log<ClientManager>("Received Snapshot: "+message.ToString());
+        }
+        private void HandleGetClientId(int id)
+        {
+            this.ClientId=id;
+            ZLog.Log<ClientManager>("收到服务器分发的ClientId: "+id);
+        }
     }
 }

@@ -1,5 +1,7 @@
 using System;
+using Core.ZLog;
 using Mirror;
+using Network.Client;
 using Network.Common.Messages;
 using UnityEngine;
 
@@ -10,6 +12,10 @@ namespace Network.Common
 
         /// <summary>客户端收到服务器握手响应时触发。</summary>
         public event Action<HelloResponse> ClientHelloReceived;
+
+        public event Action<PlayerSnapshotMessage> PlayerSnapshotReceived;
+
+        public event Action<int> GetClientIdResultReceived;
 
         /// <summary>
         /// 注册客户端消息入口。Host 模式会同时注册客户端和服务端入口，这是正常行为。
@@ -23,10 +29,13 @@ namespace Network.Common
            
             NetworkClient.RegisterHandler<HelloResponse>(HandleClientHello);
             NetworkClient.RegisterHandler<PlayerSnapshotMessage>(HandlePlayerSnapshot);
+            NetworkClient.RegisterHandler<GetClientIdResponse>(HandleGetClientId);
             _clientHandlersRegistered = true;
         }
 
         
+
+
 
         /// <summary>注销由本组件注册的客户端消息入口。</summary>
         public void StopClient()
@@ -72,6 +81,7 @@ namespace Network.Common
                 protocolVersion = NetworkProtocol.Version,
                 clientVersion = SanitizeClientVersion(clientVersion)
             });
+            SendGetIdRequest();
             return true;
         }
 
@@ -86,6 +96,10 @@ namespace Network.Common
             NetworkClient.Send(command, Channels.Unreliable);
             return true;
         }
+        public void SendGetIdRequest()
+        {
+            NetworkClient.Send(new GetClientIdRequest(),Channels.Reliable);
+        }
         #endregion
 
         
@@ -98,8 +112,14 @@ namespace Network.Common
 
         private void HandlePlayerSnapshot(PlayerSnapshotMessage message)
         {
-            
+            PlayerSnapshotReceived?.Invoke(message);
         }
+
+        private void HandleGetClientId(GetClientIdResponse response)
+        {
+            GetClientIdResultReceived?.Invoke(response.Id);
+        }
+
         #endregion
     }
 }
