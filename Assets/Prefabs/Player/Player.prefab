@@ -106,7 +106,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5198040750804901448}
-  - {fileID: 826923318460859453}
   m_Father: {fileID: 8334282765651068294}
   m_LocalEulerAnglesHint: {x: -18.144, y: 0, z: 0}
 --- !u!1 &4486610136350512552
@@ -153,6 +152,7 @@ GameObject:
   - component: {fileID: 8640866176300021691}
   - component: {fileID: 403543941200208843}
   - component: {fileID: 5877359340571448589}
+  - component: {fileID: 1717852806423395625}
   m_Layer: 0
   m_Name: NetworkModel
   m_TagString: Untagged
@@ -168,12 +168,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8663905944799364287}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15767556, y: -0, z: -0, w: 0.987491}
-  m_LocalPosition: {x: 0, y: -1.3083293, z: -0.63815314}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7007518467399085996}
+  m_Father: {fileID: 8334282765651068294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8640866176300021691
 MonoBehaviour:
@@ -219,6 +219,22 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &1717852806423395625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663905944799364287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061a0e263f3cffd428da4d754d45dacb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GamePlay::GamePlay.Player.Network.NetworkId
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Id: 0
 --- !u!1 &9216788586805276984
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +279,7 @@ Transform:
   m_Children:
   - {fileID: 4578678292091798733}
   - {fileID: 7007518467399085996}
+  - {fileID: 826923318460859453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6476817165057767931

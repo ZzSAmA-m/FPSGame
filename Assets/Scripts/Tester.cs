@@ -5,11 +5,9 @@ using Core.Input;
 using System;
 using System.Runtime.InteropServices;
 using Core.ZLog;
-public class Tester : MonoBehaviour
+using Mirror;
+public class Tester : NetworkBehaviour
 {
 
-    void Start()
-    {
-        ZLog.Log<Tester>("OK");
-    }
+
 }

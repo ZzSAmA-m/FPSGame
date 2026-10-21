@@ -80,8 +80,6 @@ namespace Network.Common
                     $"{playerPrefab.name} [connId={connection.connectionId}]";
             }
 
-            
-
             ZLog.Log<FPSNetworkManager>(
                 $"已生成联网玩家:connId={connection.connectionId}, " +
                 $"netId={connection.identity.netId}");

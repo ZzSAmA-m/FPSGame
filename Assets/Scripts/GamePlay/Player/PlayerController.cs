@@ -37,7 +37,7 @@ namespace GamePlay.Player
         
         [SerializeField]
         private PlayerNetworkManager _playerNetworkManager;
-        public PlayerNetworkManager PlayerNetworkManager=>_playerNetworkManager;
+        public PlayerNetworkManager NetworkManager=>_playerNetworkManager;
 
         private void Awake()
         {
