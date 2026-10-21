@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using Core.Input;
 using Core.Timer;
@@ -12,70 +13,46 @@ namespace GamePlay.Player.Network
 {
     public class ClientCommandPublisher : NetworkBehaviour
     {
-        
-        /// <summary>
-        /// 每次采样间隔时间
-        /// </summary>
-        [SerializeField,Sirenix.OdinInspector.ReadOnly]private float _sampleDeltaTime=1f/60f;
-
-        private PlayerNetworkInputCollector _collector;
-        private float _publishTimer;
-        private bool _publishing;
-        private uint _sequence;
+        private PlayerInputHandler _inputHandler;
+        private PlayerNetworkManager _networkManager;
+        public bool IsPublishing{get;private set;}
         void Awake()
         {
-            _collector=GetComponent<PlayerNetworkInputCollector>();
+            _networkManager=GetComponent<PlayerNetworkManager>();
+            _inputHandler=_networkManager.Player.GetComponent<PlayerInputHandler>();
         }
-        void Update()
+        void Start()
         {
-            if(!isLocalPlayer)return;
-            TickPublish();
+            _inputHandler.isLocalPlayer=isLocalPlayer;
+            
         }
-        /// <summary>
-        /// 按采样间隔取出输入并交给 Publish。帧率不足时在本帧补发，避免长期低于 60 次/秒。
-        /// </summary>
-        void TickPublish()
-        {
-            if(!_publishing || _sampleDeltaTime<=0f)
-                return;
 
-            _publishTimer+=Time.unscaledDeltaTime;
-            int catchUpCount=0;
-            while(_publishTimer>=_sampleDeltaTime && catchUpCount<4)
-            {
-                _publishTimer-=_sampleDeltaTime;
-                PlayerInput input=_collector.GetSample();
-                Publish(ref input);
-                catchUpCount++;
-            }
+        void OnEnable()
+        {
+            _inputHandler.CommandProduced+=PublishCommand;
         }
+
+
+        void OnDisable()
+        {
+            _inputHandler.CommandProduced-=PublishCommand;
+        }
+
         public void StartPublish()
         {
-            _publishing=true;
-            _publishTimer=0f;
+            IsPublishing=true;
         }
         public void StopPublish()
         {
-            _publishing=false;
-            _publishTimer=0f;
+            IsPublishing=false;
         }
-        void Publish(ref PlayerInput input)
+
+        private void PublishCommand(ref PlayerCommandMessage command)
         {
+            if(!IsPublishing)return;
             var manager=ClientManager.Instance??throw new System.Exception("找不到ClientManager");
-            var command=new PlayerCommandMessage
-            {
-                sequence = ++_sequence,
-                move = input.move,
-                look = input.look,
-                jump = input.space,
-                fire = input.lMouse,
-                key1 = input.key1,
-                key2 = input.key2,
-                key3 = input.key3
-            };
             manager.PublishPlayerInputCmd(ref command);
             ZLog.Log<ClientCommandPublisher>("Send Command: "+command);
         }
     }
-
 }

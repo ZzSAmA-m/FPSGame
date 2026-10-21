@@ -2,11 +2,10 @@ using System;
 using Core.Input;
 using Mirror;
 using UnityEngine;
-namespace GamePlay.Player.Network
+namespace GamePlay.Player
 {
-    public class PlayerNetworkInputCollector : MonoBehaviour
+    public class PlayerInputCollector : MonoBehaviour
     {
-        private PlayerNetworkManager _networkNanager;
         private PlayerInputDriver _inputDriver;
         /// <summary>
         /// 玩家变换
@@ -22,9 +21,8 @@ namespace GamePlay.Player.Network
 
         void Awake()
         {
-            _networkNanager=GetComponent<PlayerNetworkManager>();
             _inputDriver=PlayerInputDriver.Instance;
-            _playerTransf=_networkNanager.Player.transform;
+            _playerTransf=transform;
             _lastPosition=_playerTransf.position;
             ClearInputData();
         }
@@ -55,11 +53,9 @@ namespace GamePlay.Player.Network
 
         void AddInputData(ref PlayerInput input,float time)
         {
-            // 本帧移动已经按当时的朝向写入角色位置。取位置差，避免把局部摇杆值直接相加。
-            Vector3 position=_playerTransf.position;
-            Vector3 worldDelta=position-_lastPosition;
-            _moveDelta+=new Vector2(worldDelta.x,worldDelta.z);
-            _lastPosition=position;
+            // 摇杆 x 为右、y 为前。按本帧朝向换成世界 XZ，再累加。
+            Vector3 worldMove=_playerTransf.right*input.move.x+_playerTransf.forward*input.move.y;
+            _moveDelta+=new Vector2(worldMove.x,worldMove.z)*time;
             _lookDelta+=input.look;
             _isKey1=_isKey1||input.key1;
             _iskey2=_iskey2||input.key2;

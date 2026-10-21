@@ -9,6 +9,7 @@ namespace GamePlay.Player
     {
         private CharacterController _cc;
         [SerializeField]private PlayerMovementDataSO _playerMovementDataSO;
+        public PlayerMovementDataSO MovementData=>_playerMovementDataSO;
 
         void Awake()
         {
@@ -20,11 +21,13 @@ namespace GamePlay.Player
         /// </summary>
         /// <param name="input"></param>
         /// <param name="deltaTime"></param>
-        public void Simulate(ref PlayerInput input,float deltaTime)
+        public void Simulate(ref PlayerInput input)
         {
-            Vector2 vec=input.move;
-            var moveVec=transform.right*vec.x+transform.forward*vec.y;
-            moveVec=moveVec*deltaTime*_playerMovementDataSO.MoveSpeed;
+            Move(ref input.move);
+        }
+        public void Move(ref Vector2 vec)
+        {
+            Vector3 moveVec=new Vector3(vec.x,0,vec.y)*_playerMovementDataSO.MoveSpeed;
             _cc.Move(moveVec);
         }
     }

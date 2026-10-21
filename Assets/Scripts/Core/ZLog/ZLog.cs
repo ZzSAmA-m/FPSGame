@@ -26,6 +26,7 @@ namespace Core.ZLog
         {
             if(!Enable)return;
             Debug.Log($"[{typeof(T).Name}] {message}");
+
         }
         public static void LogError<T>(string message)
         {

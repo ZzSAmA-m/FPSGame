@@ -106,6 +106,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5198040750804901448}
+  - {fileID: 826923318460859453}
   m_Father: {fileID: 8334282765651068294}
   m_LocalEulerAnglesHint: {x: -18.144, y: 0, z: 0}
 --- !u!1 &4486610136350512552
@@ -152,7 +153,6 @@ GameObject:
   - component: {fileID: 8640866176300021691}
   - component: {fileID: 403543941200208843}
   - component: {fileID: 5877359340571448589}
-  - component: {fileID: 6378413718594652670}
   m_Layer: 0
   m_Name: NetworkModel
   m_TagString: Untagged
@@ -168,12 +168,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8663905944799364287}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.15767556, y: -0, z: -0, w: 0.987491}
+  m_LocalPosition: {x: 0, y: -1.3083293, z: -0.63815314}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8334282765651068294}
+  m_Father: {fileID: 7007518467399085996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8640866176300021691
 MonoBehaviour:
@@ -219,19 +219,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _sampleDeltaTime: 0.016666668
---- !u!114 &6378413718594652670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8663905944799364287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 478c96611a952594d8c8b8e2bf0974bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.Network.PlayerNetworkInputCollector
 --- !u!1 &9216788586805276984
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,8 +237,10 @@ GameObject:
   - component: {fileID: 4640468467155608527}
   - component: {fileID: 6094752236810543945}
   - component: {fileID: 3932797591887321630}
-  - component: {fileID: 8836023211097811382}
+  - component: {fileID: 1649402057846223579}
+  - component: {fileID: 1656181366028988641}
   - component: {fileID: 8794557632280859860}
+  - component: {fileID: 8836023211097811382}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -274,7 +263,6 @@ Transform:
   m_Children:
   - {fileID: 4578678292091798733}
   - {fileID: 7007518467399085996}
-  - {fileID: 826923318460859453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6476817165057767931
@@ -417,6 +405,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBrain
   _playerBasicData: {fileID: 11400000, guid: 17c38229c6da4f645b01ba7f3e8232bd, type: 2}
+--- !u!114 &1649402057846223579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac8643011667354a89761816e3e6d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GamePlay::GamePlay.PlayerInputHandler
+  _sampleDeltaTime: 0.016666668
+--- !u!114 &1656181366028988641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 478c96611a952594d8c8b8e2bf0974bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GamePlay::GamePlay.Player.Network.PlayerInputCollector
+--- !u!114 &8794557632280859860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
+  sceneId: 0
+  _assetId: 3386940475
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!143 &8836023211097811382
 CharacterController:
   m_ObjectHideFlags: 0
@@ -442,23 +472,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8794557632280859860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9216788586805276984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
-  sceneId: 0
-  _assetId: 3386940475
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!1001 &1464887240275943563
 PrefabInstance:
   m_ObjectHideFlags: 0
