@@ -7,5 +7,6 @@ namespace Network.Common.Messages
         public int netId;
         public Vector3 position;
         public Vector3 facingDirection;
+        public float durationTime;
     }
 }

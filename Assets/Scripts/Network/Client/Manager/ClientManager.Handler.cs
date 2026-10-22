@@ -40,7 +40,7 @@ namespace Network.Client
         }
         private void HandleGetClientId(int id)
         {
-            this.ClientId=id;
+            ClientId=id;
             ZLog.Log<ClientManager>("收到服务器分发的ClientId: "+id);
         }
     }

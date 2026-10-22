@@ -41,7 +41,6 @@ namespace Network.Server
             _bridge.PlayerCommandReceived += HandlePlayerCommand;
             _bridge.GetClientIdMsgReceived += HandleGetClientIdMsg;
             _initialized = true;
-
             ZLog.Log<ServerManager>("服务器应用层已初始化");
         }
 

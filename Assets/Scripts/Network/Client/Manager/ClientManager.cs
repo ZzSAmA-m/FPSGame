@@ -5,6 +5,7 @@ using Core.Utility;
 using Core.ZLog;
 using Mirror;
 using Network.Common;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Network.Client
@@ -43,6 +44,11 @@ namespace Network.Client
         private void OnAddLocalPlayer(GameObject obj)
         {
             PlayerManager.AddPlayer(obj);
+        }
+
+        [Button]
+        void DebugShowPlayerCount(){
+            ZLog.Log<ClientManager>(PlayerManager.Players.Count.ToString());
         }
     }
 }

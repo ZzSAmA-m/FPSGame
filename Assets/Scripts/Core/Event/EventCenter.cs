@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+
 namespace Core.Event
 {
     public static class EventCenter{
@@ -95,6 +96,29 @@ namespace Core.Event
             public void RaiseEvent(T arg0)
             {
                 OnEventRaised.Invoke(arg0);
+            }
+        }
+        public class GameEvent<T1,T2>
+        {
+            public GameEvent(string name)
+            {
+                _name=name;
+                OnEventRaised+=(a,b)=>{
+                    if (showEventInvokeMsg)
+                    {
+                        Debug.Log($"[{EventCenter._name}] Event  \"{_name}\" invoked");
+                    }
+                    if (showDetail)
+                    {
+                        Debug.Log($"Details:Total methods:{OnEventRaised.GetInvocationList().Length-1}");
+                    }
+                };
+            }
+            private string _name;
+            public event Action<T1,T2> OnEventRaised;
+            public void RaiseEvent(T1 arg0,T2 arg1)
+            {
+                OnEventRaised.Invoke(arg0,arg1);
             }
         }
     }

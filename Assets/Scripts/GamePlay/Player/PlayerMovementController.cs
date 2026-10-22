@@ -27,7 +27,14 @@ namespace GamePlay.Player
         }
         public void Move(ref Vector2 vec)
         {
-            Vector3 moveVec=new Vector3(vec.x,0,vec.y)*_playerMovementDataSO.MoveSpeed;
+            Vector3 moveVec=new Vector3(vec.x,0,vec.y);
+            Move(ref moveVec);
+        }
+        public void Move(ref Vector3 vec){
+            Vector3 moveVec=vec*_playerMovementDataSO.MoveSpeed;
+            _cc.Move(moveVec);
+        }
+        public void LawMove(ref Vector3 moveVec){
             _cc.Move(moveVec);
         }
     }

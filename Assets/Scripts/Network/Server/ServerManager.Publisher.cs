@@ -60,7 +60,7 @@ namespace Network.Server
             int posPtr=0;
             foreach(var session in Sessions.Clients)
             {
-                 NetworkIdentity identity = session.Value.Conn.identity;
+                NetworkIdentity identity = session.Value.Conn.identity;
                 if (identity == null)
                     continue;
                 var trans=identity.transform;
@@ -68,7 +68,8 @@ namespace Network.Server
                 {
                     netId=session.Key,
                     position=trans.position,
-                    facingDirection=Vector3.zero //之后实现视角同步,先统一为(0,0,0)
+                    facingDirection=Vector3.zero, //之后实现视角同步,先统一为(0,0,0)
+                    durationTime=snapshot.durationTime,
                 };
                 snapshot.playerPoses[posPtr++]=pose;
             }
