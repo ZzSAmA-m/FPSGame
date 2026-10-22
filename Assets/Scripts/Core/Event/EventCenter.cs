@@ -40,8 +40,13 @@ namespace Core.Event
                 new(nameof(UnbindPlayerFromInputDriverEvent));
         }
 
+#endregion
 
-
+#region NetEvents
+        public static class NetEvents
+        {
+            public static readonly GameEvent<GameObject> AddLocalPlayer2ClientManager=new($"Net.{nameof(AddLocalPlayer2ClientManager)}");
+        }
 
 #endregion
 

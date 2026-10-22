@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Core.Event;
 using Core.Utility;
 using Core.ZLog;
 using Mirror;
@@ -11,7 +13,7 @@ namespace Network.Client
     {
         public int ClientId{get;private set;}
         private NetBridge _bridge;
-
+        public GamePlayerManager PlayerManager{get;private set;}=new();
         public void Initialize(NetBridge bridge)
         {
 
@@ -28,6 +30,19 @@ namespace Network.Client
             _bridge.ClientHelloReceived -= HandleHelloResponse;
             _bridge.GetClientIdResultReceived -= HandleGetClientId;
             _bridge.PlayerSnapshotReceived-=HandlePlayerSnapshot;
+        }
+        void OnEnable()
+        {
+            EventCenter.NetEvents.AddLocalPlayer2ClientManager.OnEventRaised+=OnAddLocalPlayer;
+        }
+        void OnDisable()
+        {
+            EventCenter.NetEvents.AddLocalPlayer2ClientManager.OnEventRaised-=OnAddLocalPlayer;
+        }
+
+        private void OnAddLocalPlayer(GameObject obj)
+        {
+            PlayerManager.AddPlayer(obj);
         }
     }
 }

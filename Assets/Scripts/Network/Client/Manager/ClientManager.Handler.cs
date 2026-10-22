@@ -5,6 +5,7 @@ using Network.Common;
 using Core.Utility;
 using Network.Common.Messages;
 using UnityEngine;
+using GamePlay.Player;
 
 namespace Network.Client
 {
@@ -27,6 +28,14 @@ namespace Network.Client
         
         private void HandlePlayerSnapshot(PlayerSnapshotMessage message)
         {
+            var players=PlayerManager.Players;
+            foreach(var msg in message.playerPoses)
+            {
+                if (players.ContainsKey(msg.netId))
+                {
+                    players[msg.netId].GetComponent<PlayerController>().NetworkManager.NetPlayerMovement.UpdateWithSnapshot(msg);
+                }
+            }
             ZLog.Log<ClientManager>("Received Snapshot: "+message.ToString());
         }
         private void HandleGetClientId(int id)

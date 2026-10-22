@@ -1,3 +1,4 @@
+using Core.Event;
 using Mirror;
 using Network.Client;
 using Network.Common;
@@ -22,6 +23,7 @@ namespace GamePlay.Player.Network
         void OnIdChanged(int oldValue,int newValue)
         {
             Id=newValue;
+            EventCenter.NetEvents.AddLocalPlayer2ClientManager.RaiseEvent(GetComponentInParent<NetworkIdentity>().gameObject);
         }
     }
 }
