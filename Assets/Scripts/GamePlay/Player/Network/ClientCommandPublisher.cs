@@ -52,7 +52,7 @@ namespace GamePlay.Player.Network
             if(!IsPublishing)return;
             var manager=ClientManager.Instance??throw new System.Exception("找不到ClientManager");
             manager.PublishPlayerInputCmd(ref command);
-            ZLog.Log<ClientCommandPublisher>("Send Command: "+command);
+            ZLog.Log<ClientCommandPublisher>("Send Command: "+command,frequency:LogFrequency.Extreme);
         }
     }
 }

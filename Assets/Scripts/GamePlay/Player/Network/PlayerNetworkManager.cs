@@ -11,7 +11,7 @@ namespace GamePlay.Player.Network
         public GameObject Player => _player;
 
         public ClientCommandPublisher CmdPublisher{get;private set;}
-        public PlayerMovementNetwork NetPlayerMovement{get;private set;}
+        public PlayerPoseSync NetPlayerMovement{get;private set;}
 
         void Awake()
         {
@@ -20,7 +20,7 @@ namespace GamePlay.Player.Network
                 Debug.LogError("没有给 PlayerNetworkManager 赋值本地Player对象!");
             }
             CmdPublisher=GetComponent<ClientCommandPublisher>();
-            NetPlayerMovement=GetComponent<PlayerMovementNetwork>();
+            NetPlayerMovement=GetComponent<PlayerPoseSync>();
         }
         void Start()
         {

@@ -101,11 +101,29 @@ namespace GamePlay.Player
         public void Simulate(ref PlayerInput input)
         {
             var lookDelta=input.look;
+            Simulate(lookDelta);
+        }
+        public void Simulate(Vector2 lookDelta){
             if (lookDelta.sqrMagnitude < 1e-8f)
                 return;
 
             _yaw += lookDelta.x * _sensitivity;
             _pitch -= lookDelta.y * _sensitivity;
+            _pitch = Mathf.Clamp(_pitch, _minPitch, _maxPitch);
+            ApplyRotation();
+        }
+
+        /// <summary>直接朝世界空间方向看。X 为右、Y 为上、Z 为前，不必归一化。</summary>
+        public void Simulate(Vector3 direction)
+        {
+            if (direction.sqrMagnitude < 1e-8f)
+                return;
+
+            Vector3 flat = new Vector3(direction.x, 0f, direction.z);
+            if (flat.sqrMagnitude > 1e-8f)
+                _yaw = Mathf.Atan2(flat.x, flat.z) * Mathf.Rad2Deg;
+
+            _pitch = -Mathf.Atan2(direction.y, flat.magnitude) * Mathf.Rad2Deg;
             _pitch = Mathf.Clamp(_pitch, _minPitch, _maxPitch);
             ApplyRotation();
         }

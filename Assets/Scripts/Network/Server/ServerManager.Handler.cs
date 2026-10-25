@@ -16,12 +16,6 @@ namespace Network.Server
         /// </summary>
         private void HandlePlayerCommand(NetworkConnectionToClient sender, PlayerCommandMessage command)
         {
-            // if (!Sessions.TryGet(sender, out ClientSession session) ||
-            //     session.State != ClientSessionState.Playing ||
-            //     session.PlayerIdentity == null)
-            // {
-            //     return;
-            // }
             var session=Sessions.GetClientSession(sender.connectionId);
 
             if (_lastCommandSequence.TryGetValue(sender.connectionId, out uint lastSequence) &&
@@ -32,7 +26,7 @@ namespace Network.Server
 
             _lastCommandSequence[sender.connectionId] = command.sequence;
             ApplyCommand(session.Conn.identity, command);
-            ZLog.Log<ServerManager>("Receive Command: "+command);
+            ZLog.Log<ServerManager>("Receive Command: "+command,frequency:LogFrequency.Extreme);
         }
 
 

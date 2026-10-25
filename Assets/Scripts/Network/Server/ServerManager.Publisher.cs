@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Timer;
 using Core.ZLog;
+using GamePlay.Player;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Mirror;
 using Network.Common;
@@ -64,11 +65,12 @@ namespace Network.Server
                 if (identity == null)
                     continue;
                 var trans=identity.transform;
+                var fPRotation=identity.GetComponentInChildren<PlayerFPRotation>();
                 var pose =new PlayerPose
                 {
                     netId=session.Key,
                     position=trans.position,
-                    facingDirection=Vector3.zero, //之后实现视角同步,先统一为(0,0,0)
+                    facingDirection=fPRotation.Rotation, //之后实现视角同步,先统一为(0,0,0)
                     durationTime=snapshot.durationTime,
                 };
                 snapshot.playerPoses[posPtr++]=pose;

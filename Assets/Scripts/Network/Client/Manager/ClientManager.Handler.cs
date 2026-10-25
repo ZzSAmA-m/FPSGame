@@ -36,7 +36,7 @@ namespace Network.Client
                     players[msg.netId].GetComponent<PlayerController>().NetworkManager.NetPlayerMovement.UpdateWithSnapshot(msg);
                 }
             }
-            ZLog.Log<ClientManager>("Received Snapshot: "+message.ToString());
+            ZLog.Log<ClientManager>("Received Snapshot: "+message.ToString(),frequency:LogFrequency.Extreme);
         }
         private void HandleGetClientId(int id)
         {

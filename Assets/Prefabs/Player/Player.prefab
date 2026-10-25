@@ -85,6 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7007518467399085996}
+  - component: {fileID: 8697548696642553463}
   m_Layer: 0
   m_Name: FPModelParent
   m_TagString: Untagged
@@ -108,6 +109,18 @@ Transform:
   - {fileID: 5198040750804901448}
   m_Father: {fileID: 8334282765651068294}
   m_LocalEulerAnglesHint: {x: -18.144, y: 0, z: 0}
+--- !u!114 &8697548696642553463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2439969768672488429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58567bd73bb8b134e9f46206e0815739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFPRotation
 --- !u!1 &4486610136350512552
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2b30e70bffade42a62372d5faba2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.Network.PlayerMovementNetwork
-  _cc: {fileID: 0}
 --- !u!114 &5877359340571448589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +246,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  Id: 0
+  <Id>k__BackingField: 0
 --- !u!1 &9216788586805276984
 GameObject:
   m_ObjectHideFlags: 0
