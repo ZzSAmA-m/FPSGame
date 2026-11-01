@@ -1,91 +1,72 @@
-using System;
-using Core.Event;
 using Core.Input;
-using Core.Utility;
+using GamePlay.Player.Simulation;
 using UnityEngine;
+
 namespace GamePlay.Player
 {
-    public sealed class PlayerInputDriver : Singleton<PlayerInputDriver>
+    /// <summary>将设备输入积累到下一拍，不直接移动角色。</summary>
+    public sealed class PlayerInputDriver : MonoBehaviour
     {
-        [SerializeField] private InputCollector _collector;
-        [SerializeField] private PlayerMovementController _playerMovement;
-        [SerializeField] private PlayerSightController _playerSight;
-        [SerializeField] private PlayerWeaponController _playerWeapon;
-        
+        [SerializeField] InputCollector _collector;
 
-        private GameObject _boundPlayer;
-        public event InputDataSender OnDriveInputData;
-        
+        PlayerInputFrame _pending;
+        bool _accepting;
 
-        private void Update()
+        public static PlayerInputDriver Instance { get; private set; }
+
+        void Awake()
         {
-            PlayerInput input = _collector.GetSample();
-            PredictInputData(ref input);
-            OnDriveInputData?.Invoke(ref input,Time.deltaTime);
+            Instance = this;
         }
 
-
-        private void OnEnable()
+        void OnDestroy()
         {
-            EventCenter.InputEvent.BindPlayer2InputDriverEvent.OnEventRaised += BindPlayer;
-            EventCenter.InputEvent.UnbindPlayerFromInputDriverEvent.OnEventRaised += UnbindPlayer;
+            if (Instance == this)
+                Instance = null;
         }
 
-        private void OnDisable()
+        void Update()
         {
-            EventCenter.InputEvent.BindPlayer2InputDriverEvent.OnEventRaised -= BindPlayer;
-            EventCenter.InputEvent.UnbindPlayerFromInputDriverEvent.OnEventRaised -= UnbindPlayer;
+            PlayerInput sample = _collector.GetSample();
+            _pending.move = sample.move;
+            _pending.look += sample.look;
+            _pending.jump |= sample.space;
+            _pending.fire |= sample.lMouse;
+            _pending.key1 |= sample.key1;
+            _pending.key2 |= sample.key2;
+            _pending.key3 |= sample.key3;
         }
-        void PredictInputData(ref PlayerInput input)
-        {
-            _playerSight?.Simulate(ref input);
-        }
-        public void DriveInputData(ref PlayerInput input)
-        {
 
-            _playerMovement?.Simulate(ref input);  
-            _playerWeapon?.Simulate(ref input);
-        }
-        /// <summary>
-        /// 将场景级输入采集器绑定到当前本地玩家。
-        /// </summary>
-        public void BindPlayer(GameObject obj)
+        public PlayerInputFrame Consume(uint tick)
         {
-            if (obj == null)
+            // 丢掉连接前积压的视角和按键，避免进对局的第一拍猛转。
+            if (!_accepting)
             {
-                Debug.LogError($"[{nameof(PlayerInputDriver)}] 不能绑定空玩家对象。", this);
-                return;
+                _accepting = true;
+                _pending.look = Vector2.zero;
+                _pending.jump = false;
+                _pending.fire = false;
+                _pending.key1 = false;
+                _pending.key2 = false;
+                _pending.key3 = false;
             }
 
-            _boundPlayer = obj;
-            _playerMovement = obj.GetComponent<PlayerMovementController>();
-            _playerSight = obj.GetComponent<PlayerSightController>();
-            _playerWeapon = obj.GetComponent<PlayerWeaponController>();
-
-            if (_playerMovement == null || _playerSight == null || _playerWeapon == null)
-            {
-                Debug.LogError(
-                    $"[{nameof(PlayerInputDriver)}] 玩家预制体缺少输入驱动所需组件。" +
-                    $"movement={_playerMovement != null}, sight={_playerSight != null}, weapon={_playerWeapon != null}",
-                    obj);
-            }
+            PlayerInputFrame frame = _pending;
+            frame.tick = tick;
+            _pending.look = Vector2.zero;
+            _pending.jump = false;
+            _pending.fire = false;
+            _pending.key1 = false;
+            _pending.key2 = false;
+            _pending.key3 = false;
+            return frame;
         }
 
-        /// <summary>
-        /// 仅解除当前绑定的玩家；旧对象迟到的退出事件不会误清理新玩家。
-        /// </summary>
-        public void UnbindPlayer(GameObject obj)
+        /// <summary>新预测开始时丢掉等待期间积压的按键和鼠标增量。</summary>
+        public void ResetPendingInput()
         {
-            if (_boundPlayer != obj)
-            {
-                return;
-            }
-
-            _boundPlayer = null;
-            _playerMovement = null;
-            _playerSight = null;
-            _playerWeapon = null;
+            _pending = default;
+            _accepting = false;
         }
     }
 }
-

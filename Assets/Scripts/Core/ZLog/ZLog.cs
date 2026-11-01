@@ -6,6 +6,7 @@ namespace Core.ZLog
     /// <summary>
     /// 项目日志入口。Channel 和 Frequency 都有默认值，旧调用可以继续只传消息。
     /// 编辑器里关掉的分类或频率不会调用 Debug.Log；玩家构建默认全部输出。
+    /// 各入口标了 HideInCallstack，控制台双击会打开调用这段日志的代码。
     /// </summary>
     public static class ZLog
     {
@@ -20,6 +21,7 @@ namespace Core.ZLog
             FrequencyVisible = CreateVisibleMask(typeof(LogFrequency));
         }
 
+        [HideInCallstack]
         public static void Log(
             string message,
             LogChannel channel = LogChannel.Default,
@@ -29,6 +31,7 @@ namespace Core.ZLog
             Debug.Log(Format(message, channel, frequency));
         }
 
+        [HideInCallstack]
         public static void LogWarning(
             string message,
             LogChannel channel = LogChannel.Default,
@@ -38,6 +41,7 @@ namespace Core.ZLog
             Debug.LogWarning(Format(message, channel, frequency));
         }
 
+        [HideInCallstack]
         public static void LogError(
             string message,
             LogChannel channel = LogChannel.Default,
@@ -47,6 +51,7 @@ namespace Core.ZLog
             Debug.LogError(Format(message, channel, frequency));
         }
 
+        [HideInCallstack]
         public static void Log<T>(
             string message,
             LogChannel channel = LogChannel.Default,
@@ -56,6 +61,7 @@ namespace Core.ZLog
             Debug.Log(Format<T>(message, channel, frequency));
         }
 
+        [HideInCallstack]
         public static void LogWarning<T>(
             string message,
             LogChannel channel = LogChannel.Default,
@@ -65,6 +71,7 @@ namespace Core.ZLog
             Debug.LogWarning(Format<T>(message, channel, frequency));
         }
 
+        [HideInCallstack]
         public static void LogError<T>(
             string message,
             LogChannel channel = LogChannel.Default,

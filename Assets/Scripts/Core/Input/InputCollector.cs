@@ -1,5 +1,6 @@
-using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 namespace Core.Input
 {
     public sealed class InputCollector:MonoBehaviour
@@ -35,13 +36,17 @@ namespace Core.Input
         }
         public PlayerInput GetSample()
         {
+            Keyboard keyboard = Keyboard.current;
+            Mouse mouse = Mouse.current;
             PlayerInput input = new()
             {
-                move=_input.Player.Move.ReadValue<Vector2>(),
-                look=_input.Player.Look.ReadValue<Vector2>(),
-                key1=_key1,
-                key2=_key2,
-                key3=_key3
+                move = _input.Player.Move.ReadValue<Vector2>(),
+                look = _input.Player.Look.ReadValue<Vector2>(),
+                key1 = _key1,
+                key2 = _key2,
+                key3 = _key3,
+                space = keyboard != null && keyboard.spaceKey.isPressed,
+                lMouse = mouse != null && mouse.leftButton.isPressed
             };
             ResetKeyState();
             return input;

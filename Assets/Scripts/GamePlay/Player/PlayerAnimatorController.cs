@@ -1,10 +1,8 @@
 using System;
-using Core.Utility;
 using GamePlay.FSM;
 using GamePlay.Player.MotionFSM;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.InputSystem;
 namespace GamePlay.Player
 {
     public class PlayerAnimatorController : MonoBehaviour
@@ -22,8 +20,9 @@ namespace GamePlay.Player
 
         public IState CurState{get;private set;}
 
-        //TODO: delete this component
-        public CharacterController Cc{get;private set;}
+        PlayerBrain _brain;
+
+        public Vector3 Velocity => _brain != null ? _brain.DisplayVelocity : Vector3.zero;
 
         public readonly int DownLayer = 0;
         public readonly int UpLayer   = 1;
@@ -40,25 +39,20 @@ namespace GamePlay.Player
             {
                 Debug.LogError($"[{nameof(PlayerAnimatorController)}] {nameof(_mainAnimator)}为null!")   ;
             }
-            Cc=GetComponent<CharacterController>();
+            _brain = GetComponent<PlayerBrain>();
             WeaponController=GetComponent<PlayerWeaponController>();
             _playerMotionState=new(this);
             _playerFPMotionState=new(this);
-            SwitchState<PlayerFPMotionState>();
         }
-
-
 
         void Update()
         {
-            CurState.OnUpdate();
+            CurState?.OnUpdate();
         }
-
-
 
         void FixedUpdate()
         {
-            CurState.OnPhysicsUpdate();
+            CurState?.OnPhysicsUpdate();
         }
 
 

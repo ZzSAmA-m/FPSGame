@@ -1,48 +1,40 @@
 using System.Collections.Generic;
 using System.Text;
-using Core.ZLog;
 using Mirror;
-using UnityEngine;
 
 namespace Network.Client
 {
-    public class ClientSessions
+    public sealed class ClientSessions
     {
-        private Dictionary<int,ClientSession> _clients=new();
-        public int Count=>_clients.Count;
-        public IEnumerable<KeyValuePair<int,ClientSession>> Clients=>_clients;
-        public void AddClientSession(NetworkConnectionToClient conn)
+        readonly Dictionary<int, ClientSession> _clients = new();
+
+        public int Count => _clients.Count;
+        public IEnumerable<KeyValuePair<int, ClientSession>> Clients => _clients;
+
+        public void Add(NetworkConnectionToClient connection)
         {
-            ClientSession session = new(conn.connectionId,conn);
-            _clients.Add(conn.connectionId,session);
-        }
-        public void RemoveClientSession(NetworkConnectionToClient conn)
-        {
-            _clients.Remove(conn.connectionId);
+            _clients.Add(connection.connectionId, new ClientSession(connection.connectionId, connection));
         }
 
-        public ClientSession GetClientSession(int id)
+        public void Remove(NetworkConnectionToClient connection)
         {
-            if (_clients.TryGetValue(id,out var session))
-            {
-                return session;
-            }
-            else
-            {
-                ZLog.LogError<ClientSessions>("找不到这个客户端Session : id = "+id);
-                throw new System.Exception("找不到这个客户端Session : id = "+id);
-            }
+            if (connection == null)
+                return;
+            _clients.Remove(connection.connectionId);
+        }
+
+        public bool TryGet(int connectionId, out ClientSession session)
+        {
+            return _clients.TryGetValue(connectionId, out session);
         }
 
         public override string ToString()
         {
-            StringBuilder sb=new($"客户端信息:\n客户端数量: {_clients.Count}\n");
-            foreach(var cs in _clients)
-            {
-                sb.AppendLine($"id={cs.Key}");
-            }
-            return sb.ToString();
+            var text = new StringBuilder();
+            text.Append("客户端数量: ").Append(_clients.Count);
+            foreach (KeyValuePair<int, ClientSession> pair in _clients)
+                text.Append('\n').Append(pair.Value);
+            return text.ToString();
         }
-
     }
 }

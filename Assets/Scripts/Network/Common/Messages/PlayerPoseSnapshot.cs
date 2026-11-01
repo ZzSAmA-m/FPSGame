@@ -1,24 +1,40 @@
-using System;
 using System.Text;
+using GamePlay.Player.Simulation;
 using Mirror;
-using UnityEngine;
 
 namespace Network.Common.Messages
 {
-    public struct PlayerSnapshotMessage:NetworkMessage
+    public struct PlayerSnapshotPose
     {
-        public uint tick;
-        public PlayerPose[] playerPoses;
-        public float durationTime;
+        public uint netId;
+        public uint predictionEpoch;
+        // 此状态对应这一拍执行结束后，替代输入也计入确认。
+        public uint lastProcessedInputTick;
+        public PlayerSimState state;
+    }
+
+    public struct PlayerSnapshotMessage : NetworkMessage
+    {
+        public uint serverTick;
+        public PlayerSnapshotPose[] players;
 
         public override string ToString()
         {
-            string msg=$"PlayerSnapshot: tick = {tick} , durationTime = {durationTime}\n";
-            foreach(var pose in playerPoses)
+            var text = new StringBuilder();
+            text.Append("PlayerSnapshot tick=").Append(serverTick);
+            if (players == null)
+                return text.ToString();
+
+            for (int i = 0; i < players.Length; i++)
             {
-                msg+=$"id={pose.netId} position={pose.position} facingDirection={pose.facingDirection}\n ";
+                PlayerSnapshotPose pose = players[i];
+                text.Append("\n id=").Append(pose.netId)
+                    .Append(" epoch=").Append(pose.predictionEpoch)
+                    .Append(" ack=").Append(pose.lastProcessedInputTick)
+                    .Append(" pos=").Append(pose.state.position);
             }
-            return msg;
+
+            return text.ToString();
         }
     }
 }

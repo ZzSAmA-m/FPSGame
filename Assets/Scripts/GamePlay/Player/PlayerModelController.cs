@@ -13,12 +13,13 @@ namespace GamePlay.Player{
         [SerializeField]private Transform FPModelParent;
         [SerializeField]private Transform SourceModel;
 
+        public Transform FirstPersonRoot => FPModelParent;
+        public Transform ThirdPersonRoot => TPModelParent;
+
         [SerializeField,Sirenix.OdinInspector.ReadOnly]private EPlayerModelType _e_PlayerModelType=EPlayerModelType.TP;
         [Space(20)]
 
-        /// <summary>
-    /// 第一人称,第三人称模型
-    /// </summary>
+        /// <summary>第一人称和第三人称模型。</summary>
         [SerializeField,Space(20)]private List<GameObject> FpModels,TpModels;
 
 
@@ -27,9 +28,7 @@ namespace GamePlay.Player{
 
 
 
-        /// <summary>
-        /// 切换玩家模型,给外界提供的接口
-        /// </summary>
+        /// <summary>切换玩家的第一人称或第三人称模型。</summary>
         /// <param name="type">模型类型,第一人称/第三人称</param>
         [Button(nameof(SwitchModel)),Tooltip("切换玩家第一/第三人称模型"),PropertySpace(20)]
         public void SwitchModel(EPlayerModelType type=EPlayerModelType.FP)

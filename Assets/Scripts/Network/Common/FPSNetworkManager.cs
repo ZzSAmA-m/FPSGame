@@ -25,7 +25,7 @@ namespace Network.Common
         private GameObject _client;
         private NetBridge _bridge;
 
-        /// <summary>当前进程的网络角色。Host 会同时具备 Server 与 Client。</summary>
+        /// <summary>当前进程是专用服务器还是专用客户端。</summary>
         [Sirenix.OdinInspector.ReadOnly]
         public NetState NetState { get; private set; } = NetState.None;
 
@@ -54,7 +54,7 @@ namespace Network.Common
 
             ZLog.Log<FPSNetworkManager>($" 服务端已启动，模式={NetState}");
         }
-        /// <summary>客户端侧启动时注册响应入口；Host 会同时执行双端启动。</summary>
+        /// <summary>客户端侧启动时注册响应入口。</summary>
         public override void OnStartClient()
         {
             base.OnStartClient();
@@ -70,10 +70,24 @@ namespace Network.Common
             base.OnServerConnect(conn);
             ServerManagerInst.AddClient(conn);
         }
+
+        public override void OnServerReady(NetworkConnectionToClient conn)
+        {
+            ServerManagerInst.MarkReady(conn);
+            base.OnServerReady(conn);
+        }
+
+        public override void OnServerDisconnect(NetworkConnectionToClient conn)
+        {
+            ServerManagerInst?.RemoveClient(conn);
+            base.OnServerDisconnect(conn);
+        }
+
         /// <summary>生成完整玩家预制体，并将 NetworkIdentity 绑定到对应会话。</summary>
         public override void OnServerAddPlayer(NetworkConnectionToClient connection)
         {
             base.OnServerAddPlayer(connection);
+            ServerManagerInst.BindPlayer(connection);
             if (connection.identity != null)
             {
                 connection.identity.gameObject.name =
@@ -172,7 +186,6 @@ namespace Network.Common
 
             NetState = (serverActive, clientActive) switch
             {
-                (true, true) => NetState.Host,
                 (true, false) => NetState.Server,
                 (false, true) => NetState.Client,
                 _ => NetState.None

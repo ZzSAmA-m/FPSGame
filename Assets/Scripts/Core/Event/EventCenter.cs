@@ -12,8 +12,6 @@ namespace Core.Event
 #region GamePlayEvents
         public static class GamePlayEvent
         {
-            public static readonly GameEvent PlayerSpawnEvent=new(nameof(PlayerSpawnEvent));
-            public static readonly GameEvent<GameObject> LocalPlayerSpawnEvent=new(nameof(LocalPlayerSpawnEvent));
             public static readonly GameEvent<Transform> CameraAttachEvent=new(nameof(CameraAttachEvent));
 
             /// <summary>
@@ -24,31 +22,6 @@ namespace Core.Event
 
             
         }
-#endregion
-
-#region InputEvents
-        public static class InputEvent
-        {
-            /// <summary>
-            /// 判断是本地玩家后，广播，让InputDriver绑定本地Player来控制它
-            /// </summary>
-            public static readonly GameEvent<GameObject> BindPlayer2InputDriverEvent=new(nameof(BindPlayer2InputDriverEvent));
-
-            /// <summary>
-            /// 本地玩家退出时解除 InputDriver 引用，避免继续驱动已经销毁的组件。
-            /// </summary>
-            public static readonly GameEvent<GameObject> UnbindPlayerFromInputDriverEvent=
-                new(nameof(UnbindPlayerFromInputDriverEvent));
-        }
-
-#endregion
-
-#region NetEvents
-        public static class NetEvents
-        {
-            public static readonly GameEvent<GameObject> AddLocalPlayer2ClientManager=new($"Net.{nameof(AddLocalPlayer2ClientManager)}");
-        }
-
 #endregion
 
         public class GameEvent
@@ -96,29 +69,6 @@ namespace Core.Event
             public void RaiseEvent(T arg0)
             {
                 OnEventRaised.Invoke(arg0);
-            }
-        }
-        public class GameEvent<T1,T2>
-        {
-            public GameEvent(string name)
-            {
-                _name=name;
-                OnEventRaised+=(a,b)=>{
-                    if (showEventInvokeMsg)
-                    {
-                        Debug.Log($"[{EventCenter._name}] Event  \"{_name}\" invoked");
-                    }
-                    if (showDetail)
-                    {
-                        Debug.Log($"Details:Total methods:{OnEventRaised.GetInvocationList().Length-1}");
-                    }
-                };
-            }
-            private string _name;
-            public event Action<T1,T2> OnEventRaised;
-            public void RaiseEvent(T1 arg0,T2 arg1)
-            {
-                OnEventRaised.Invoke(arg0,arg1);
             }
         }
     }

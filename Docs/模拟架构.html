@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FPSGame 模拟架构</title>
+<style>
+  :root {
+    --ink: #1c1915;
+    --muted: #5c564e;
+    --line: #d9d2c5;
+    --paper: #f6f3ec;
+    --card: #fffdf9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--paper);
+    font: 16px/1.7 "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  main { max-width: 1180px; margin: 0 auto; padding: 36px 22px 88px; }
+  h1 { font-size: 34px; line-height: 1.2; margin: 0 0 8px; }
+  h2 { font-size: 24px; margin: 0 0 12px; }
+  h3 { font-size: 18px; margin: 22px 0 8px; }
+  p { margin: 0 0 12px; }
+  .lead { color: var(--muted); font-size: 17px; max-width: 860px; }
+  .meta { color: var(--muted); font-size: 14px; margin: 8px 0 22px; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 24px 26px;
+    margin-top: 16px;
+  }
+  ul, ol { margin: 8px 0 0; padding-left: 22px; }
+  li { margin: 5px 0; }
+  code {
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 0.92em;
+    background: #f0ebe3;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 8px 12px 8px 0; }
+  th { color: var(--muted); font-weight: 600; }
+  .diagram-wrap {
+    overflow-x: auto;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 8px;
+    margin-top: 10px;
+  }
+  .legend { display: flex; gap: 22px; flex-wrap: wrap; align-items: center; margin: 4px 0 8px; font-size: 14px; }
+  .note { border-left: 3px solid #1f6b4a; padding-left: 12px; color: var(--muted); }
+  .uml-title { font: 600 13px Consolas, "Cascadia Mono", "Microsoft YaHei", sans-serif; fill: #1c1915; }
+  .uml-stereo { font: 11px "Segoe UI", "Microsoft YaHei", sans-serif; fill: #5c564e; font-style: italic; }
+  .uml-mem { font: 12px Consolas, "Cascadia Mono", "Microsoft YaHei", sans-serif; fill: #1c1915; }
+  .uml-box { fill: #fffdf9; stroke: #1c1915; stroke-width: 1.4; }
+  .uml-line { stroke: #1c1915; stroke-width: 1.2; }
+  .dep { stroke: #1c1915; stroke-width: 1.2; fill: none; stroke-dasharray: 5 4; marker-end: url(#open); }
+  .gen { stroke: #1c1915; stroke-width: 1.2; fill: none; marker-end: url(#triangle); }
+  .comp { stroke: #1c1915; stroke-width: 1.2; fill: none; marker-start: url(#diamond); }
+  .assoc { stroke: #1c1915; stroke-width: 1.2; fill: none; marker-end: url(#open); }
+  .rel { font: 12px "Segoe UI", "Microsoft YaHei", sans-serif; fill: #3f3a34; }
+</style>
+</head>
+<body>
+<main>
+  <h1>FPSGame 模拟架构</h1>
+  <p class="lead">进程只有两种：专用服务器，或专用客户端。角色运动收成固定 60Hz 的一次步进。客户端用这次步进做本地预测，服务器用同一次步进做权威模拟。回滚还没有写。</p>
+  <p class="meta">Unity 6 · Mirror · KCP · 2026-10-31 · 对应代码在 <code>Assets/Scripts</code></p>
+
+  <section>
+    <h2>1. 这套结构在分什么</h2>
+    <p>以前移动散在渲染帧、<code>Update</code> 重力和收包回调里。客户端把已经乘过时间、转过朝向的世界位移发给服务器，服务器收到就 <code>Move</code>。那一包数据不能重放，因为朝向和步长已经被烘进去了。</p>
+    <p>现在分成四层，只允许上层调用下层：</p>
+    <table>
+      <thead><tr><th>层</th><th>代码位置</th><th>允许知道什么</th></tr></thead>
+      <tbody>
+        <tr><td>模拟</td><td><code>GamePlay/Player/Simulation</code></td><td>输入帧、状态、配置、固定步长。不引用 Mirror，不发动画和武器事件。</td></tr>
+        <tr><td>玩家组合</td><td><code>PlayerBrain</code>、<code>PlayerController</code>、<code>PlayerInputDriver</code></td><td>谁是权威、预测还是插值。把 Mirror 生命周期翻译成 <code>SetRole</code>。</td></tr>
+        <tr><td>表现</td><td>视角、武器、动画、远端插值</td><td>读状态或消费这一拍的 <code>PlayerStepResult</code>。不决定位置。</td></tr>
+        <tr><td>网络</td><td><code>Network</code></td><td>会话、输入队列、消息。到了 tick 才调用 <code>IPlayerSimulation.Step</code>。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>2. 一拍输入、一份状态、一次 Step</h2>
+    <h3>PlayerInputFrame</h3>
+    <p>一拍模拟吃进去的原始操作，不是位移结果。字段是 <code>tick</code>、<code>move</code>（摇杆）、<code>look</code>（这一拍累计的鼠标增量）、<code>jump</code>、<code>fire</code>、<code>key1</code>、<code>key2</code>、<code>key3</code>。</p>
+    <p><code>tick</code> 是客户端自己的输入序号，从 1 递增。它不是服务器 tick。服务器用它知道“这份权威状态确认到了客户端的哪一拍”。</p>
+    <h3>PlayerSimState</h3>
+    <p>一拍结束后的运动状态，是一个结构体：位置、速度、竖直速度、yaw、pitch、是否着地。赋值就是一份拷贝。以后回滚要保存和恢复的就是它。</p>
+    <h3>Step 里面按顺序做的事</h3>
+    <p><code>PlayerSimulation.Step</code> 是客户端预测和服务器权威共用的函数。步长恒为 <code>SimTime.StepSeconds</code>，也就是 1/60 秒。它不读 <code>Time.deltaTime</code>。</p>
+    <ol>
+      <li><code>PlayerMotor.Integrate</code> 先把 <code>look</code> 加进 yaw 和 pitch，并按俯仰限制夹住。</li>
+      <li>如果已经着地且竖直速度向下，把竖直速度收到贴地速度，再加这一拍的重力。</li>
+      <li>这一拍按下跳跃且当前着地，则把竖直速度设成起跳速度。</li>
+      <li>用这一拍更新后的 yaw，把摇杆转成水平速度。摇杆长度超过 1 时先归一化。输出这一拍的位移。</li>
+      <li><code>CharacterController.Move</code> 用这份位移做碰撞。</li>
+      <li>把碰撞后的位置、实际速度、是否着地写回 <code>PlayerSimState</code>，并用 yaw/pitch 转动角色和第一人称挂点。</li>
+      <li>返回 <code>PlayerStepResult</code>：这一拍是否跳跃、开火、按下数字键。武器和动画只在实时这一拍消费它。电机自己不发事件，避免以后重放时连开多枪。</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>3. 客户端怎么走一拍</h2>
+    <p>渲染帧和模拟拍是分开的。</p>
+    <p>每个渲染帧的 <code>Update</code> 里，<code>InputCollector</code> 读设备，<code>PlayerInputDriver</code> 只做累积：摇杆保留最新值，鼠标增量相加，按键做“或”。驱动器不旋转角色，也不调用 <code>Step</code>。第一次 <code>Consume</code> 会丢掉进对局前积压的视角和按键，避免一进游戏猛转。</p>
+    <p><code>ClientManager</code> 在 <code>LateUpdate</code> 里按未缩放时间累积，每满 1/60 秒发出一次 <code>SimTick</code>。一帧最多补 4 拍，多出来的时间丢掉，避免卡顿之后一帧内追太多次。</p>
+    <p>只有本地玩家的 <code>PlayerPrediction</code> 订阅这个脉冲。每一拍它：</p>
+    <ol>
+      <li>用自己的序号 <code>Consume</code> 出一帧 <code>PlayerInputFrame</code>。</li>
+      <li>调用 <code>PlayerSimulation.Step</code>。</li>
+      <li>把 <code>PlayerStepResult</code> 交给 <code>PlayerWeaponController.Present</code>。</li>
+      <li>把最近 12 拍打成 <code>PlayerInputMessage</code>，经 <code>ClientManager</code> 和 <code>NetBridge</code> 走不可靠通道发出去。</li>
+    </ol>
+    <p>重复发送同一段序号是为了丢包。服务器按 <code>tick</code> 去重，旧序号直接丢掉。</p>
+  </section>
+
+  <section>
+    <h2>4. 服务器怎么走一拍</h2>
+    <p><code>NetBridge</code> 收到 <code>PlayerInputMessage</code> 后，<code>ServerManager</code> 只把帧推进该连接的 <code>PlayerInputQueue</code>。收包回调里不移动角色。</p>
+    <p>服务器自己的 <code>LateUpdate</code> 也是 60Hz，一帧最多 4 拍。每一拍对所有“对局中”的会话：</p>
+    <ol>
+      <li>从队列 <code>Take</code> 一帧输入。</li>
+      <li>对这个玩家的 <code>PlayerSimulation</code> 调用 <code>Step</code>。</li>
+      <li>把步进结果交给该对象上的武器组件。</li>
+    </ol>
+    <p>队列规则：</p>
+    <ul>
+      <li>还没有任何输入时，这一拍是空输入，重力仍会作用。</li>
+      <li>有下一连号就用它，并把 <code>LastProcessedTick</code> 设成这个序号。</li>
+      <li>缺号时，重复上一拍的摇杆，视角增量和按键清空。<code>LastProcessedTick</code> 不前进。快照上的确认序号因此也不会假装已经确认了没到的输入。</li>
+      <li>缺口后面已经堆了至少 12 拍时，跳到当前最旧的一拍，避免永远卡在一个丢失的序号上。</li>
+      <li>队列深过 24 拍时，只保留最新 12 拍，并把确认序号抬到保留窗口前面。这是慢服务器追上快客户端时的上限，被跳过的输入不会被模拟。</li>
+    </ul>
+    <p>每 2 个服务器 tick 发一次 <code>PlayerSnapshotMessage</code>，不可靠广播。每条姿态包含 Mirror <code>netId</code>、<code>lastProcessedInputTick</code> 和整份 <code>PlayerSimState</code>。姿态从模拟状态读出，不从摄像机骨骼读。</p>
+  </section>
+
+  <section>
+    <h2>5. 三种身份</h2>
+    <p>同一个玩家预制体，由 <code>PlayerController</code> 在 Mirror 回调里调用 <code>PlayerBrain.SetRole</code>。</p>
+    <table>
+      <thead><tr><th>PawnRole</th><th>出现在</th><th>开启的组件</th><th>位置从哪来</th></tr></thead>
+      <tbody>
+        <tr><td>Authoritative</td><td>服务器上的每个玩家。<code>OnStartServer</code></td><td>角色控制器开，预测和插值关</td><td>服务器 tick 调用 <code>Step</code></td></tr>
+        <tr><td>Predicted</td><td>客户端上的本地玩家。<code>OnStartClient</code> 且 <code>isLocalPlayer</code></td><td>角色控制器开，预测开，插值关</td><td>客户端 <code>SimTick</code> 调用 <code>Step</code></td></tr>
+        <tr><td>Interpolated</td><td>客户端上的其他玩家</td><td>角色控制器关，插值开，预测关</td><td><code>RemotePoseInterpolator</code> 写 Transform</td></tr>
+      </tbody>
+    </table>
+    <p>本地玩家另外在 <code>OnStartLocalPlayer</code> 切第一人称、把场景相机挂到相机点、锁定鼠标。服务器和其他角色用第三人称动作状态。</p>
+    <p>客户端收到快照后按身份分发：预测玩家只把 <code>lastProcessedInputTick</code> 写入 <code>PlayerPrediction.LastAckInputTick</code>，不改位置。插值玩家把样本放进缓冲。权威对象在服务器上，不会走这条客户端分发。</p>
+    <p>插值渲染时刻大约比最新快照早 100 毫秒（6 个 60Hz tick）。缓冲里找到包住这个时刻的前后两份样本，位置和 pitch 线性插值，yaw 按角度插值。样本不足时停在已有样本上。插值不调用 <code>CharacterController.Move</code>。</p>
+  </section>
+
+  <section>
+    <h2>6. 会话</h2>
+    <p>服务器为每条连接保持一个 <code>ClientSession</code>。状态只向前走：</p>
+    <ol>
+      <li><code>Connected</code>：<code>OnServerConnect</code> 建会话。</li>
+      <li><code>ProtocolVerified</code>：<code>HelloRequest</code> 的协议版本与服务器一致。</li>
+      <li><code>Ready</code>：客户端发出 Mirror Ready，且当前已是协议通过。</li>
+      <li><code>Playing</code>：<code>OnServerAddPlayer</code> 生成玩家并绑到会话。生成时若还不是 Ready，这一连接不会进入模拟。</li>
+    </ol>
+    <p>只有 <code>Playing</code> 的会话接受输入。断线时删掉会话，队列一起消失。客户端用 Mirror <code>netId</code> 登记玩家对象，连接用 <code>connectionId</code>。不再有单独的客户端 id 往返。</p>
+  </section>
+
+  <section>
+    <h2>7. 回滚还没做，接缝留在哪</h2>
+    <p class="note">预测时钟和服务器时钟各自累积，没有锁在同一个节拍上。丢包、缺号、被裁掉的输入都会让两边的 <code>PlayerSimState</code> 分开。这次不把本地角色拉回快照位置。</p>
+    <p>下一阶段要补的是：客户端按输入序号留下状态历史；快照到达后，用 <code>LastAckInputTick</code> 找到当时的预测状态；不一致就把状态写成服务器那份，再用确认序号之后的输入连续调用 <code>Step</code>。命中延迟补偿更后面，用的是服务器上的历史姿态。</p>
+    <p>现在已经满足重放的前提：<code>Step</code> 的输入和状态都是值，电机不发表现事件，快照里带有确认序号。</p>
+  </section>
+
+  <section>
+    <h2>8. 目前游戏里有的功能</h2>
+    <ul>
+      <li>专用服务器或专用客户端启动。协议版本握手后才 Ready、生成玩家。</li>
+      <li>本地玩家第一人称、相机挂接、鼠标锁定。其他玩家第三人称。</li>
+      <li>60Hz 预测移动、视角、重力和跳跃。同一套逻辑在服务器上再跑一遍。</li>
+      <li>最近 12 拍输入冗余发送。服务器按序号去重后模拟。</li>
+      <li>约 30Hz 的权威快照。其他玩家延迟约 100 毫秒插值。</li>
+      <li>开火和数字键进入这一拍的步进结果，驱动已有武器事件和动作状态机。站立动画按显示速度切换待机和四向跑步。</li>
+      <li>还没有：回滚对账、射击命中、血量、把武器和动画同步给其他客户端、账号认证。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>9. 类图</h2>
+    <p>下面三张都是 UML 类图。类框上栏是类型名，中栏是属性，下栏是操作。<code>+</code> 表示对外可见，<code>-</code> 表示内部。<code>«struct»</code>、<code>«interface»</code>、<code>«enumeration»</code>、<code>«static»</code> 是构造型。</p>
+    <div class="legend">
+      <svg width="150" height="28" viewBox="0 0 150 28"><line x1="8" y1="14" x2="70" y2="14" class="gen"/><text class="rel" x="78" y="18">实现</text></svg>
+      <svg width="170" height="28" viewBox="0 0 170 28"><line x1="18" y1="14" x2="90" y2="14" class="comp"/><text class="rel" x="98" y="18">组合</text></svg>
+      <svg width="170" height="28" viewBox="0 0 170 28"><line x1="8" y1="14" x2="70" y2="14" class="dep"/><text class="rel" x="78" y="18">依赖</text></svg>
+      <svg width="190" height="28" viewBox="0 0 190 28"><line x1="8" y1="14" x2="70" y2="14" class="assoc"/><text class="rel" x="78" y="18">关联</text></svg>
+    </div>
+    <p>实现箭头指向被实现的类型。组合的实心菱形画在整体一侧。依赖是虚线，表示使用，但不拥有生命周期。连线上的英文是操作名或关系名，中文含义写在每张图下面的表里。</p>
+
+    <h3>图 1　模拟内核</h3>
+    <p><code>PlayerSimulation</code> 实现 <code>IPlayerSimulation</code>，并把碰撞前的积分交给 <code>PlayerMotor</code>。电机只读写右侧这些值类型。</p>
+    <div class="diagram-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="820" height="760" viewBox="0 0 820 760">
+  <defs>
+    <marker id="triangle" viewBox="0 0 14 12" refX="13" refY="6" markerWidth="12" markerHeight="10" orient="auto">
+      <path d="M0 0 L14 6 L0 12 Z" fill="#fffdf9" stroke="#1c1915" stroke-width="1"/>
+    </marker>
+    <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M1 1 L11 6 L1 11" fill="none" stroke="#1c1915" stroke-width="1.4"/>
+    </marker>
+    <marker id="diamond" viewBox="0 0 14 14" refX="1" refY="7" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+      <path d="M1 7 L7 2 L13 7 L7 12 Z" fill="#1c1915"/>
+    </marker>
+  </defs>
+  <path class="gen" d="M200 170 V136"/>
+  <path class="dep" d="M200 338 V398"/>
+  <path class="dep" d="M200 530 V558"/>
+  <path class="dep" d="M380 465 H410"/>
+  <path class="dep" d="M410 116 V657"/>
+  <path class="dep" d="M410 116 H438"/>
+  <path class="dep" d="M410 307 H438"/>
+  <path class="dep" d="M410 488 H438"/>
+  <path class="dep" d="M410 657 H438"/>
+  <text class="rel" x="208" y="158">implements</text>
+  <text class="rel" x="208" y="372">Integrate</text>
+  <text class="rel" x="208" y="548">StepSeconds</text>
+  <text class="rel" x="416" y="108">uses</text>
+
+  <rect class="uml-box" x="20" y="16" width="360" height="118" rx="2"/>
+  <text class="uml-stereo" x="32" y="36">interface</text>
+  <text class="uml-title" x="32" y="56">IPlayerSimulation</text>
+  <line class="uml-line" x1="20" y1="66" x2="380" y2="66"/>
+  <text class="uml-mem" x="32" y="86">+ State : PlayerSimState</text>
+  <line class="uml-line" x1="20" y1="98" x2="380" y2="98"/>
+  <text class="uml-mem" x="32" y="118">+ Step(input) : PlayerStepResult</text>
+
+  <rect class="uml-box" x="20" y="170" width="360" height="168" rx="2"/>
+  <text class="uml-title" x="32" y="192">PlayerSimulation</text>
+  <line class="uml-line" x1="20" y1="204" x2="380" y2="204"/>
+  <text class="uml-mem" x="32" y="224">- state : PlayerSimState</text>
+  <text class="uml-mem" x="32" y="244">- gravityScale : float</text>
+  <line class="uml-line" x1="20" y1="256" x2="380" y2="256"/>
+  <text class="uml-mem" x="32" y="276">+ CaptureFromBody()</text>
+  <text class="uml-mem" x="32" y="296">+ SetPhysical(enabled)</text>
+  <text class="uml-mem" x="32" y="316">+ Step(input) : PlayerStepResult</text>
+
+  <rect class="uml-box" x="20" y="400" width="360" height="130" rx="2"/>
+  <text class="uml-stereo" x="32" y="420">static</text>
+  <text class="uml-title" x="32" y="440">PlayerMotor</text>
+  <line class="uml-line" x1="20" y1="452" x2="380" y2="452"/>
+  <line class="uml-line" x1="20" y1="464" x2="380" y2="464"/>
+  <text class="uml-mem" x="32" y="486">+ Integrate(state, input,</text>
+  <text class="uml-mem" x="48" y="506">config, dt) : PlayerStepResult</text>
+
+  <rect class="uml-box" x="20" y="560" width="360" height="168" rx="2"/>
+  <text class="uml-stereo" x="32" y="580">static</text>
+  <text class="uml-title" x="32" y="600">SimTime</text>
+  <line class="uml-line" x1="20" y1="612" x2="380" y2="612"/>
+  <text class="uml-mem" x="32" y="632">+ Dt = 1/60 s</text>
+  <text class="uml-mem" x="32" y="652">+ StepSeconds = 1/60</text>
+  <text class="uml-mem" x="32" y="672">+ MaxStepsPerFrame = 4</text>
+  <text class="uml-mem" x="32" y="692">+ SnapshotInterval = 2</text>
+  <text class="uml-mem" x="32" y="712">+ InputWindow = 12</text>
+
+  <rect class="uml-box" x="440" y="16" width="340" height="200" rx="2"/>
+  <text class="uml-stereo" x="452" y="36">struct</text>
+  <text class="uml-title" x="452" y="56">PlayerInputFrame</text>
+  <line class="uml-line" x1="440" y1="68" x2="780" y2="68"/>
+  <text class="uml-mem" x="452" y="90">+ tick : uint</text>
+  <text class="uml-mem" x="452" y="110">+ move : Vector2</text>
+  <text class="uml-mem" x="452" y="130">+ look : Vector2</text>
+  <text class="uml-mem" x="452" y="150">+ jump : bool</text>
+  <text class="uml-mem" x="452" y="170">+ fire : bool</text>
+  <text class="uml-mem" x="452" y="190">+ key1, key2, key3 : bool</text>
+  <line class="uml-line" x1="440" y1="202" x2="780" y2="202"/>
+
+  <rect class="uml-box" x="440" y="232" width="340" height="150" rx="2"/>
+  <text class="uml-stereo" x="452" y="252">struct</text>
+  <text class="uml-title" x="452" y="272">PlayerSimState</text>
+  <line class="uml-line" x1="440" y1="284" x2="780" y2="284"/>
+  <text class="uml-mem" x="452" y="306">+ position, velocity : Vector3</text>
+  <text class="uml-mem" x="452" y="326">+ verticalVelocity : float</text>
+  <text class="uml-mem" x="452" y="346">+ yaw, pitch : float</text>
+  <text class="uml-mem" x="452" y="366">+ grounded : bool</text>
+
+  <rect class="uml-box" x="440" y="400" width="340" height="176" rx="2"/>
+  <text class="uml-stereo" x="452" y="420">struct</text>
+  <text class="uml-title" x="452" y="440">PlayerMotorConfig</text>
+  <line class="uml-line" x1="440" y1="452" x2="780" y2="452"/>
+  <text class="uml-mem" x="452" y="474">+ moveSpeed, jumpSpeed</text>
+  <text class="uml-mem" x="452" y="494">+ gravity, groundedForce</text>
+  <text class="uml-mem" x="452" y="514">+ lookSensitivity</text>
+  <text class="uml-mem" x="452" y="534">+ minPitch, maxPitch</text>
+  <line class="uml-line" x1="440" y1="546" x2="780" y2="546"/>
+
+  <rect class="uml-box" x="440" y="592" width="340" height="130" rx="2"/>
+  <text class="uml-stereo" x="452" y="612">struct</text>
+  <text class="uml-title" x="452" y="632">PlayerStepResult</text>
+  <line class="uml-line" x1="440" y1="644" x2="780" y2="644"/>
+  <text class="uml-mem" x="452" y="666">+ jumped, fired : bool</text>
+  <text class="uml-mem" x="452" y="686">+ key1, key2, key3 : bool</text>
+  <line class="uml-line" x1="440" y1="698" x2="780" y2="698"/>
+</svg>
+    </div>
+    <table>
+      <thead><tr><th>从</th><th>到</th><th>关系</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td>PlayerSimulation</td><td>IPlayerSimulation</td><td>实现</td><td>服务器和预测都只依赖这个接口上的 <code>State</code> 和 <code>Step</code>。</td></tr>
+        <tr><td>PlayerSimulation</td><td>PlayerMotor</td><td>依赖</td><td>碰撞前调用 <code>Integrate</code>。碰撞和回写留在 <code>PlayerSimulation</code>。</td></tr>
+        <tr><td>PlayerMotor</td><td>PlayerInputFrame / PlayerSimState / PlayerMotorConfig</td><td>依赖</td><td>函数参数。不保存它们。</td></tr>
+        <tr><td>PlayerMotor</td><td>PlayerStepResult</td><td>依赖</td><td>返回值。描述这一拍的跳跃、开火和数字键。</td></tr>
+        <tr><td>PlayerSimulation</td><td>SimTime</td><td>依赖</td><td>步进使用 <code>StepSeconds</code>。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>图 2　玩家预制体上的组合</h3>
+    <p>菱形在 <code>PlayerBrain</code> 一侧：这些组件的启用由身份决定，挂在同一个玩家物体上。<code>PlayerController</code> 不模拟，只在网络回调里设置身份。</p>
+    <div class="diagram-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="600" viewBox="0 0 1120 600">
+  <path class="assoc" d="M274 95 H318"/>
+  <path class="comp" d="M435 174 V208"/>
+  <path class="comp" d="M690 174 V208"/>
+  <path class="comp" d="M990 174 V208"/>
+  <path class="dep" d="M435 350 V418"/>
+  <path class="dep" d="M690 350 V418"/>
+  <path class="dep" d="M141 420 V186 H690 V208"/>
+  <text class="rel" x="280" y="88">SetRole</text>
+  <text class="rel" x="400" y="198">1</text>
+  <text class="rel" x="655" y="198">1</text>
+  <text class="rel" x="955" y="198">1</text>
+  <text class="rel" x="442" y="390">ApplyAngles</text>
+  <text class="rel" x="698" y="390">Present</text>
+  <text class="rel" x="300" y="178">Consume</text>
+
+  <rect class="uml-box" x="16" y="20" width="258" height="150" rx="2"/>
+  <text class="uml-title" x="28" y="44">PlayerController</text>
+  <line class="uml-line" x1="16" y1="56" x2="274" y2="56"/>
+  <text class="uml-mem" x="28" y="78">- brain : PlayerBrain</text>
+  <line class="uml-line" x1="16" y1="90" x2="274" y2="90"/>
+  <text class="uml-mem" x="28" y="112">+ OnStartServer()</text>
+  <text class="uml-mem" x="28" y="132">+ OnStartClient()</text>
+  <text class="uml-mem" x="28" y="152">+ OnStartLocalPlayer()</text>
+
+  <rect class="uml-box" x="320" y="20" width="760" height="154" rx="2"/>
+  <text class="uml-title" x="332" y="44">PlayerBrain</text>
+  <line class="uml-line" x1="320" y1="56" x2="1080" y2="56"/>
+  <text class="uml-mem" x="332" y="78">+ Role : PawnRole</text>
+  <text class="uml-mem" x="332" y="98">+ Simulation, Prediction, Interpolator</text>
+  <text class="uml-mem" x="332" y="118">+ Sight, Weapon, Animator, Camera</text>
+  <text class="uml-mem" x="620" y="78">+ DisplayVelocity : Vector3</text>
+  <line class="uml-line" x1="320" y1="130" x2="1080" y2="130"/>
+  <text class="uml-mem" x="332" y="152">+ SetRole(role)</text>
+
+  <rect class="uml-box" x="320" y="210" width="230" height="140" rx="2"/>
+  <text class="uml-title" x="332" y="234">PlayerSimulation</text>
+  <line class="uml-line" x1="320" y1="246" x2="550" y2="246"/>
+  <text class="uml-mem" x="332" y="268">+ State</text>
+  <line class="uml-line" x1="320" y1="280" x2="550" y2="280"/>
+  <text class="uml-mem" x="332" y="302">+ Step(input)</text>
+  <text class="uml-mem" x="332" y="322">+ SetPhysical(bool)</text>
+
+  <rect class="uml-box" x="570" y="210" width="240" height="140" rx="2"/>
+  <text class="uml-title" x="582" y="234">PlayerPrediction</text>
+  <line class="uml-line" x1="570" y1="246" x2="810" y2="246"/>
+  <text class="uml-mem" x="582" y="268">+ LastAckInputTick : uint</text>
+  <text class="uml-mem" x="582" y="288">- window[12]</text>
+  <line class="uml-line" x1="570" y1="300" x2="810" y2="300"/>
+  <text class="uml-mem" x="582" y="322">- OnSimTick()</text>
+
+  <rect class="uml-box" x="840" y="210" width="250" height="140" rx="2"/>
+  <text class="uml-title" x="852" y="234">RemotePoseInterpolator</text>
+  <line class="uml-line" x1="840" y1="246" x2="1090" y2="246"/>
+  <text class="uml-mem" x="852" y="268">+ Velocity : Vector3</text>
+  <line class="uml-line" x1="840" y1="280" x2="1090" y2="280"/>
+  <text class="uml-mem" x="852" y="302">+ Push(serverTick, state)</text>
+  <text class="uml-mem" x="852" y="322">delay 0.1s</text>
+
+  <rect class="uml-box" x="16" y="420" width="250" height="120" rx="2"/>
+  <text class="uml-title" x="28" y="444">PlayerInputDriver</text>
+  <line class="uml-line" x1="16" y1="456" x2="266" y2="456"/>
+  <text class="uml-mem" x="28" y="478">+ Instance</text>
+  <line class="uml-line" x1="16" y1="490" x2="266" y2="490"/>
+  <text class="uml-mem" x="28" y="512">+ Consume(tick) : Frame</text>
+
+  <rect class="uml-box" x="320" y="420" width="230" height="120" rx="2"/>
+  <text class="uml-title" x="332" y="444">PlayerSightController</text>
+  <line class="uml-line" x1="320" y1="456" x2="550" y2="456"/>
+  <text class="uml-mem" x="332" y="478">+ Sensitivity, View</text>
+  <line class="uml-line" x1="320" y1="490" x2="550" y2="490"/>
+  <text class="uml-mem" x="332" y="512">+ ApplyAngles(yaw, pitch)</text>
+
+  <rect class="uml-box" x="570" y="420" width="240" height="120" rx="2"/>
+  <text class="uml-title" x="582" y="444">PlayerWeaponController</text>
+  <line class="uml-line" x1="570" y1="456" x2="810" y2="456"/>
+  <text class="uml-mem" x="582" y="478">+ OnWeaponInvoked</text>
+  <line class="uml-line" x1="570" y1="490" x2="810" y2="490"/>
+  <text class="uml-mem" x="582" y="512">+ Present(result)</text>
+</svg>
+    </div>
+    <table>
+      <thead><tr><th>从</th><th>到</th><th>关系</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td>PlayerController</td><td>PlayerBrain</td><td>关联</td><td>服务器回调设置权威并切第三人称。客户端回调设置预测或插值。</td></tr>
+        <tr><td>PlayerBrain</td><td>PlayerSimulation</td><td>组合 1 对 1</td><td>每个玩家一份模拟。插值身份关闭其角色控制器。</td></tr>
+        <tr><td>PlayerBrain</td><td>PlayerPrediction</td><td>组合 1 对 1</td><td>仅预测身份启用。启用后订阅 <code>ClientManager.SimTick</code>。</td></tr>
+        <tr><td>PlayerBrain</td><td>RemotePoseInterpolator</td><td>组合 1 对 1</td><td>仅插值身份启用。</td></tr>
+        <tr><td>PlayerBrain</td><td>PlayerSightController / PlayerWeaponController</td><td>关联</td><td>模拟结束后写视角。预测或权威的实时 <code>Step</code> 之后 <code>Present</code>。</td></tr>
+        <tr><td>PlayerInputDriver</td><td>PlayerPrediction</td><td>依赖</td><td>预测每一拍取走已经累积好的一帧输入。</td></tr>
+        <tr><td>PlayerPrediction</td><td>PlayerWeaponController</td><td>依赖</td><td>只把当前这一拍的结果交给武器，不在电机内部调用。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>图 3　服务器会话、客户端登记和消息</h3>
+    <p>输入消息里嵌的是 <code>PlayerInputFrame</code> 数组。快照消息里嵌的是姿态数组，每条姿态嵌一份 <code>PlayerSimState</code>。服务器通过 <code>IPlayerSimulation</code> 调用 <code>Step</code>，不依赖具体的网络命令对象。</p>
+    <div class="diagram-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620">
+  <path class="comp" d="M256 91 H298"/>
+  <path class="comp" d="M550 91 H588"/>
+  <path class="comp" d="M810 91 H848"/>
+  <path class="comp" d="M136 166 V208"/>
+  <path class="comp" d="M425 166 V208"/>
+  <path class="comp" d="M975 166 V208"/>
+  <path class="assoc" d="M860 166 V188 H700 V208"/>
+  <path class="comp" d="M425 360 V408"/>
+  <path class="comp" d="M840 475 H858"/>
+  <text class="rel" x="260" y="84">creates</text>
+  <text class="rel" x="554" y="84">1</text>
+  <text class="rel" x="814" y="84">1..*</text>
+  <text class="rel" x="700" y="184">State</text>
+  <text class="rel" x="430" y="392">1</text>
+  <text class="rel" x="844" y="468">players</text>
+
+  <rect class="uml-box" x="16" y="16" width="240" height="150" rx="2"/>
+  <text class="uml-title" x="28" y="40">FPSNetworkManager</text>
+  <line class="uml-line" x1="16" y1="52" x2="256" y2="52"/>
+  <text class="uml-mem" x="28" y="74">+ NetState</text>
+  <text class="uml-mem" x="28" y="94">+ ServerManagerInst</text>
+  <text class="uml-mem" x="28" y="114">+ ClientManagerInst</text>
+  <line class="uml-line" x1="16" y1="126" x2="256" y2="126"/>
+  <text class="uml-mem" x="28" y="148">+ OnServerAddPlayer()</text>
+
+  <rect class="uml-box" x="300" y="16" width="250" height="150" rx="2"/>
+  <text class="uml-title" x="312" y="40">ServerManager</text>
+  <line class="uml-line" x1="300" y1="52" x2="550" y2="52"/>
+  <text class="uml-mem" x="312" y="74">+ Sessions</text>
+  <line class="uml-line" x1="300" y1="86" x2="550" y2="86"/>
+  <text class="uml-mem" x="312" y="108">+ MarkReady()</text>
+  <text class="uml-mem" x="312" y="128">+ BindPlayer()</text>
+  <text class="uml-mem" x="312" y="148">- SimulateTick()</text>
+
+  <rect class="uml-box" x="590" y="16" width="220" height="150" rx="2"/>
+  <text class="uml-title" x="602" y="40">ClientSessions</text>
+  <line class="uml-line" x1="590" y1="52" x2="810" y2="52"/>
+  <text class="uml-mem" x="602" y="74">- clients by connectionId</text>
+  <line class="uml-line" x1="590" y1="86" x2="810" y2="86"/>
+  <text class="uml-mem" x="602" y="108">+ Add / Remove</text>
+  <text class="uml-mem" x="602" y="128">+ TryGet(id)</text>
+
+  <rect class="uml-box" x="850" y="16" width="250" height="150" rx="2"/>
+  <text class="uml-title" x="862" y="40">ClientSession</text>
+  <line class="uml-line" x1="850" y1="52" x2="1100" y2="52"/>
+  <text class="uml-mem" x="862" y="74">+ ConnectionId : int</text>
+  <text class="uml-mem" x="862" y="94">+ State : SessionState</text>
+  <text class="uml-mem" x="862" y="114">+ Player : NetworkIdentity</text>
+  <text class="uml-mem" x="862" y="134">+ Inputs : PlayerInputQueue</text>
+  <line class="uml-line" x1="850" y1="146" x2="1100" y2="146"/>
+
+  <rect class="uml-box" x="16" y="210" width="240" height="150" rx="2"/>
+  <text class="uml-title" x="28" y="234">NetBridge</text>
+  <line class="uml-line" x1="16" y1="246" x2="256" y2="246"/>
+  <text class="uml-mem" x="28" y="268">Hello / Input / Snapshot</text>
+  <line class="uml-line" x1="16" y1="280" x2="256" y2="280"/>
+  <text class="uml-mem" x="28" y="302">+ SendPlayerInput()</text>
+  <text class="uml-mem" x="28" y="322">+ SendPlayerSnapshot()</text>
+
+  <rect class="uml-box" x="300" y="210" width="250" height="150" rx="2"/>
+  <text class="uml-title" x="312" y="234">ClientManager</text>
+  <line class="uml-line" x1="300" y1="246" x2="550" y2="246"/>
+  <text class="uml-mem" x="312" y="268">+ Players</text>
+  <text class="uml-mem" x="312" y="288">+ SimTick</text>
+  <line class="uml-line" x1="300" y1="300" x2="550" y2="300"/>
+  <text class="uml-mem" x="312" y="322">+ SendInputs(frames)</text>
+  <text class="uml-mem" x="312" y="342">+ RegisterPlayer(netId)</text>
+
+  <rect class="uml-box" x="590" y="210" width="220" height="150" rx="2"/>
+  <text class="uml-stereo" x="602" y="230">enumeration</text>
+  <text class="uml-title" x="602" y="250">SessionState</text>
+  <line class="uml-line" x1="590" y1="262" x2="810" y2="262"/>
+  <text class="uml-mem" x="602" y="284">Connected</text>
+  <text class="uml-mem" x="602" y="304">ProtocolVerified</text>
+  <text class="uml-mem" x="602" y="324">Ready</text>
+  <text class="uml-mem" x="602" y="344">Playing</text>
+
+  <rect class="uml-box" x="850" y="210" width="250" height="150" rx="2"/>
+  <text class="uml-title" x="862" y="234">PlayerInputQueue</text>
+  <line class="uml-line" x1="850" y1="246" x2="1100" y2="246"/>
+  <text class="uml-mem" x="862" y="268">+ LastProcessedTick : uint</text>
+  <line class="uml-line" x1="850" y1="280" x2="1100" y2="280"/>
+  <text class="uml-mem" x="862" y="302">+ Push(frame)</text>
+  <text class="uml-mem" x="862" y="322">+ Take() : PlayerInputFrame</text>
+  <text class="uml-mem" x="862" y="342">gap does not advance ack</text>
+
+  <rect class="uml-box" x="16" y="410" width="250" height="120" rx="2"/>
+  <text class="uml-stereo" x="28" y="430">struct NetworkMessage</text>
+  <text class="uml-title" x="28" y="450">PlayerInputMessage</text>
+  <line class="uml-line" x1="16" y1="462" x2="266" y2="462"/>
+  <text class="uml-mem" x="28" y="484">+ frames : PlayerInputFrame[]</text>
+  <line class="uml-line" x1="16" y1="496" x2="266" y2="496"/>
+  <text class="uml-mem" x="28" y="516">unreliable, up to 12 frames</text>
+
+  <rect class="uml-box" x="300" y="410" width="270" height="130" rx="2"/>
+  <text class="uml-title" x="312" y="434">GamePlayerManager</text>
+  <line class="uml-line" x1="300" y1="446" x2="570" y2="446"/>
+  <text class="uml-mem" x="312" y="468">+ Players : netId  iS</text>
+  <line class="uml-line" x1="300" y1="480" x2="570" y2="480"/>
+  <text class="uml-mem" x="312" y="502">+ Add(netId, player)</text>
+  <text class="uml-mem" x="312" y="522">+ Remove(netId)</text>
+
+  <rect class="uml-box" x="590" y="410" width="250" height="130" rx="2"/>
+  <text class="uml-stereo" x="602" y="430">struct NetworkMessage</text>
+  <text class="uml-title" x="602" y="450">PlayerSnapshotMessage</text>
+  <line class="uml-line" x1="590" y1="462" x2="840" y2="462"/>
+  <text class="uml-mem" x="602" y="484">+ serverTick : uint</text>
+  <text class="uml-mem" x="602" y="504">+ players : Pose[]</text>
+  <line class="uml-line" x1="590" y1="516" x2="840" y2="516"/>
+  <text class="uml-mem" x="602" y="536">every 2 server ticks</text>
+
+  <rect class="uml-box" x="860" y="410" width="240" height="140" rx="2"/>
+  <text class="uml-stereo" x="872" y="430">struct</text>
+  <text class="uml-title" x="872" y="450">PlayerSnapshotPose</text>
+  <line class="uml-line" x1="860" y1="462" x2="1100" y2="462"/>
+  <text class="uml-mem" x="872" y="484">+ netId : uint</text>
+  <text class="uml-mem" x="872" y="504">+ lastProcessedInputTick</text>
+  <text class="uml-mem" x="872" y="524">+ state : PlayerSimState</text>
+  <line class="uml-line" x1="860" y1="536" x2="1100" y2="536"/>
+</svg>
+    </div>
+    <table>
+      <thead><tr><th>从</th><th>到</th><th>关系</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td>FPSNetworkManager</td><td>ServerManager / ClientManager</td><td>组合</td><td>对应进程启动时创建，停止时按相反顺序销毁。</td></tr>
+        <tr><td>FPSNetworkManager</td><td>NetBridge</td><td>关联</td><td>两边都用它注册和发送消息。桥不保存玩家列表。</td></tr>
+        <tr><td>ServerManager</td><td>ClientSessions</td><td>组合</td><td>一个服务器一份连接表。</td></tr>
+        <tr><td>ClientSessions</td><td>ClientSession</td><td>组合 1 对 1..*</td><td>键是 <code>connectionId</code>。</td></tr>
+        <tr><td>ClientSession</td><td>PlayerInputQueue</td><td>组合 1 对 1</td><td>这条连接的输入历史。断线时随会话丢掉。</td></tr>
+        <tr><td>ClientSession</td><td>SessionState</td><td>关联</td><td>Connected → ProtocolVerified → Ready → Playing。</td></tr>
+        <tr><td>ServerManager</td><td>IPlayerSimulation</td><td>依赖</td><td>每个服务器 tick 对对局中的玩家调用 <code>Step</code>。</td></tr>
+        <tr><td>ClientManager</td><td>GamePlayerManager</td><td>组合</td><td>客户端按 <code>netId</code> 找到玩家物体，再按身份处理快照。</td></tr>
+        <tr><td>PlayerInputMessage</td><td>PlayerInputFrame</td><td>组合</td><td>一条消息携带最近最多 12 帧。</td></tr>
+        <tr><td>PlayerSnapshotMessage</td><td>PlayerSnapshotPose</td><td>组合</td><td>一条快照包含当时所有在场玩家。</td></tr>
+        <tr><td>PlayerSnapshotPose</td><td>PlayerSimState</td><td>组合</td><td>权威状态本身。另附确认到的客户端输入序号。</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>

@@ -11,6 +11,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78b8e70e688b33248bc74a7ddcf3c579, type: 3}
   m_Name: MovementDataTest1
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementDataSO
+  m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerMovementDataSO
   _moveSpeed: 6
   _jumpSpeed: 1

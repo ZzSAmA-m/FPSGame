@@ -9,5 +9,7 @@ using Mirror;
 public class Tester : NetworkBehaviour
 {
 
-
+    void Start(){
+        ZLog.Log("asdasdasd");
+    }
 }

@@ -3,54 +3,36 @@ using Mirror;
 using Network.Common.Messages;
 using UnityEngine;
 
-
 namespace Network.Common
 {
     public sealed partial class NetBridge : MonoBehaviour
     {
-
-         /// <summary>服务器收到本地玩家的操作命令时触发。</summary>
-        public event Action<NetworkConnectionToClient, PlayerCommandMessage> PlayerCommandReceived;
-
-        /// <summary>服务端收到客户端握手消息时触发。</summary>
+        public event Action<NetworkConnectionToClient, PlayerInputMessage> PlayerInputReceived;
         public event Action<NetworkConnectionToClient, HelloRequest> ServerHelloReceived;
+        public event Action<NetworkConnectionToClient, PredictionResyncRequest> PredictionResyncRequested;
 
-        public event Action<NetworkConnectionToClient> GetClientIdMsgReceived;
-
-        /// <summary> 注册服务端消息入口。重复调用是安全的，不会重复覆盖 Handler。</summary>
         public void StartServer()
         {
             if (_serverHandlersRegistered)
-            {
                 return;
-            }
 
-            // 普通游戏消息默认要求连接已经通过 Mirror 认证。
-            // 当前项目没有自定义 Authenticator，Mirror 会在连接阶段自动完成基础认证。
             NetworkServer.RegisterHandler<HelloRequest>(HandleServerHello);
-            NetworkServer.RegisterHandler<PlayerCommandMessage>(HandlePlayerCommand);
-            NetworkServer.RegisterHandler<GetClientIdRequest>(HandleGetClientIdRequest);
+            NetworkServer.RegisterHandler<PlayerInputMessage>(HandlePlayerInput);
+            NetworkServer.RegisterHandler<PredictionResyncRequest>(HandlePredictionResync);
             _serverHandlersRegistered = true;
         }
 
-        
-
-        /// <summary>注销由本组件注册的服务端消息入口。</summary>
         public void StopServer()
         {
             if (!_serverHandlersRegistered)
-            {
                 return;
-            }
 
             NetworkServer.UnregisterHandler<HelloRequest>();
-            NetworkServer.UnregisterHandler<PlayerCommandMessage>();
-            NetworkServer.UnregisterHandler<GetClientIdRequest>();
+            NetworkServer.UnregisterHandler<PlayerInputMessage>();
+            NetworkServer.UnregisterHandler<PredictionResyncRequest>();
             _serverHandlersRegistered = false;
         }
-        #region Sender
 
-        /// <summary> 向指定客户端发送协议握手结果。</summary>
         public bool SendHelloToClient(NetworkConnectionToClient connection, HelloResponse response)
         {
             if (connection == null || !NetworkServer.active)
@@ -65,32 +47,31 @@ namespace Network.Common
 
         public void SendPlayerSnapshot(ref PlayerSnapshotMessage message)
         {
-            NetworkServer.SendToAll(message,Channels.Unreliable);
+            NetworkServer.SendToAll(message, Channels.Unreliable);
         }
 
-        public void SendClientId(NetworkConnectionToClient conn,ref GetClientIdResponse response)
+        public bool SendPredictionBaseline(NetworkConnectionToClient connection, PredictionBaselineMessage message)
         {
-            conn.Send(response,Channels.Reliable);
+            if (connection == null || !NetworkServer.active)
+                return false;
+
+            connection.Send(message, Channels.Reliable);
+            return true;
         }
 
-        #endregion
-
-        #region Handler
-
-        private void HandleServerHello(NetworkConnectionToClient connection, HelloRequest request)
+        void HandleServerHello(NetworkConnectionToClient connection, HelloRequest request)
         {
             ServerHelloReceived?.Invoke(connection, request);
         }
 
-        private void HandlePlayerCommand(NetworkConnectionToClient connection, PlayerCommandMessage command)
+        void HandlePlayerInput(NetworkConnectionToClient connection, PlayerInputMessage message)
         {
-            PlayerCommandReceived?.Invoke(connection, command);
-        }
-        private void HandleGetClientIdRequest(NetworkConnectionToClient connection, GetClientIdRequest request)
-        {
-            GetClientIdMsgReceived.Invoke(connection);
+            PlayerInputReceived?.Invoke(connection, message);
         }
 
-        #endregion
+        void HandlePredictionResync(NetworkConnectionToClient connection, PredictionResyncRequest request)
+        {
+            PredictionResyncRequested?.Invoke(connection, request);
+        }
     }
 }

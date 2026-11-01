@@ -38,7 +38,7 @@ namespace GamePlay.Player.MotionFSM
     
         public void OnUpdate()
         {
-            if (_controller.Cc.velocity.magnitude>_controller.offset)
+            if (_controller.Velocity.magnitude>_controller.offset)
             {
                 _playerMS_Alive_BodyDown_Stand.SwitchState<PlayerMS_Alive_BodyDown_Stand_Run>();
             }

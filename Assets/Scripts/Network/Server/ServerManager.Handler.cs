@@ -1,39 +1,20 @@
-using System;
-using System.Collections.Generic;
 using Core.ZLog;
+using GamePlay.Player.Simulation;
 using Mirror;
+using Network.Client;
 using Network.Common;
 using Network.Common.Messages;
 using UnityEngine;
 
 namespace Network.Server
 {
-    public sealed partial class ServerManager:MonoBehaviour
+    public sealed partial class ServerManager : MonoBehaviour
     {
-        /// <summary>
-        /// 处理本地玩家上报的一个采样窗口。
-        /// 只接受正在对局的会话，并按序号丢掉重复或过期命令。
-        /// </summary>
-        private void HandlePlayerCommand(NetworkConnectionToClient sender, PlayerCommandMessage command)
+        void HandleHelloRequest(NetworkConnectionToClient connection, HelloRequest request)
         {
-            var session=Sessions.GetClientSession(sender.connectionId);
-
-            if (_lastCommandSequence.TryGetValue(sender.connectionId, out uint lastSequence) &&
-                command.sequence <= lastSequence)
-            {
+            if (!Sessions.TryGet(connection.connectionId, out ClientSession session))
                 return;
-            }
 
-            _lastCommandSequence[sender.connectionId] = command.sequence;
-            ApplyCommand(session.Conn.identity, command);
-            ZLog.Log<ServerManager>("Receive Command: "+command,frequency:LogFrequency.Extreme);
-        }
-
-
-        private void HandleHelloRequest(NetworkConnectionToClient connection, HelloRequest request)
-        {
-
-            var session=Sessions.GetClientSession(connection.connectionId);
             if (request.protocolVersion != NetworkProtocol.Version)
             {
                 RejectAndDisconnect(
@@ -42,40 +23,116 @@ namespace Network.Server
                 return;
             }
 
-            string clientVersion = SanitizeClientVersion(request.clientVersion);
-
+            session.ClientVersion = SanitizeClientVersion(request.clientVersion);
+            session.State = SessionState.ProtocolVerified;
             _bridge.SendHelloToClient(connection, new HelloResponse
             {
                 protocolVersion = NetworkProtocol.Version,
                 accepted = true,
                 message = "协议握手成功。"
             });
-
-            Debug.Log($"[ServerManager] 协议握手通过：{session}");
+            ZLog.Log<ServerManager>($"协议握手通过：{session}");
         }
 
-
-        private void HandleGetClientIdMsg(NetworkConnectionToClient client)
+        public void MarkReady(NetworkConnectionToClient connection)
         {
-            var id = Sessions.GetClientSession(client.connectionId).Id;
-            var result=new GetClientIdResponse{Id=id};
-            _bridge.SendClientId(client,ref result);
+            if (!Sessions.TryGet(connection.connectionId, out ClientSession session))
+                return;
+            if (session.State == SessionState.ProtocolVerified)
+                session.State = SessionState.Ready;
         }
 
-
-        /// <summary>
-        /// 在服务器上表现一个采样窗口：位移、转向，以及跳跃、开火和切枪。
-        /// </summary>
-        private static void ApplyCommand(NetworkIdentity player, PlayerCommandMessage command)
+        public void BindPlayer(NetworkConnectionToClient connection)
         {
-            if (!player.TryGetComponent(out IServerCommandTarget target))
+            if (!Sessions.TryGet(connection.connectionId, out ClientSession session))
+                return;
+            if (session.State != SessionState.Ready)
             {
-                ZLog.LogError<ServerManager>($"[ServerManager] 玩家对象没有 {nameof(IServerCommandTarget)}:{player}");
+                ZLog.LogWarning<ServerManager>($"连接 {connection.connectionId} 当前是 {session.State}，玩家生成后不会进入模拟。");
                 return;
             }
 
-            target.ApplyServerCommand(ref command);
+            session.Player = connection.identity;
+            session.State = SessionState.Playing;
+            BeginPredictionEpoch(session);
         }
 
+        void HandlePlayerInput(NetworkConnectionToClient sender, PlayerInputMessage message)
+        {
+            if (!Sessions.TryGet(sender.connectionId, out ClientSession session))
+                return;
+            if (session.State != SessionState.Playing || message.frames == null
+                || message.predictionEpoch != session.PredictionEpoch)
+                return;
+
+            bool hadPending = session.Inputs.HasPending;
+            int count = Mathf.Min(message.frames.Length, SimTime.InputWindow);
+            for (int i = 0; i < count; i++)
+                session.Inputs.Push(message.frames[i]);
+
+            if (session.AwaitingInput && !hadPending && session.Inputs.HasPending)
+                session.InputStartServerTick = unchecked(_tick + (uint)_inputBufferTicks);
+        }
+
+        void HandlePredictionResync(NetworkConnectionToClient sender, PredictionResyncRequest request)
+        {
+            if (!Sessions.TryGet(sender.connectionId, out ClientSession session)
+                || session.State != SessionState.Playing || session.Player == null
+                || request.netId != session.Player.netId || request.predictionEpoch != session.PredictionEpoch)
+                return;
+
+            double now = Time.unscaledTimeAsDouble;
+            if (now - session.LastResyncTime < 0.25d)
+                return;
+
+            session.LastResyncTime = now;
+            BeginPredictionEpoch(session);
+        }
+
+        void BeginPredictionEpoch(ClientSession session)
+        {
+            if (session.Player == null || !session.Player.TryGetComponent(out IPlayerSimulation simulation))
+                return;
+
+            _predictionEpoch = unchecked(_predictionEpoch + 1);
+            if (_predictionEpoch == 0)
+                _predictionEpoch = 1;
+            session.PredictionEpoch = _predictionEpoch;
+            session.Inputs.Reset();
+            session.AwaitingInput = true;
+            session.InputStartServerTick = 0;
+            session.PredictionBaselineSentTime = Time.unscaledTimeAsDouble;
+
+            _bridge.SendPredictionBaseline(session.Connection, new PredictionBaselineMessage
+            {
+                netId = session.Player.netId,
+                predictionEpoch = session.PredictionEpoch,
+                baseInputTick = 0,
+                state = simulation.State
+            });
+        }
+
+        void RejectAndDisconnect(NetworkConnectionToClient connection, string reason)
+        {
+            Debug.LogWarning($"[ServerManager] 拒绝连接 {connection}:{reason}");
+            _bridge.SendHelloToClient(connection, new HelloResponse
+            {
+                protocolVersion = NetworkProtocol.Version,
+                accepted = false,
+                message = reason
+            });
+            connection?.Disconnect();
+        }
+
+        static string SanitizeClientVersion(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return "unknown";
+
+            string trimmed = value.Trim();
+            return trimmed.Length <= NetworkProtocol.MaxClientVersionLength
+                ? trimmed
+                : trimmed.Substring(0, NetworkProtocol.MaxClientVersionLength);
+        }
     }
 }

@@ -86,10 +86,7 @@ namespace Core.Utility
         Server,
 
         /// <summary>只运行客户端。</summary>
-        Client,
-
-        /// <summary>同一进程同时运行服务器和本地客户端。</summary>
-        Host
+        Client
     }
 
     public enum WeaponInputAction

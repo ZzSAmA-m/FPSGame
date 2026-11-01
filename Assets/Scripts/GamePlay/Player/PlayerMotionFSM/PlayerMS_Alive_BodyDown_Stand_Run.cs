@@ -46,7 +46,7 @@ namespace GamePlay.Player.MotionFSM
 
         void Update()
         {
-            var v=_controller.Cc.velocity;
+            var v=_controller.Velocity;
             var offset=_controller.offset;
             v=_controller.transform.InverseTransformDirection(v);
             if (v.z > offset)
