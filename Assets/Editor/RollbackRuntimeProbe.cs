@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using GamePlay.Player;
+using GamePlay.Player.Presentation;
 using GamePlay.Player.Simulation;
 using kcp2k;
 using Mirror;
@@ -10,6 +12,7 @@ using Network.Server;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Unity.Pipeline.Commands;
+using UnityEditor;
 using UnityEngine;
 
 namespace FPSGame.Editor
@@ -22,28 +25,39 @@ namespace FPSGame.Editor
         static readonly FieldInfo AcceptingInput = typeof(PlayerInputDriver).GetField("_accepting", PrivateInstance);
         static readonly FieldInfo InputHandlers = typeof(NetBridge).GetField("PlayerInputReceived", PrivateInstance);
         static readonly FieldInfo ServerTick = typeof(ServerManager).GetField("_tick", PrivateInstance);
+        static readonly PropertyInfo ServerPendingTicks = typeof(ServerManager).GetProperty("PendingSimulationTicks", PrivateInstance);
         static readonly MethodInfo BeginResync = typeof(PlayerPrediction).GetMethod("BeginResync", PrivateInstance);
+        static readonly MethodInfo BeginEpoch = typeof(ServerManager).GetMethod("BeginPredictionEpoch", PrivateInstance);
+        static readonly FieldInfo RemoteSamples = typeof(RemotePoseInterpolator).GetField("_samples", PrivateInstance);
+        static readonly FieldInfo RemoteClock = typeof(RemotePoseInterpolator).GetField("_serverTickEstimate", PrivateInstance);
 
         static PlayerInputDriver _manualDriver;
         static bool _driverWasEnabled;
         static NetBridge _dropBridge;
         static Delegate _savedInputHandlers;
+        static bool _frameCapChanged;
+        static int _previousFrameRate;
+        static int _previousVSync;
 
         /// <summary>直接调用已编译探针，避免动态求值造成额外帧停顿。</summary>
         [CliCommand("rollback_probe", "Run an editor-only rollback validation probe", Tags = new[] { "fpsgame/validation" })]
         public static JObject Probe(string action = "capture", float x = 0f, float y = 0f, float z = 0f,
-            bool jump = false, bool enabled = false, int port = 17777)
+            bool jump = false, bool enabled = false, int port = 17777, float lookX = 0f, float lookY = 0f,
+            bool reposition = false, int milliseconds = 1000, int fps = 60)
         {
             string result = action switch
             {
                 "capture" => Capture(),
                 "server" => StartServer(port),
                 "client" => StartClient(port: port),
-                "input" => SetInput(x, y, jump),
+                "input" => SetInput(x, y, jump, lookX, lookY),
                 "clear" => ClearInput(),
                 "offset" => OffsetPrediction(x, y, z),
                 "resync" => ForceResync(),
                 "drop" => SetServerInputDrop(enabled),
+                "stage" => Stage(reposition),
+                "stall" => StallServer(milliseconds),
+                "framecap" => SetFrameCap(enabled, fps),
                 _ => throw new ArgumentException("未知的回滚验收操作。", nameof(action))
             };
             return JObject.Parse(result);
@@ -93,6 +107,7 @@ namespace FPSGame.Editor
                     simulation = StateData(brain.Simulation),
                     physicalPosition = VectorData(brain.transform.position),
                     physicalYaw = brain.transform.eulerAngles.y,
+                    interpolation = InterpolationData(brain.Interpolator),
                     smootherOffset = brain.CorrectionSmoother != null ? VectorData(brain.CorrectionSmoother.Offset) : null,
                     prediction = prediction == null ? null : new
                     {
@@ -120,10 +135,17 @@ namespace FPSGame.Editor
                 playing = Application.isPlaying,
                 frame = Time.frameCount,
                 time = Time.unscaledTimeAsDouble,
+                frameSeconds = Time.unscaledDeltaTime,
+                targetFrameRate = Application.targetFrameRate,
+                vSyncCount = QualitySettings.vSyncCount,
+                runInBackground = Application.runInBackground,
+                focused = Application.isFocused,
+                frameCapOverride = _frameCapChanged,
                 serverActive = NetworkServer.active,
                 clientActive = NetworkClient.active,
                 clientConnected = NetworkClient.isConnected,
                 serverTick = server != null && ServerTick != null ? ServerTick.GetValue(server) : null,
+                serverPendingSimulationTicks = server != null ? ServerPendingTicks?.GetValue(server) : null,
                 applicationInputDrop = _dropBridge != null,
                 manualInput = _manualDriver != null && !_manualDriver.enabled,
                 sessions,
@@ -248,6 +270,122 @@ namespace FPSGame.Editor
                 _savedInputHandlers = null;
             }
             return Json(new { ok = true, operation = "SetServerInputDrop", enabled, layer = "application-input-message" });
+        }
+
+        /// <summary>创建临时大地板；服务器可把玩家分开放置并重新发送预测基准。</summary>
+        public static string Stage(bool reposition = false)
+        {
+            RequirePlay();
+            ServerManager server = RequireManager().ServerManagerInst;
+            if (reposition && (!NetworkServer.active || server == null || BeginEpoch == null))
+                throw new InvalidOperationException("只有运行中的服务器能重新放置玩家。");
+
+            const string floorName = "__RollbackValidationFloor";
+            GameObject floor = GameObject.Find(floorName);
+            if (floor == null)
+            {
+                floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                floor.name = floorName;
+                floor.isStatic = true;
+                floor.transform.position = new Vector3(0f, -0.5f, 0f);
+                floor.transform.localScale = new Vector3(200f, 1f, 200f);
+            }
+
+            int movedPlayers = 0;
+            if (reposition)
+            {
+                foreach (var pair in server.Sessions.Clients)
+                {
+                    var session = pair.Value;
+                    if (session.Player == null || !session.Player.TryGetComponent(out PlayerSimulation simulation))
+                        continue;
+                    PlayerSimState state = simulation.State;
+                    state.position = new Vector3(movedPlayers * 8f, 2f, 0f);
+                    state.velocity = Vector3.zero;
+                    state.verticalVelocity = 0f;
+                    state.yaw = 0f;
+                    state.pitch = 0f;
+                    state.grounded = false;
+                    simulation.RestoreState(state);
+                    BeginEpoch.Invoke(server, new object[] { session });
+                    movedPlayers++;
+                }
+            }
+            Physics.SyncTransforms();
+            return Json(new { ok = true, operation = "Stage", floor = floorName, movedPlayers });
+        }
+
+        /// <summary>短暂阻塞服务器主线程，复现真实掉帧后的输入积压。</summary>
+        public static string StallServer(int milliseconds = 1000)
+        {
+            RequirePlay();
+            if (!NetworkServer.active)
+                throw new InvalidOperationException("只能阻塞运行中的服务器。");
+            if (milliseconds < 1 || milliseconds > 2000)
+                throw new ArgumentOutOfRangeException(nameof(milliseconds), "停顿时长必须在 1 到 2000 毫秒之间。");
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            System.Threading.Thread.Sleep(milliseconds);
+            return Json(new { ok = true, operation = "StallServer", milliseconds, elapsedMilliseconds = timer.Elapsed.TotalMilliseconds });
+        }
+
+        /// <summary>临时限制帧率，关闭限制或退出 Play Mode 时还原原值。</summary>
+        public static string SetFrameCap(bool enabled, int fps = 60)
+        {
+            RequirePlay();
+            if (enabled)
+            {
+                if (fps < 1 || fps > 240)
+                    throw new ArgumentOutOfRangeException(nameof(fps), "测试帧率必须在 1 到 240 之间。");
+                if (!_frameCapChanged)
+                {
+                    _previousFrameRate = Application.targetFrameRate;
+                    _previousVSync = QualitySettings.vSyncCount;
+                    _frameCapChanged = true;
+                    EditorApplication.playModeStateChanged += RestoreFrameCapOnExit;
+                    AssemblyReloadEvents.beforeAssemblyReload += RestoreFrameCap;
+                }
+                QualitySettings.vSyncCount = 0;
+                Application.targetFrameRate = fps;
+            }
+            else
+                RestoreFrameCap();
+            return Json(new { ok = true, operation = "SetFrameCap", enabled, targetFrameRate = Application.targetFrameRate });
+        }
+
+        static void RestoreFrameCapOnExit(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.ExitingPlayMode)
+                RestoreFrameCap();
+        }
+
+        static void RestoreFrameCap()
+        {
+            if (!_frameCapChanged)
+                return;
+            Application.targetFrameRate = _previousFrameRate;
+            QualitySettings.vSyncCount = _previousVSync;
+            _frameCapChanged = false;
+            EditorApplication.playModeStateChanged -= RestoreFrameCapOnExit;
+            AssemblyReloadEvents.beforeAssemblyReload -= RestoreFrameCap;
+        }
+
+        static object InterpolationData(RemotePoseInterpolator interpolator)
+        {
+            if (interpolator == null)
+                return null;
+            IList samples = RemoteSamples?.GetValue(interpolator) as IList;
+            object latest = samples != null && samples.Count > 0 ? samples[samples.Count - 1] : null;
+            const BindingFlags fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            object ReadSample(string name) => latest?.GetType().GetField(name, fields)?.GetValue(latest);
+            return new
+            {
+                enabled = interpolator.enabled,
+                sampleCount = samples?.Count ?? 0,
+                latestTick = ReadSample("tick"),
+                latestPosition = ReadSample("position") is Vector3 position ? VectorData(position) : null,
+                latestYaw = ReadSample("yaw"),
+                serverTickEstimate = RemoteClock?.GetValue(interpolator)
+            };
         }
 
         static object StateData(PlayerSimulation simulation)

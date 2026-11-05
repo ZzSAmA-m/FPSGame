@@ -47,6 +47,11 @@ namespace FPSGame.Editor
             Run("真实输入恢复后重置缺包计数", TestQueueRealInputAfterGap, report, ref passed);
             Run("错误 Commit 不改变确认进度", TestQueueInvalidCommit, report, ref passed);
             Run("队列支持 Tick 回绕", TestQueueWrap, report, ref passed);
+            Run("输入积压独立于状态误差检查", TestQueueLeadLimit, report, ref passed);
+            Run("补算时间不会误判为输入积压", TestQueueLeadDuringCatchUp, report, ref passed);
+            Run("超出队列容量也能触发重同步", TestQueueLeadBeyondCapacity, report, ref passed);
+            Run("旧输入和无效输入不触发重同步", TestQueueLeadRejectsInvalid, report, ref passed);
+            Run("输入积压判断支持 Tick 回绕", TestQueueLeadWrap, report, ref passed);
             return "PASS " + passed + " checks\n" + report;
         }
 
@@ -401,6 +406,55 @@ namespace FPSGame.Editor
             queue.Push(ActiveInput(uint.MaxValue));
             Assert(!queue.HasPending && queue.ResolveNext().tick == 1,
                 "回绕后应拒绝旧 Tick 并继续向前。");
+        }
+
+        static void TestQueueLeadLimit()
+        {
+            var queue = new PlayerInputQueue();
+            queue.Reset(100);
+            var idle = new PlayerInputFrame { tick = 100 + PlayerInputQueue.MaxBufferedInputTicks };
+            Assert(!queue.NeedsResync(idle, 0), "允许正常的短暂输入缓冲。");
+            idle.tick++;
+            Assert(queue.NeedsResync(idle, 0), "静止输入排队过长也应恢复，不能等待位置出现误差。");
+            Assert(queue.LastProcessedTick == 100, "检测积压不能跳过未执行输入。");
+        }
+
+        static void TestQueueLeadDuringCatchUp()
+        {
+            var queue = new PlayerInputQueue();
+            queue.Reset(100);
+            var frame = new PlayerInputFrame { tick = 100 + 60 + PlayerInputQueue.MaxBufferedInputTicks };
+            Assert(!queue.NeedsResync(frame, 60), "应先允许服务器补算尚未处理的一秒。");
+            Assert(queue.NeedsResync(frame, 0), "没有待补算时间时不能持续保留同样的输入积压。");
+            Assert(!queue.NeedsResync(frame, uint.MaxValue), "补算预算加缓冲不能溢出。");
+        }
+
+        static void TestQueueLeadBeyondCapacity()
+        {
+            var queue = new PlayerInputQueue();
+            queue.Reset();
+            var frame = new PlayerInputFrame { tick = PlayerInputQueue.MaxFutureTicks + 100 };
+            queue.Push(frame);
+            Assert(!queue.HasPending && queue.NeedsResync(frame, 0),
+                "被队列拒绝的远期有效输入仍应触发重建基准。");
+        }
+
+        static void TestQueueLeadRejectsInvalid()
+        {
+            var queue = new PlayerInputQueue();
+            queue.Reset(100);
+            Assert(!queue.NeedsResync(ActiveInput(99), 0), "迟到输入应直接丢弃。");
+            var invalid = ActiveInput(200);
+            invalid.look.x = float.NaN;
+            Assert(!queue.NeedsResync(invalid, 0), "无效输入不能改变预测轮次。");
+        }
+
+        static void TestQueueLeadWrap()
+        {
+            var queue = new PlayerInputQueue();
+            queue.Reset(uint.MaxValue - 5);
+            Assert(!queue.NeedsResync(ActiveInput(0), 0), "回绕后的第 0 拍只领先 6 拍。");
+            Assert(queue.NeedsResync(ActiveInput(20), 0), "回绕后仍应识别过长积压。");
         }
 
         static void AssertPreflightFailure(Fixture fixture, PlayerAuthoritativeSnapshot snapshot, uint currentTick)

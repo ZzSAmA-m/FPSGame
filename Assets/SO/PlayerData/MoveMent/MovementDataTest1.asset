@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MovementDataTest1
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerMovementDataSO
   _moveSpeed: 6
-  _jumpSpeed: 1
+  _jumpSpeed: 3

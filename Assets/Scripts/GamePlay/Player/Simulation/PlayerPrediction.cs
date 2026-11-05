@@ -99,6 +99,7 @@ namespace GamePlay.Player.Simulation
             _lastReconcileFrame = -1;
             _brain.CorrectionSmoother.ResetOffset();
             PlayerInputDriver.Instance?.ResetPendingInput();
+            _client?.ResetSimulationClock();
         }
 
         /// <summary>接收时只保留最新有效快照，不在网络回调里重放。</summary>

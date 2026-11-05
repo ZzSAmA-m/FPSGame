@@ -14,7 +14,7 @@ namespace Network.Client
         public static ClientManager Instance { get; private set; }
 
         NetBridge _bridge;
-        double _accumulator;
+        readonly SimulationClock _simulationClock = new();
         readonly Dictionary<uint, PredictionBaselineMessage> _pendingBaselines = new();
 
         public GamePlayerManager Players { get; } = new();
@@ -26,6 +26,7 @@ namespace Network.Client
             _bridge.ClientHelloReceived += HandleHelloResponse;
             _bridge.PlayerSnapshotReceived += HandlePlayerSnapshot;
             _bridge.PredictionBaselineReceived += HandlePredictionBaseline;
+            ResetSimulationClock();
             Instance = this;
             ZLog.Log<ClientManager>("客户端应用层已初始化");
         }
@@ -39,7 +40,7 @@ namespace Network.Client
             _bridge.PlayerSnapshotReceived -= HandlePlayerSnapshot;
             _bridge.PredictionBaselineReceived -= HandlePredictionBaseline;
             _bridge = null;
-            _accumulator = 0d;
+            ResetSimulationClock();
             _pendingBaselines.Clear();
             if (Instance == this)
                 Instance = null;
@@ -52,6 +53,12 @@ namespace Network.Client
 
             var message = new PlayerInputMessage { predictionEpoch = predictionEpoch, frames = frames };
             _bridge.SendPlayerInput(ref message);
+        }
+
+        /// <summary>新预测从收到基准的时刻计时，不补算旧轮次的积压时间。</summary>
+        public void ResetSimulationClock()
+        {
+            _simulationClock.Reset(Time.unscaledTimeAsDouble);
         }
 
         public bool RequestPredictionResync(uint netId, uint predictionEpoch)
@@ -80,17 +87,13 @@ namespace Network.Client
             if (_bridge == null)
                 return;
 
-            _accumulator += Time.unscaledDeltaTime;
+            _simulationClock.Advance(Time.unscaledTimeAsDouble);
             int steps = 0;
-            while (_accumulator >= SimTime.Dt && steps < SimTime.MaxStepsPerFrame)
+            while (steps < SimTime.MaxStepsPerFrame && _simulationClock.TryStep())
             {
-                _accumulator -= SimTime.Dt;
                 steps++;
                 SimTick?.Invoke();
             }
-
-            if (_accumulator >= SimTime.Dt)
-                _accumulator = 0d;
         }
 
         [Button]

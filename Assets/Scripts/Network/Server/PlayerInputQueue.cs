@@ -8,6 +8,7 @@ namespace Network.Server
     public sealed class PlayerInputQueue
     {
         public const int MaxFutureTicks = 256;
+        public const int MaxBufferedInputTicks = 16;
         public const int MissingMoveHoldTicks = 3;
 
         readonly Dictionary<uint, PlayerInputFrame> _pending = new(MaxFutureTicks);
@@ -43,6 +44,14 @@ namespace Network.Server
             // 同一拍只接受第一份，避免重复包改写已选中的输入。
             if (!_pending.ContainsKey(frame.tick) && !(_hasResolved && frame.tick == _resolved.tick))
                 _pending.Add(frame.tick, frame);
+        }
+
+        /// <summary>排队过长时重建预测，服务器正在补算的时间不计入积压。</summary>
+        public bool NeedsResync(in PlayerInputFrame frame, uint catchUpTicks)
+        {
+            int distance = unchecked((int)(frame.tick - LastProcessedTick));
+            return IsFinite(frame) && distance > 0 &&
+                   (ulong)distance > (ulong)catchUpTicks + MaxBufferedInputTicks;
         }
 
         public PlayerInputFrame ResolveNext()

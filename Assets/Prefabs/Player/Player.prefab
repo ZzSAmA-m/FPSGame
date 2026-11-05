@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.Simulation.PlayerSimulation
   _playerMovementDataSO: {fileID: 11400000, guid: ea860f4d7585d8f48a213ed1d68e58f2, type: 2}
-  _gravityScale: 1
+  _gravityScale: 2
   _groundedForce: 0
 --- !u!114 &880751175443328814
 MonoBehaviour:

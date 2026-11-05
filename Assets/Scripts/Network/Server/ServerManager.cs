@@ -13,12 +13,13 @@ namespace Network.Server
     {
         NetBridge _bridge;
         bool _initialized;
-        double _accumulator;
+        readonly SimulationClock _simulationClock = new();
         uint _predictionEpoch;
         [SerializeField, Range(0, 6)] int _inputBufferTicks = 2;
         [SerializeField, Min(1f)] float _firstInputTimeoutSeconds = 10f;
 
         public ClientSessions Sessions { get; } = new();
+        uint PendingSimulationTicks => _simulationClock.PendingTicks(Time.unscaledTimeAsDouble);
 
         public void Initialize(NetBridge bridge)
         {
@@ -31,6 +32,7 @@ namespace Network.Server
             _bridge.PredictionResyncRequested += HandlePredictionResync;
             _tick = 0;
             _predictionEpoch = 0;
+            _simulationClock.Reset(Time.unscaledTimeAsDouble);
             _initialized = true;
             ZLog.Log<ServerManager>("服务器应用层已初始化");
         }
@@ -45,7 +47,7 @@ namespace Network.Server
             _bridge.PredictionResyncRequested -= HandlePredictionResync;
             _bridge = null;
             _initialized = false;
-            _accumulator = 0d;
+            _simulationClock.Reset(Time.unscaledTimeAsDouble);
             _tick = 0;
         }
 
@@ -64,17 +66,13 @@ namespace Network.Server
             if (!_initialized)
                 return;
 
-            _accumulator += Time.unscaledDeltaTime;
+            _simulationClock.Advance(Time.unscaledTimeAsDouble);
             int steps = 0;
-            while (_accumulator >= SimTime.Dt && steps < SimTime.MaxStepsPerFrame)
+            while (steps < SimTime.MaxStepsPerFrame && _simulationClock.TryStep())
             {
-                _accumulator -= SimTime.Dt;
                 steps++;
                 SimulateTick();
             }
-
-            if (_accumulator >= SimTime.Dt)
-                _accumulator = 0d;
         }
 
         void OnDestroy()

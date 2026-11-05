@@ -67,11 +67,21 @@ namespace Network.Server
 
             bool hadPending = session.Inputs.HasPending;
             int count = Mathf.Min(message.frames.Length, SimTime.InputWindow);
+            uint catchUpTicks = PendingSimulationTicks;
             for (int i = 0; i < count; i++)
+            {
+                // 先检查原始输入，超出队列容量的远期输入也能触发恢复。
+                if (session.Inputs.NeedsResync(message.frames[i], catchUpTicks))
+                {
+                    BeginPredictionEpoch(session);
+                    return;
+                }
                 session.Inputs.Push(message.frames[i]);
+            }
 
             if (session.AwaitingInput && !hadPending && session.Inputs.HasPending)
-                session.InputStartServerTick = unchecked(_tick + (uint)_inputBufferTicks);
+                // 新轮次从当前时刻开始，不能参与旧时间的补算。
+                session.InputStartServerTick = unchecked(_tick + catchUpTicks + (uint)_inputBufferTicks);
         }
 
         void HandlePredictionResync(NetworkConnectionToClient sender, PredictionResyncRequest request)
