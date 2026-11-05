@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>提供可手持武器的基础信息。</summary>
     public abstract class WeaponBase : IHoldable

@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>使用通用枪械状态机的 AK47。</summary>
     public sealed class AK47 : Gun

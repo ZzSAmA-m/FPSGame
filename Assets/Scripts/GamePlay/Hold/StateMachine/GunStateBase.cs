@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>定义枪械状态的动作入口和生命周期。</summary>
     public abstract class GunStateBase

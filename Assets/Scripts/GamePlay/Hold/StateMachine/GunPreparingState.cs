@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>等待装备准备动作结束。</summary>
     public sealed class GunPreparingState : GunStateBase

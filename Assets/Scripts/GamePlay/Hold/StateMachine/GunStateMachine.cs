@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>分发枪械操作并统一管理状态转换。</summary>
     public sealed class GunStateMachine

@@ -1,6 +1,6 @@
 using System;
 
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>保存枪械的固定配置。</summary>
     public sealed class GunConfig

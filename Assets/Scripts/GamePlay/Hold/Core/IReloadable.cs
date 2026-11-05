@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>提供尝试换弹的能力。</summary>
     public interface IReloadable

@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>等待本次射击后的间隔结束。</summary>
     public sealed class GunShootingState : GunStateBase

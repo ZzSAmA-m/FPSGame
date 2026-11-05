@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>等待换弹完成后一次性装填。</summary>
     public sealed class GunReloadingState : GunStateBase
@@ -16,6 +16,17 @@ namespace GamePlay.Weapon
         internal override void Enter(uint tick)
         {
             _endTick = unchecked(tick + Owner.Config.ReloadTicks);
+        }
+
+        /// <summary>成功开火时打断换弹，失败时继续换弹。</summary>
+        internal override bool TryFire()
+        {
+            if (!Owner.TryCommitShot())
+                return false;
+
+            Machine.ChangeState(GunState.Shooting);
+            Owner.NotifyShot();
+            return true;
         }
 
         /// <summary>到期装填后恢复就绪并通知，取消时不会执行。</summary>

@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>管理枪械尚未装备的状态。</summary>
     public sealed class GunNoneState : GunStateBase

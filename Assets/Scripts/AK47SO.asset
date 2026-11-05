@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46434971b398e24591f82278d873173, type: 3}
   m_Name: AK47SO
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Weapon.AK47SO
-  _initialTotalBullets: 100
-  _capacity: 30
-  _prepareTicks: 30
-  _shotIntervalTicks: 6
-  _reloadTicks: 120
+  _initialTotalBullets: 200
+  _capacity: 15
+  _prepareTicks: 120
+  _shotIntervalTicks: 10
+  _reloadTicks: 60

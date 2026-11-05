@@ -1,6 +1,6 @@
 using System;
 
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>管理弹匣和备弹。</summary>
     public sealed class Magazine

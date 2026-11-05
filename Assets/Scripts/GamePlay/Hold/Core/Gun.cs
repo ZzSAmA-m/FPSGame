@@ -1,6 +1,6 @@
 using System;
 
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>通过状态机管理枪械动作。</summary>
     public abstract class Gun : WeaponBase, IFireable, IReloadable

@@ -1,8 +1,10 @@
 using UnityEngine;
 using Core.ZLog;
 using GamePlay.Player.Simulation;
-using GamePlay.Weapon;
+using GamePlay.HoldSystem;
 using Sirenix.OdinInspector;
+using UnityEngine.InputSystem;
+using System;
 
 /// <summary>演示 AK47 准备、连续射击和换弹的 Tick 驱动。</summary>
 public class Tester : MonoBehaviour
@@ -29,7 +31,7 @@ public class Tester : MonoBehaviour
     /// <summary>创建枪械并开始准备动作。</summary>
     private void Start()
     {
-        _gun = _weaponData != null ? _weaponData.CreateGun() : new AK47();
+        _gun = new AK47(_weaponData != null ? _weaponData.CreateConfig() : GunConfig.Default);
         _gun.OnShot += OnShot;
         _gun.OnReloadCompleted += OnReloadCompleted;
         _clock.Reset(Time.timeAsDouble);
@@ -37,7 +39,9 @@ public class Tester : MonoBehaviour
         _gun.TryPrepare();
         input=new();
         input.Enable();
+        input.Player.Reload.started+=TryReload;
     }
+
 
     /// <summary>按固定模拟步长演示三次射击和一次换弹。</summary>
     private void Update()
@@ -52,6 +56,13 @@ public class Tester : MonoBehaviour
             steps++;
             _gun.Tick(unchecked(++_tick));
         }
+        //test
+        if (input.Player.LMouse.IsPressed())
+        {
+            TryFire();
+        }
+
+        
     }
 
     /// <summary>记录射击次数和当前弹量。</summary>
@@ -80,5 +91,5 @@ public class Tester : MonoBehaviour
     [Button]
     public void TryFire()=>_gun.TryFire();
     [Button]
-    public void TryReload()=>_gun.TryReload();
+    public void TryReload(InputAction.CallbackContext context)=>_gun.TryReload();
 }

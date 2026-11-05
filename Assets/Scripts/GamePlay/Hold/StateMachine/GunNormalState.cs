@@ -1,4 +1,6 @@
-namespace GamePlay.Weapon
+using Core.ZLog;
+
+namespace GamePlay.HoldSystem
 {
     /// <summary>处理就绪状态下的开火和换弹请求。</summary>
     public sealed class GunNormalState : GunStateBase
@@ -27,6 +29,7 @@ namespace GamePlay.Weapon
                 return false;
 
             Machine.ChangeState(GunState.Reloading);
+            ZLog.Log<Gun>("Reloading...",LogChannel.GamePlay,LogFrequency.Medium);
             return true;
         }
     }

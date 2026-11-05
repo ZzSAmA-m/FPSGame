@@ -1,4 +1,4 @@
-namespace GamePlay.Weapon
+namespace GamePlay.HoldSystem
 {
     /// <summary>标识枪械当前所处的状态。</summary>
     public enum GunState
