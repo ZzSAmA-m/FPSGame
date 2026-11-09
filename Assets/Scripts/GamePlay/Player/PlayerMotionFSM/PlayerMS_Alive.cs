@@ -1,63 +1,44 @@
 using System;
 using System.Collections.Generic;
 using GamePlay.FSM;
-using GamePlay.Player.MotionFSM;
-using UnityEngine;
+
 namespace GamePlay.Player.MotionFSM
 {
     public class PlayerMS_Alive : IState
     {
-        private PlayerMotionState _motionState;
-
-        private PlayerMS_Alive_BodyDown _playerMS_Alive_BodyDown;
-        private PlayerMS_Alive_BodyUp   _playerMS_Alive_BodyUp;
-        private PlayerAnimatorController _controller;
-
-        public PlayerMS_Alive(PlayerMotionState motionState,PlayerAnimatorController controller)
-        {
-            _motionState=motionState;
-
-            _controller=controller;
-            _playerMS_Alive_BodyDown=new(this,_controller);
-            _playerMS_Alive_BodyUp=new(this,_controller);
-
-        }
-
-        public IState CurState { get ; set; }
-
+        private readonly PlayerMS_Alive_BodyDown _bodyDown;
+        private readonly PlayerMS_Alive_BodyUp _bodyUp;
+        public IState CurState { get; set; }
         public Dictionary<Type, IState> Type2State => null;
+
+        public PlayerMS_Alive(PlayerMotionState motionState, PlayerMotionStateMachine machine)
+        {
+            _bodyDown = new PlayerMS_Alive_BodyDown(this, machine);
+            _bodyUp = new PlayerMS_Alive_BodyUp(this, machine);
+        }
 
         public void OnEnter()
         {
-            EnterDownAndUpSM();
+            _bodyDown.OnEnter();
+            _bodyUp.OnEnter();
         }
 
         public void OnExit()
         {
-            ExitDownAndUpSM();
-        }
-
-        public void OnPhysicsUpdate()
-        {
-            _playerMS_Alive_BodyDown.OnPhysicsUpdate();
-            _playerMS_Alive_BodyUp.OnPhysicsUpdate();
+            _bodyDown.OnExit();
+            _bodyUp.OnExit();
         }
 
         public void OnUpdate()
         {
-            _playerMS_Alive_BodyDown.OnUpdate();
-            _playerMS_Alive_BodyUp.OnUpdate();
+            _bodyDown.OnUpdate();
+            _bodyUp.OnUpdate();
         }
 
-        void EnterDownAndUpSM()
+        public void OnPhysicsUpdate()
         {
-            _playerMS_Alive_BodyDown.OnEnter();
-            _playerMS_Alive_BodyUp.OnEnter();
-        }
-        void ExitDownAndUpSM()
-        {
-            _playerMS_Alive_BodyDown.OnExit();
-            _playerMS_Alive_BodyUp.OnExit();
+            _bodyDown.OnPhysicsUpdate();
+            _bodyUp.OnPhysicsUpdate();
         }
     }
 }

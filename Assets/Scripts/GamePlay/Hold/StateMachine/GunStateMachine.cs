@@ -127,11 +127,12 @@ namespace GamePlay.HoldSystem
             if (!_isOperating || CurrentId == state)
                 return;
 
+            GunState previous = CurrentId;
             _hasTick = true;
             _current.Exit();
             _current = _states[(int)state];
             _current.Enter(CurrentTick);
-            _owner.NotifyStateChanged(state);
+            _owner.NotifyStateChanged(previous, state);
         }
 
         /// <summary>判断截止拍是否到达，支持 uint 回绕。</summary>

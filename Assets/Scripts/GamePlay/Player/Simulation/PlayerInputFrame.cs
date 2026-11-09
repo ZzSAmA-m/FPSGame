@@ -11,7 +11,7 @@ namespace GamePlay.Player.Simulation
         public Vector2 move;
         public Vector2 look;
         public bool jump;
-        public bool fire;
+        public bool fire; // 本拍开火意图；是否真正发射由两端各自的枪械状态机判断。
         public bool key1;
         public bool key2;
         public bool key3;

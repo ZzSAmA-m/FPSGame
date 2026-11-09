@@ -1,5 +1,4 @@
 using Core.Utility;
-using GamePlay.Player.MotionFSM;
 using GamePlay.Player.Simulation;
 using Mirror;
 using Network.Client;
@@ -20,8 +19,7 @@ namespace GamePlay.Player
         {
             base.OnStartServer();
             _brain.SetRole(PawnRole.Authoritative);
-            _brain.Model.SwitchModel(EPlayerModelType.TP);
-            _brain.Animator.SwitchState<PlayerMotionState>();
+            _brain.Motion.SetView(EPlayerModelType.TP);
         }
 
         public override void OnStartClient()
@@ -32,15 +30,13 @@ namespace GamePlay.Player
             if (isLocalPlayer)
                 return;
 
-            _brain.Model.SwitchModel(EPlayerModelType.TP);
-            _brain.Animator.SwitchState<PlayerMotionState>();
+            _brain.Motion.SetView(EPlayerModelType.TP);
         }
 
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
-            _brain.Model.SwitchModel(EPlayerModelType.FP);
-            _brain.Animator.SwitchState<PlayerFPMotionState>();
+            _brain.Motion.SetView(EPlayerModelType.FP);
             _brain.Camera.AttachCamera2Player();
             _brain.Sight.EnableLook();
         }

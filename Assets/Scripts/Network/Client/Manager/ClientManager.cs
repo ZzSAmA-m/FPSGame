@@ -23,9 +23,11 @@ namespace Network.Client
         public void Initialize(NetBridge bridge)
         {
             _bridge = bridge ?? throw new ArgumentNullException(nameof(bridge));
+            _lastReceivedEventId = 0;
             _bridge.ClientHelloReceived += HandleHelloResponse;
             _bridge.PlayerSnapshotReceived += HandlePlayerSnapshot;
             _bridge.PredictionBaselineReceived += HandlePredictionBaseline;
+            _bridge.NetworkEventReceived += HandleNetworkEvent;
             ResetSimulationClock();
             Instance = this;
             ZLog.Log<ClientManager>("客户端应用层已初始化");
@@ -33,12 +35,14 @@ namespace Network.Client
 
         public void ShutDown()
         {
+            _lastReceivedEventId = 0;
             if (_bridge == null)
                 return;
 
             _bridge.ClientHelloReceived -= HandleHelloResponse;
             _bridge.PlayerSnapshotReceived -= HandlePlayerSnapshot;
             _bridge.PredictionBaselineReceived -= HandlePredictionBaseline;
+            _bridge.NetworkEventReceived -= HandleNetworkEvent;
             _bridge = null;
             ResetSimulationClock();
             _pendingBaselines.Clear();

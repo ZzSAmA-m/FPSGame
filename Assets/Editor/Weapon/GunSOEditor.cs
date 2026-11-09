@@ -7,9 +7,16 @@ using UnityEngine;
 [CanEditMultipleObjects]
 public sealed class GunSOEditor : Editor
 {
+    private SerializedProperty _resourcePack;
     // 弹药配置
     private SerializedProperty _initialTotalBullets;
     private SerializedProperty _capacity;
+
+    // 伤害配置
+    private SerializedProperty _bodyDamage;
+    private SerializedProperty _legDamage;
+    private SerializedProperty _headDamage;
+    private SerializedProperty _penetrationDamageReductionRatio;
 
     // Tick 配置
     private SerializedProperty _prepareTicks;
@@ -24,16 +31,32 @@ public sealed class GunSOEditor : Editor
     private static readonly Color AmmoColor =
         new Color(0.36f, 0.76f, 0.91f);
 
+    private static readonly Color DamageColor =
+        new Color(0.95f, 0.48f, 0.45f);
+
     private static readonly Color TickColor =
         new Color(0.95f, 0.72f, 0.39f);
 
     private void OnEnable()
     {
+        _resourcePack = serializedObject.FindProperty("_resourcePack");
         _initialTotalBullets =
             serializedObject.FindProperty("_initialTotalBullets");
 
         _capacity =
             serializedObject.FindProperty("_capacity");
+
+        _bodyDamage =
+            serializedObject.FindProperty("_bodyDamage");
+
+        _legDamage =
+            serializedObject.FindProperty("_legDamage");
+
+        _headDamage =
+            serializedObject.FindProperty("_headDamage");
+
+        _penetrationDamageReductionRatio =
+            serializedObject.FindProperty("_penetrationDamageReductionRatio");
 
         _prepareTicks =
             serializedObject.FindProperty("_prepareTicks");
@@ -83,6 +106,10 @@ public sealed class GunSOEditor : Editor
         EditorGUILayout.Space(8);
 
         DrawAmmoSection();
+
+        EditorGUILayout.Space(8);
+
+        DrawDamageSection();
 
         EditorGUILayout.Space(8);
 
@@ -159,15 +186,23 @@ public sealed class GunSOEditor : Editor
             EditorStyles.helpBox))
         {
             DrawSectionTitle(
-                "基础配置 · WeaponSO",
+                "资源配置 · RESOURCES",
                 new Color(0.65f, 0.7f, 0.75f)
             );
+
+            EditorGUILayout.PropertyField(_resourcePack, new GUIContent("枪械资源包"));
 
             DrawPropertiesExcluding(
                 serializedObject,
                 "m_Script",
+                "_controllerPrefab",
+                "_resourcePack",
                 "_initialTotalBullets",
                 "_capacity",
+                "_bodyDamage",
+                "_legDamage",
+                "_headDamage",
+                "_penetrationDamageReductionRatio",
                 "_prepareTicks",
                 "_shotIntervalTicks",
                 "_reloadTicks"
@@ -201,6 +236,46 @@ public sealed class GunSOEditor : Editor
             EditorGUILayout.PropertyField(
                 _capacity,
                 new GUIContent("单个弹匣容量")
+            );
+        }
+    }
+
+    // 伤害配置区域
+    private void DrawDamageSection()
+    {
+        using (new EditorGUILayout.VerticalScope(
+            EditorStyles.helpBox))
+        {
+            DrawSectionTitle(
+                "伤害配置 · DAMAGE",
+                DamageColor
+            );
+
+            GUILayout.Label(
+                "命中部位伤害与穿射伤害衰减",
+                _descriptionStyle
+            );
+
+            EditorGUILayout.Space(5);
+
+            EditorGUILayout.PropertyField(
+                _bodyDamage,
+                new GUIContent("身体伤害")
+            );
+
+            EditorGUILayout.PropertyField(
+                _legDamage,
+                new GUIContent("腿部伤害")
+            );
+
+            EditorGUILayout.PropertyField(
+                _headDamage,
+                new GUIContent("头部伤害")
+            );
+
+            EditorGUILayout.PropertyField(
+                _penetrationDamageReductionRatio,
+                new GUIContent("穿射伤害减少比例", "0 不减少伤害，1 减少全部伤害。")
             );
         }
     }

@@ -6,11 +6,8 @@ namespace GamePlay.HoldSystem
     [CreateAssetMenu(fileName = "AK47SO", menuName = "Scriptable Objects/Weapon/Gun/AK47SO")]
     public class AK47SO : GunSO
     {
-
-        public AK47SO()
-        {
-            Weapon= new AK47(CreateConfig());
-        }
+        public override WeaponSlot Slot => WeaponSlot.Rifle;
+        public override WeaponBase CreateWeapon() => new AK47(CreateConfig());
                 
     }
 }

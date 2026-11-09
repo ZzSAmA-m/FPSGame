@@ -2,102 +2,63 @@ using System;
 using System.Collections.Generic;
 using Core.Utility;
 using GamePlay.FSM;
-using GamePlay.Player;
-using GamePlay.Player.MotionFSM;
-using UnityEngine;
+
 namespace GamePlay.Player.MotionFSM
 {
     public class PlayerFPMotionState : IState
     {
+        private readonly PlayerMotionStateMachine _machine;
+        private readonly Dictionary<Type, IState> _states;
+        private bool _active;
         public IState CurState { get; set; }
+        public Dictionary<Type, IState> Type2State => _states;
 
-        public Dictionary<Type, IState> Type2State => _type2State;
-
-        private PlayerAnimatorController _controller;
-
-        private PlayerWeaponController _playerWeaponController;
-
-        private Dictionary<Type,IState> _type2State;
-
-
-        #region States
-
-        private PlayerFPMS_Knife _playerFPMS_Knife;
-        private PlayerFPMS_Rifle _playerFPMS_Rifle;
-
-        #endregion
-
-        public PlayerFPMotionState(PlayerAnimatorController controller)
+        public PlayerFPMotionState(PlayerMotionStateMachine machine)
         {
-            _controller=controller;
-
-
-            _playerFPMS_Knife=new(this,controller);
-            _playerFPMS_Rifle=new(this,controller);
-
-            _type2State = new()
+            _machine = machine;
+            _states = new Dictionary<Type, IState>
             {
-                {typeof(PlayerFPMS_Knife),_playerFPMS_Knife},
-                {typeof(PlayerFPMS_Rifle),_playerFPMS_Rifle},
+                { typeof(PlayerFPMS_Knife), new PlayerFPMS_Knife(this, machine) },
+                { typeof(PlayerFPMS_Rifle), new PlayerFPMS_Rifle(this, machine) }
             };
-            _playerWeaponController=controller.WeaponController;
         }
-
 
         public void OnEnter()
         {
-            _controller.SetLayerWeight(_controller.FPLayer,1);
-            this.SwitchState<PlayerFPMS_Knife>();
-            _playerWeaponController.OnWeaponInvoked+=OnWeaponMotion;
+            _active = true;
+            _machine.EquipmentChanged += ApplyEquipment;
+            _machine.WeaponInput += OnWeaponInput;
+            ApplyEquipment();
         }
 
         public void OnExit()
         {
-            _playerWeaponController.OnWeaponInvoked-=OnWeaponMotion;
+            _active = false;
+            _machine.EquipmentChanged -= ApplyEquipment;
+            _machine.WeaponInput -= OnWeaponInput;
+            CurState?.OnExit();
+            CurState = null;
         }
 
-        public void OnPhysicsUpdate()
+        public void OnUpdate() => CurState?.OnUpdate();
+        public void OnPhysicsUpdate() => CurState?.OnPhysicsUpdate();
+
+        private void ApplyEquipment()
         {
-            CurState.OnPhysicsUpdate();
+            if (!_active) return;
+            if (_machine.EquipmentPose == PlayerHoldPose.Rifle)
+                this.SwitchState<PlayerFPMS_Rifle>();
+            else
+                this.SwitchState<PlayerFPMS_Knife>();
         }
 
-        public void OnUpdate()
+        private void OnWeaponInput(WeaponInputAction action)
         {
-            CurState.OnUpdate();
-        }
-
-
-        void OnWeaponMotion(WeaponInputAction action)
-        {
-            switch (action)
-            {
-                case WeaponInputAction.Key1:
-                    OnClickHand1();
-                    break;
-                case WeaponInputAction.Key2:
-                    OnClickHand2();
-                    break;
-                case WeaponInputAction.Key3:
-                    OnClickHand3();
-                    break;
-            }
-        }
-
-        private void OnClickHand1()
-        {
-            
-            this.SwitchState<PlayerFPMS_Rifle>();
-        }
-
-        private void OnClickHand2()
-        {
-
-        }
-
-        private void OnClickHand3()
-        {
-            
-            this.SwitchState<PlayerFPMS_Knife>();
+            if (!_active || _machine.HasEquippedWeapon) return;
+            if (action == WeaponInputAction.Key1)
+                this.SwitchState<PlayerFPMS_Rifle>();
+            else if (action == WeaponInputAction.Key3)
+                this.SwitchState<PlayerFPMS_Knife>();
         }
     }
 }

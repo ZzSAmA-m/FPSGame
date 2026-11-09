@@ -137,9 +137,8 @@ namespace GamePlay.Player.Simulation
             }
 
             PlayerInputFrame frame = PlayerInputDriver.Instance.Consume(++_tick);
-            PlayerStepResult result = _brain.Simulation.Step(frame);
-            _history.Record(frame, _brain.Simulation.State);
-            _brain.Weapon.Present(result);
+            PlayerLiveStepResult result = _brain.StepPredicted(frame);
+            _history.Record(frame, result.State);
             _client.SendInputs(Epoch, _history.CopyRecentInputs(SimTime.InputWindow));
         }
 

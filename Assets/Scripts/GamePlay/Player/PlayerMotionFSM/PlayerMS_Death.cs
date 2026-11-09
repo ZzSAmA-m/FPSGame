@@ -1,41 +1,18 @@
 using System;
 using System.Collections.Generic;
 using GamePlay.FSM;
-using GamePlay.Player;
-using GamePlay.Player.MotionFSM;
-using UnityEngine;
 
-public class PlayerMS_Death : IState
+namespace GamePlay.Player.MotionFSM
 {
-    PlayerMotionState _motionState;
-    PlayerAnimatorController _controller;
-    public PlayerMS_Death(PlayerMotionState motionState,PlayerAnimatorController controller)
+    /// <summary>保留尚未实现的死亡动作状态，不在动作与表现分离中补充死亡规则。</summary>
+    public class PlayerMS_Death : IState
     {
-        _motionState=motionState;
-        _controller=controller;
-    }
-
-    public IState CurState { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-    public Dictionary<Type, IState> Type2State =>null;
-
-    public void OnEnter()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnExit()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnPhysicsUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnUpdate()
-    {
-        throw new System.NotImplementedException();
+        public PlayerMS_Death(PlayerMotionState motionState, PlayerMotionStateMachine machine) { }
+        public IState CurState { get; set; }
+        public Dictionary<Type, IState> Type2State => null;
+        public void OnEnter() => throw new NotImplementedException();
+        public void OnExit() { }
+        public void OnUpdate() { }
+        public void OnPhysicsUpdate() { }
     }
 }

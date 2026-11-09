@@ -10,6 +10,7 @@ namespace Network.Common
         public event Action<HelloResponse> ClientHelloReceived;
         public event Action<PlayerSnapshotMessage> PlayerSnapshotReceived;
         public event Action<PredictionBaselineMessage> PredictionBaselineReceived;
+        public event Action<NetworkEventMessage> NetworkEventReceived;
 
         public void StartClient()
         {
@@ -19,6 +20,7 @@ namespace Network.Common
             NetworkClient.RegisterHandler<HelloResponse>(HandleClientHello);
             NetworkClient.RegisterHandler<PlayerSnapshotMessage>(HandlePlayerSnapshot);
             NetworkClient.RegisterHandler<PredictionBaselineMessage>(HandlePredictionBaseline);
+            NetworkClient.RegisterHandler<NetworkEventEnvelope>(HandleNetworkEvent);
             _clientHandlersRegistered = true;
         }
 
@@ -30,6 +32,7 @@ namespace Network.Common
             NetworkClient.UnregisterHandler<HelloResponse>();
             NetworkClient.UnregisterHandler<PlayerSnapshotMessage>();
             NetworkClient.UnregisterHandler<PredictionBaselineMessage>();
+            NetworkClient.UnregisterHandler<NetworkEventEnvelope>();
             _clientHandlersRegistered = false;
         }
 
@@ -91,6 +94,11 @@ namespace Network.Common
         void HandlePredictionBaseline(PredictionBaselineMessage message)
         {
             PredictionBaselineReceived?.Invoke(message);
+        }
+
+        void HandleNetworkEvent(NetworkEventEnvelope message)
+        {
+            NetworkEventReceived?.Invoke(message.payload);
         }
     }
 }

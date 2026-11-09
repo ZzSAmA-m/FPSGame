@@ -2,104 +2,63 @@ using System;
 using System.Collections.Generic;
 using Core.Utility;
 using GamePlay.FSM;
-using Mirror;
-using UnityEngine;
-using UnityEngine.InputSystem;
+
 namespace GamePlay.Player.MotionFSM
 {
     public class PlayerMS_Alive_BodyUp : IState
     {
-        private PlayerMS_Alive _playerMS_Alive;
-        private PlayerAnimatorController _controller;
-        private PlayerWeaponController _weaponController;
-        private Dictionary<Type,IState> _type2State;
-        private bool _active=false;
-
-        #region States
-
-        private PlayerMS_Alive_BodyUp_Rifle _playerMS_Alive_BodyUp_Rifle;
-        private PlayerMS_Alive_BodyUp_Knife _playerMS_Alive_BodyUp_Knife;
-
-        #endregion
-
-        public PlayerMS_Alive_BodyUp(PlayerMS_Alive playerMS_Alive,PlayerAnimatorController controller)
-        {
-            _playerMS_Alive=playerMS_Alive;
-
-            _controller=controller;
-
-            _playerMS_Alive_BodyUp_Rifle=new(this,controller);
-            _playerMS_Alive_BodyUp_Knife=new(this,controller);
-
-            _type2State = new()
-            {
-                {typeof(PlayerMS_Alive_BodyUp_Rifle),_playerMS_Alive_BodyUp_Rifle},
-                {typeof(PlayerMS_Alive_BodyUp_Knife),_playerMS_Alive_BodyUp_Knife},
-            };
-            
-            _weaponController=_controller.WeaponController;
-        }
-
+        private readonly PlayerMotionStateMachine _machine;
+        private readonly Dictionary<Type, IState> _states;
+        private bool _active;
         public IState CurState { get; set; }
+        public Dictionary<Type, IState> Type2State => _states;
 
-        public Dictionary<Type, IState> Type2State => _type2State;
+        public PlayerMS_Alive_BodyUp(PlayerMS_Alive alive, PlayerMotionStateMachine machine)
+        {
+            _machine = machine;
+            _states = new Dictionary<Type, IState>
+            {
+                { typeof(PlayerMS_Alive_BodyUp_Rifle), new PlayerMS_Alive_BodyUp_Rifle(this, machine) },
+                { typeof(PlayerMS_Alive_BodyUp_Knife), new PlayerMS_Alive_BodyUp_Knife(this, machine) }
+            };
+        }
 
         public void OnEnter()
         {
-            this.SwitchState<PlayerMS_Alive_BodyUp_Knife>();
-            _active=true;
-            _weaponController.OnWeaponInvoked+=OnWeaponMotion;
+            _active = true;
+            _machine.EquipmentChanged += ApplyEquipment;
+            _machine.WeaponInput += OnWeaponInput;
+            ApplyEquipment();
         }
 
         public void OnExit()
         {
-            _active=false;
-            _weaponController.OnWeaponInvoked-=OnWeaponMotion;
+            _active = false;
+            _machine.EquipmentChanged -= ApplyEquipment;
+            _machine.WeaponInput -= OnWeaponInput;
+            CurState?.OnExit();
+            CurState = null;
         }
 
-        public void OnPhysicsUpdate()
+        public void OnUpdate() => CurState?.OnUpdate();
+        public void OnPhysicsUpdate() => CurState?.OnPhysicsUpdate();
+
+        private void ApplyEquipment()
         {
-            CurState.OnPhysicsUpdate();
+            if (!_active) return;
+            if (_machine.EquipmentPose == PlayerHoldPose.Rifle)
+                this.SwitchState<PlayerMS_Alive_BodyUp_Rifle>();
+            else
+                this.SwitchState<PlayerMS_Alive_BodyUp_Knife>();
         }
 
-        public void OnUpdate()
+        private void OnWeaponInput(WeaponInputAction action)
         {
-            CurState.OnUpdate();
+            if (!_active || _machine.HasEquippedWeapon) return;
+            if (action == WeaponInputAction.Key1)
+                this.SwitchState<PlayerMS_Alive_BodyUp_Rifle>();
+            else if (action == WeaponInputAction.Key3)
+                this.SwitchState<PlayerMS_Alive_BodyUp_Knife>();
         }
-
-        /// <summary>
-        /// 接受一个 WeaponInputAction,根据具体的参数来调用不同方法,例如key1 => OnClickHand1
-        /// </summary>
-        void OnWeaponMotion(WeaponInputAction action)
-        {
-            switch (action)
-            {
-                case WeaponInputAction.Key1:
-                    OnClickHand1();
-                    break;
-                case WeaponInputAction.Key2:
-                    OnClickHand2();
-                    break;
-                case WeaponInputAction.Key3:
-                    OnClickHand3();
-                    break;
-            }
-        }
-        void OnClickHand1()
-        {
-            if(!_active)return;
-            this.SwitchState<PlayerMS_Alive_BodyUp_Rifle>();
-        }
-        void OnClickHand2()
-        {
-            
-        }
-        void OnClickHand3()
-        {
-            if(!_active)return;
-            this.SwitchState<PlayerMS_Alive_BodyUp_Knife>();
-        }
-
-
     }
 }

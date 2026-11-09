@@ -1,16 +1,16 @@
 using Core.Event;
-using Mirror;
+using GamePlay.Events;
 using UnityEngine;
 
 namespace GamePlay.Player
 {
-    /// <summary>
-    /// 只为本地玩家挂载场景相机；远端玩家不会影响本机相机。
-    /// </summary>
+    /// <summary>为本地玩家挂载和释放场景相机。</summary>
     public class PlayerCameraController : MonoBehaviour
     {
+        /// <summary>本地玩家的第一人称相机挂点。</summary>
         [SerializeField] private Transform TfCameraPoint;
 
+        /// <summary>检查相机挂点是否配置。</summary>
         private void Awake()
         {
             // Prefab 丢失引用时尽早报错，比连接后出现空引用更容易定位。
@@ -23,15 +23,13 @@ namespace GamePlay.Player
         /// <summary>本地玩家开始控制时，把场景相机挂到第一人称相机点。</summary>
         public void AttachCamera2Player()
         {
-            EventCenter.GamePlayEvent.CameraAttachEvent.RaiseEvent(TfCameraPoint);
+            EventCenter.Publish(CameraEventIds.Attach, TfCameraPoint);
         }
 
-        /// <summary>
-        /// 玩家销毁前先释放相机，防止相机作为玩家子物体被 Unity 一并销毁。
-        /// </summary>
+        /// <summary>在玩家销毁前同步释放场景相机。</summary>
         public void DisAttachCamera2Player()
         {
-            EventCenter.GamePlayEvent.CameraDetachEvent.RaiseEvent();
+            EventCenter.Publish(CameraEventIds.Detach);
         }
 
 

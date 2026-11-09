@@ -1,4 +1,5 @@
 using Core.ZLog;
+using GamePlay.Player;
 using GamePlay.Player.Simulation;
 using Mirror;
 using Network.Client;
@@ -101,7 +102,7 @@ namespace Network.Server
 
         void BeginPredictionEpoch(ClientSession session)
         {
-            if (session.Player == null || !session.Player.TryGetComponent(out IPlayerSimulation simulation))
+            if (session.Player == null || !session.Player.TryGetComponent(out PlayerBrain brain))
                 return;
 
             _predictionEpoch = unchecked(_predictionEpoch + 1);
@@ -118,7 +119,7 @@ namespace Network.Server
                 netId = session.Player.netId,
                 predictionEpoch = session.PredictionEpoch,
                 baseInputTick = 0,
-                state = simulation.State
+                state = brain.State
             });
         }
 

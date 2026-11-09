@@ -31,6 +31,7 @@ namespace Network.Server
             _bridge.PlayerInputReceived += HandlePlayerInput;
             _bridge.PredictionResyncRequested += HandlePredictionResync;
             _tick = 0;
+            _eventSequence = 0;
             _predictionEpoch = 0;
             _simulationClock.Reset(Time.unscaledTimeAsDouble);
             _initialized = true;
@@ -49,6 +50,7 @@ namespace Network.Server
             _initialized = false;
             _simulationClock.Reset(Time.unscaledTimeAsDouble);
             _tick = 0;
+            _eventSequence = 0;
         }
 
         public void AddClient(NetworkConnectionToClient connection)

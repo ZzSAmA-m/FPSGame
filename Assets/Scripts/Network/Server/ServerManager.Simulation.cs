@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Core.ZLog;
-using Core.ZLog;
 using GamePlay.Player;
 using GamePlay.Player.Simulation;
 using Mirror;
@@ -13,6 +12,7 @@ namespace Network.Server
     public sealed partial class ServerManager : MonoBehaviour
     {
         uint _tick;
+        ulong _eventSequence;
         readonly List<NetworkConnectionToClient> _predictionTimeouts = new();
 
         void SimulateTick()
@@ -25,7 +25,7 @@ namespace Network.Server
                 ClientSession session = pair.Value;
                 if (session.State != SessionState.Playing || session.Player == null)
                     continue;
-                if (!session.Player.TryGetComponent(out PlayerSimulation simulation))
+                if (!session.Player.TryGetComponent(out PlayerBrain brain))
                     continue;
 
                 if (session.AwaitingInput)
@@ -43,10 +43,10 @@ namespace Network.Server
                 }
 
                 PlayerInputFrame frame = session.Inputs.ResolveNext();
-                PlayerStepResult result = simulation.Step(frame);
+                PlayerLiveStepResult result = brain.StepServer(frame);
                 session.Inputs.Commit(frame.tick);
-                if (session.Player.TryGetComponent(out PlayerWeaponController weapon))
-                    weapon.Present(result);
+                if (result.Fired)
+                    PublishFire(session, frame.tick, result);
             }
 
             // 断线回调会移除会话，放在枚举结束后处理。
@@ -60,6 +60,25 @@ namespace Network.Server
                 Publish();
         }
 
+        void PublishFire(ClientSession session, uint inputTick, in PlayerLiveStepResult result)
+        {
+            var fire = new FireEventMessage
+            {
+                eventId = ++_eventSequence,
+                serverTick = _tick,
+                netId = session.Player.netId,
+                predictionEpoch = session.PredictionEpoch,
+                inputTick = inputTick,
+                position = result.State.position,
+                origin = result.FireOrigin,
+                direction = result.FireDirection
+            };
+            _bridge.BroadcastEvent(fire);
+#if UNITY_EDITOR
+            Debug.DrawRay(fire.origin, fire.direction * 100f, Color.red, 3f, false);
+#endif
+        }
+
         void Publish()
         {
             var poses = new List<PlayerSnapshotPose>();
@@ -68,7 +87,7 @@ namespace Network.Server
                 ClientSession session = pair.Value;
                 if (session.State != SessionState.Playing || session.Player == null || session.PredictionEpoch == 0)
                     continue;
-                if (!session.Player.TryGetComponent(out IPlayerSimulation simulation))
+                if (!session.Player.TryGetComponent(out PlayerBrain brain))
                     continue;
 
                 poses.Add(new PlayerSnapshotPose
@@ -76,7 +95,7 @@ namespace Network.Server
                     netId = session.Player.netId,
                     predictionEpoch = session.PredictionEpoch,
                     lastProcessedInputTick = session.Inputs.LastProcessedTick,
-                    state = simulation.State
+                    state = brain.State
                 });
             }
 

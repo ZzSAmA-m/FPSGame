@@ -111,6 +111,14 @@ namespace Core.ZLog
             SetAll(FrequencyVisible, visible);
         }
 
+        /// <summary>检查分类和频率是否允许输出。</summary>
+        public static bool ShouldLog(
+            LogChannel channel = LogChannel.Default,
+            LogFrequency frequency = LogFrequency.Default)
+        {
+            return Pass(channel, frequency);
+        }
+
         static bool Pass(LogChannel channel, LogFrequency frequency)
         {
             if (!Enable) return false;

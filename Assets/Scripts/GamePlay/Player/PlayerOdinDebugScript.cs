@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class PlayerOdinDebugScript : MonoBehaviour
 {
-    PlayerModelController playerModelController;
+    PlayerMotionController playerMotionController;
     PlayerSightController playerSightController;
     void Awake()
     {
-        playerModelController=GetComponent<PlayerModelController>();
+        playerMotionController=GetComponent<PlayerMotionController>();
         playerSightController=GetComponent<PlayerSightController>();
     }
     
 
     [Button]
-    public void FPModel()=>playerModelController.SwitchModel(Core.Utility.EPlayerModelType.FP);
+    public void FPModel()=>playerMotionController.SetView(Core.Utility.EPlayerModelType.FP);
     [Button]
-    public void TPModel()=>playerModelController.SwitchModel(Core.Utility.EPlayerModelType.TP);
+    public void TPModel()=>playerMotionController.SetView(Core.Utility.EPlayerModelType.TP);
     [Button]
     public void EnableLook()=>playerSightController.EnableLook();
     [Button]

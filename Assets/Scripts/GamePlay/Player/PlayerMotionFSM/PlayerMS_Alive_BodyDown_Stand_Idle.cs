@@ -1,48 +1,30 @@
 using System;
 using System.Collections.Generic;
 using GamePlay.FSM;
-using GamePlay.Player;
-using UnityEngine;
+
 namespace GamePlay.Player.MotionFSM
 {
     public class PlayerMS_Alive_BodyDown_Stand_Idle : IState
     {
-        private PlayerMS_Alive_BodyDown_Stand _playerMS_Alive_BodyDown_Stand;
-        private PlayerAnimatorController _controller;
-    
-        public PlayerMS_Alive_BodyDown_Stand_Idle(PlayerMS_Alive_BodyDown_Stand playerMS_Alive_BodyDown_Stand,PlayerAnimatorController controller)
-        {
-            _playerMS_Alive_BodyDown_Stand=playerMS_Alive_BodyDown_Stand;
-            _controller=controller;
-        }
-    
-        public IState CurState { get ; set; }
-
+        private readonly PlayerMS_Alive_BodyDown_Stand _parent;
+        private readonly PlayerMotionStateMachine _machine;
+        public IState CurState { get; set; }
         public Dictionary<Type, IState> Type2State => null;
 
-        public void OnEnter()
+        public PlayerMS_Alive_BodyDown_Stand_Idle(PlayerMS_Alive_BodyDown_Stand parent, PlayerMotionStateMachine machine)
         {
-            Debug.Log("Switch to Idle");
-            _controller.CrossFadeAnim(PlayerAnimatorName.idle,_controller.switchAnimTime,_controller.DownLayer);
+            _parent = parent;
+            _machine = machine;
         }
-    
-        public void OnExit()
-        {
-            
-        }
-    
-        public void OnPhysicsUpdate()
-        {
-            
-        }
-    
+
+        public void OnEnter() => _machine.EnterLocomotion(EStandRunState.NONE);
+        public void OnExit() { }
+        public void OnPhysicsUpdate() { }
+
         public void OnUpdate()
         {
-            if (_controller.Velocity.magnitude>_controller.offset)
-            {
-                _playerMS_Alive_BodyDown_Stand.SwitchState<PlayerMS_Alive_BodyDown_Stand_Run>();
-            }
+            if (_machine.LocalVelocity.magnitude > _machine.MovementThreshold)
+                _parent.SwitchState<PlayerMS_Alive_BodyDown_Stand_Run>();
         }
     }
-
 }

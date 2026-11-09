@@ -1,37 +1,47 @@
+using System;
 using Core.Event;
 using Core.Utility;
+using GamePlay.Events;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace GamePlay.Camera {
-    /// <summary>
-    /// 场景主相机的挂载服务。相机属于场景，不属于玩家网络对象。
-    /// </summary>
+    /// <summary>管理场景主相机的挂载和释放。</summary>
     public class CameraController : Singleton<CameraController>
     {
+        /// <summary>相机在场景中的原父节点。</summary>
         private Transform _defaultParent;
 
+        /// <summary>复用相机挂载事件的监听委托。</summary>
+        private Action<Transform> _attachListener;
+
+        /// <summary>复用相机释放事件的监听委托。</summary>
+        private Action _detachListener;
+
+        /// <summary>缓存原父节点和事件监听委托。</summary>
         private void Awake()
         {
             _defaultParent = transform.parent;
+            _attachListener = AttachCameraToModel;
+            _detachListener = DetachCameraFromPlayer;
         }
 
+        /// <summary>启用时监听本地相机事件。</summary>
         private void OnEnable()
         {
-            EventCenter.GamePlayEvent.CameraAttachEvent.OnEventRaised += AttachCameraToModel;
-            EventCenter.GamePlayEvent.CameraDetachEvent.OnEventRaised += DetachCameraFromPlayer;
+            EventCenter.AddListener(CameraEventIds.Attach, _attachListener, owner: this);
+            EventCenter.AddListener(CameraEventIds.Detach, _detachListener, owner: this);
         }
 
+        /// <summary>停用时移除同一组监听委托。</summary>
         private void OnDisable()
         {
-            EventCenter.GamePlayEvent.CameraAttachEvent.OnEventRaised -= AttachCameraToModel;
-            EventCenter.GamePlayEvent.CameraDetachEvent.OnEventRaised -= DetachCameraFromPlayer;
+            EventCenter.RemoveListener(CameraEventIds.Attach, _attachListener);
+            EventCenter.RemoveListener(CameraEventIds.Detach, _detachListener);
         }
 
 
-        /// <summary>
-        /// 把场景相机挂到本地玩家的第一人称相机点。
-        /// </summary>
+        /// <summary>将相机挂到本地玩家的第一人称挂点。</summary>
         [Button("相机吸附到模型")]
         public void AttachCameraToModel(Transform tf)
         {
@@ -46,9 +56,7 @@ namespace GamePlay.Camera {
             transform.localRotation = Quaternion.identity;
         }
 
-        /// <summary>
-        /// 在本地玩家销毁前将相机移回场景层级，避免随玩家一起销毁。
-        /// </summary>
+        /// <summary>在玩家销毁前将相机移回场景层级。</summary>
         public void DetachCameraFromPlayer()
         {
             transform.SetParent(_defaultParent, true);

@@ -32,11 +32,23 @@ namespace GamePlay.HoldSystem
         /// <summary>本次扣弹和射击状态提交后通知。</summary>
         public event Action OnShot;
 
+        /// <summary>成功进入装备准备状态后通知。</summary>
+        public event Action OnPrepare;
+
         /// <summary>准备完成并进入就绪状态后通知。</summary>
         public event Action OnPrepareCompleted;
 
+        /// <summary>成功进入换弹状态后通知。</summary>
+        public event Action OnReload;
+
         /// <summary>装填完成并进入就绪状态后通知。</summary>
         public event Action OnReloadCompleted;
+
+        /// <summary>当前射击周期自然结束并进入就绪状态后通知，不代表动画结束。</summary>
+        public event Action OnShotCooldownEnd;
+
+        /// <summary>动作被收枪或射击打断后通知被取消的状态，不发送正常完成事件。</summary>
+        public event Action<GunState> OnActionCanceled;
 
         /// <summary>创建当前枪械的配置、弹匣和状态机。</summary>
         protected Gun(GunConfig config)
@@ -114,10 +126,24 @@ namespace GamePlay.HoldSystem
             OnReloadCompleted?.Invoke();
         }
 
-        /// <summary>通知状态机已经完成状态切换。</summary>
-        internal void NotifyStateChanged(GunState state)
+        /// <summary>状态提交后通知切换和动作生命周期，完成通知仍由对应状态提交结果后发出。</summary>
+        internal void NotifyStateChanged(GunState previous, GunState state)
         {
             OnSwitchState?.Invoke(state);
+
+            bool canceledByUnequip = state == GunState.None &&
+                previous is GunState.Preparing or GunState.Reloading or GunState.Shooting;
+            bool canceledByShot = previous == GunState.Reloading && state == GunState.Shooting;
+            if (canceledByUnequip || canceledByShot)
+                OnActionCanceled?.Invoke(previous);
+
+            if (state == GunState.Preparing)
+                OnPrepare?.Invoke();
+            else if (state == GunState.Reloading)
+                OnReload?.Invoke();
+            else if (previous == GunState.Shooting && state == GunState.Normal)
+                // 只通知自然完成的射击周期；收枪保留冷却，但重新装备不补发旧周期的结束。
+                OnShotCooldownEnd?.Invoke();
         }
     }
 }

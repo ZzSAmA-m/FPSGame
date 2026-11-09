@@ -16,5 +16,8 @@ namespace Core.ZLog
 
         /// <summary>玩法。</summary>
         GamePlay,
+
+        /// <summary>事件。</summary>
+        Event,
     }
 }

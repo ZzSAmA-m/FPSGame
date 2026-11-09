@@ -1,57 +1,33 @@
 using System;
 using System.Collections.Generic;
 using GamePlay.FSM;
-using UnityEngine;
+
 namespace GamePlay.Player.MotionFSM
 {
     public class PlayerMotionState : IState
     {
-        public IState CurState{get; set;}
+        private readonly Dictionary<Type, IState> _states;
+        public IState CurState { get; set; }
+        public Dictionary<Type, IState> Type2State => _states;
 
-        public Dictionary<Type, IState> Type2State => _type2State;
-
-        private PlayerMS_Alive _playerMS_Alive;
-        private PlayerMS_Death _playerMS_Death;
-        private PlayerAnimatorController _controller;
-
-        private Dictionary<Type,IState> _type2State;
-
-        public PlayerMotionState(PlayerAnimatorController controller)
+        public PlayerMotionState(PlayerMotionStateMachine machine)
         {
-
-            _controller=controller;
-
-            _playerMS_Alive=new(this,_controller); 
-            _playerMS_Death=new(this,_controller);
-
-            _type2State = new()
+            _states = new Dictionary<Type, IState>
             {
-                {typeof(PlayerMS_Alive),_playerMS_Alive},
-                {typeof(PlayerMS_Death),_playerMS_Death},
+                { typeof(PlayerMS_Alive), new PlayerMS_Alive(this, machine) },
+                { typeof(PlayerMS_Death), new PlayerMS_Death(this, machine) }
             };
         }
-        public void OnEnter()
-        {
-            _controller.SetLayerWeight(_controller.UpLayer,1);
-            _controller.SetLayerWeight(_controller.DownLayer,1);
-            _controller.SetLayerWeight(_controller.FPLayer,0);
-            this.SwitchState<PlayerMS_Alive>();
-        }
+
+        public void OnEnter() => this.SwitchState<PlayerMS_Alive>();
 
         public void OnExit()
         {
-            
+            CurState?.OnExit();
+            CurState = null;
         }
 
-        public void OnUpdate()
-        {
-            CurState.OnUpdate();
-        }
-
-        public void OnPhysicsUpdate()
-        {
-            CurState.OnPhysicsUpdate();
-        }
+        public void OnUpdate() => CurState?.OnUpdate();
+        public void OnPhysicsUpdate() => CurState?.OnPhysicsUpdate();
     }
-
 }

@@ -57,13 +57,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110333441568125530}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15767556, y: -0, z: -0, w: 0.987491}
-  m_LocalPosition: {x: 0, y: 0.45559514, z: -0.14431779}
+  m_LocalRotation: {x: 0.017452406, y: 0, z: 0, w: 0.9998477}
+  m_LocalPosition: {x: -0.08, y: 0.14, z: -0.11431779}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7007518467399085996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 2, y: 0, z: 0}
 --- !u!114 &4449122261081948705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,8 +158,11 @@ GameObject:
   - component: {fileID: 4640468467155608527}
   - component: {fileID: 6094752236810543945}
   - component: {fileID: 3932797591887321630}
+  - component: {fileID: 6912873605581579357}
   - component: {fileID: 8794557632280859860}
   - component: {fileID: 8836023211097811382}
+  - component: {fileID: 5965594921007537763}
+  - component: {fileID: 1184155785773201195}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -248,6 +251,8 @@ MonoBehaviour:
   TpModels:
   - {fileID: 1369992960275661580}
   - {fileID: 3848751347270895108}
+  _rifleModel: {fileID: 8228751888403917689}
+  _knifeModel: {fileID: 7954539708413056634}
 --- !u!114 &6814248670821641159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,10 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimatorController
   _mainAnimator: {fileID: 3226947550299082200}
-  offset: 2
   switchAnimTime: 0.2
-  RifleModel: {fileID: 8228751888403917689}
-  KnifeModel: {fileID: 7954539708413056634}
 --- !u!114 &8505113628775469570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +321,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerBrain
   _playerBasicData: {fileID: 11400000, guid: 17c38229c6da4f645b01ba7f3e8232bd, type: 2}
+--- !u!114 &6912873605581579357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad4a21a5192ceb4fa88156e6a1b3c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerHolder
+  _weaponMount: {fileID: 7073742235373064695}
+  _defaultKnife: {fileID: 11400000, guid: 833dc03d7b0cb5446ad808df7659c37c, type: 2}
+  _initialWeapons:
+  - {fileID: 11400000, guid: 47e400a9c78a1434c893e3e12c55ddeb, type: 2}
+  _showWeaponDebugGUI: 1
 --- !u!114 &8794557632280859860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +380,116 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.92, z: 0}
+--- !u!114 &5965594921007537763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bed224784e38f345803fa16df00f30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerMotionController
+  _movementThreshold: 2
+--- !u!82 &1184155785773201195
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1464887240275943563
 PrefabInstance:
   m_ObjectHideFlags: 0

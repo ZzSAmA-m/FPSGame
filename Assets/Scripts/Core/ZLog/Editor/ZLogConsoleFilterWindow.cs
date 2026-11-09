@@ -255,14 +255,27 @@ namespace Core.ZLog.Editor
 
     sealed class ZLogConsoleFilterPopup : PopupWindowContent
     {
+        const float WindowWidth = 280f;
+        const float HeaderAndControlsHeight = 180f;
+        const float MaxWindowHeight = 480f;
+        Vector2 _scrollPosition;
+
         public override Vector2 GetWindowSize()
         {
-            return new Vector2(280f, 340f);
+            int rows = Enum.GetValues(typeof(LogChannel)).Length + Enum.GetValues(typeof(LogFrequency)).Length;
+            float rowHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            // 此方法也可能在 OnGUI 外调用，不在这里访问 EditorStyles 或 GUI.skin。
+            float height = Mathf.Min(MaxWindowHeight, HeaderAndControlsHeight + rows * rowHeight);
+            return new Vector2(WindowWidth, height);
         }
 
         public override void OnGUI(Rect rect)
         {
-            ZLogConsoleToolbar.DrawFilterGui();
+            using (var scroll = new EditorGUILayout.ScrollViewScope(_scrollPosition))
+            {
+                _scrollPosition = scroll.scrollPosition;
+                ZLogConsoleToolbar.DrawFilterGui();
+            }
         }
     }
 }

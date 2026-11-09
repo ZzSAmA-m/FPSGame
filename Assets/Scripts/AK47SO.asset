@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46434971b398e24591f82278d873173, type: 3}
   m_Name: AK47SO
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Weapon.AK47SO
+  _controllerPrefab: {fileID: 0}
+  _resourcePack: {fileID: 11400000, guid: 5f10160ff36adc6438a9ba2875fc8da5, type: 2}
   _initialTotalBullets: 200
-  _capacity: 15
-  _prepareTicks: 120
-  _shotIntervalTicks: 10
+  _capacity: 50
+  _bodyDamage: 50
+  _legDamage: 30
+  _headDamage: 100
+  _penetrationDamageReductionRatio: 0.3
+  _prepareTicks: 60
+  _shotIntervalTicks: 6
   _reloadTicks: 60

@@ -6,7 +6,7 @@ namespace GamePlay.Player.Simulation
     public struct PlayerStepResult
     {
         public bool jumped;
-        public bool fired;
+        public bool fired; // 运动输入中的 Fire 意图；实际发射成功使用 PlayerLiveStepResult.Fired。
         public bool key1;
         public bool key2;
         public bool key3;
