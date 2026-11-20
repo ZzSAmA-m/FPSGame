@@ -8,6 +8,7 @@ namespace GamePlay.Player.Simulation
         public const int MaxStepsPerFrame = 16;
         public const int SnapshotInterval = 2;
         public const int InputWindow = 12;
-        public const float RemoteDelaySeconds = 0.03f;
+        // 一次快照间隔加一拍收包余量，客户端插值和服务器回溯共用。
+        public const double RemoteDelaySeconds = (SnapshotInterval + 1) * Dt;
     }
 }

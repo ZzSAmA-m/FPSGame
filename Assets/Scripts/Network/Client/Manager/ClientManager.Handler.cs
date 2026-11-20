@@ -23,7 +23,7 @@ namespace Network.Client
 
         void HandlePlayerSnapshot(PlayerSnapshotMessage message)
         {
-            WorldTimeline.ObserveAnchor(message.serverTick, message.serverTime);
+            WorldTimeline.ObserveAnchor(message.serverTick, message.serverTime, Time.unscaledTimeAsDouble);
             if (message.players == null)
                 return;
 
@@ -55,7 +55,7 @@ namespace Network.Client
         {
             if (message.predictionEpoch == 0 || !PlayerStateValidation.IsFinite(message.state))
                 return;
-            WorldTimeline.ObserveAnchor(message.serverTick, message.serverTime);
+            WorldTimeline.ObserveAnchor(message.serverTick, message.serverTime, Time.unscaledTimeAsDouble);
             if (!Players.Players.TryGetValue(message.netId, out GameObject player))
             {
                 if (!_pendingBaselines.TryGetValue(message.netId, out var previous) ||

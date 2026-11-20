@@ -4,7 +4,6 @@ using Core.ZLog;
 using GamePlay.Player;
 using GamePlay.Player.Presentation;
 using GamePlay.Player.Simulation;
-using Mirror;
 using Network.Common;
 using Network.Common.Messages;
 using Sirenix.OdinInspector;
@@ -135,9 +134,7 @@ namespace Network.Client
             if (_bridge == null)
                 return;
 
-            // 移除 Mirror 自身快照缓冲，再使用项目的 30 ms 缓冲；实际下行耗时仍保留。
-            double serverTime = NetworkTime.time + (NetworkServer.active ? 0d : NetworkClient.bufferTime);
-            if (!WorldTimeline.TryGetRenderTick(serverTime, out double renderTick))
+            if (!WorldTimeline.TryGetRenderTick(Time.unscaledTimeAsDouble, out double renderTick))
                 return;
 
             double oldest = 0d;

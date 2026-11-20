@@ -18,7 +18,7 @@ namespace FPSGame.Editor.Validation
     public static class WeaponEquipmentValidation
     {
         private const string DefinitionPath = "Assets/SO/GunData/Definitions/AK47SO.asset";
-        private const string KnifeDefinitionPath = "Assets/Resources/Weapons/DefaultKnife.asset";
+        private const string KnifeDefinitionPath = "Assets/SO/KnifeData/DefaultKnife.asset";
         private const string PlayerPath = "Assets/Prefabs/Player/Player.prefab";
         private const string WeaponPath = "Assets/Prefabs/Weapon/AK47.prefab";
         private static bool _running;
@@ -88,6 +88,7 @@ namespace FPSGame.Editor.Validation
         private static void TestDefaultKnife(PreviewScope scope)
         {
             PlayerHolder holder = scope.CreateHolder("DefaultKnife");
+            SetReference(holder, "_defaultKnife", null);
             Require(holder.InitializeLoadout(), "有效挂点应能初始化默认装备栏。");
             Require(holder.Knife != null && holder.Rifle == null && holder.Pistol == null && holder.Utilities.Count == 0,
                 "未指定其他初始装备时应只持有一把默认刀。");

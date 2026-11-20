@@ -219,6 +219,11 @@ namespace FPSGame.Editor.Validation
             Require(scope.IsKnifeAnimation && scope.Gun.Magazine.Rounds == rounds &&
                     scope.Gun.Magazine.ReserveRounds == reserve,
                 "旧换弹动作结束时应继续刀具表现，并保持切枪时的弹药结果。");
+            var knife = (Knife)scope.Holder.CurrentWeapon;
+            yield return WaitFor(() => scope.Weapon.KnifePresentationState == KnifeState.Ready,
+                knife.Config.PrepareTicks * SimTime.StepSeconds + 0.5, "切刀后未进入持刀常规态。");
+            yield return null;
+            scope.RequireOpenKnife();
             Samples.Add(scope.Snapshot());
             Pass(afterCommit ? "逻辑装填完成后切刀，动画尾部立即让出控制" : "提前切刀取消换弹，旧动画计时保持清理且弹药正确");
         }
@@ -434,6 +439,28 @@ namespace FPSGame.Editor.Validation
             }
 
             public bool Fire() => Remote ? Weapon.PresentRemoteFire(WeaponSlot.Rifle) : Weapon.StepLocal(true, false).Fired;
+
+            public void RequireOpenKnife()
+            {
+                const string bladePath = "butterflyKnife/weapon/weapon_offset/front/blade";
+                const string drawName = "butterflyKnife_fp_draw_butterfly";
+                Animator model = Holder.CurrentController.GetComponentInChildren<Animator>(true);
+                Require(model != null && model.runtimeAnimatorController != null, "真实刀模型需要 Animator 和控制器。");
+                AnimationClip draw = model.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == drawName);
+                Require(draw != null, "缺少第一种拔刀的模型参考动画。");
+                Transform blade = model.transform.Find(bladePath);
+                Transform rear = blade?.Find("rear");
+                Require(blade != null && rear != null, "真实刀模型需要刀刃和后柄骨骼。");
+                Quaternion actualBlade = blade.localRotation;
+                Quaternion actualRear = rear.localRotation;
+                // 此场景即将销毁，在记录实际姿势后用同一副骨架采样参考末帧。
+                draw.SampleAnimation(model.gameObject, draw.length);
+                float bladeError = Quaternion.Angle(actualBlade, blade.localRotation);
+                float rearError = Quaternion.Angle(actualRear, rear.localRotation);
+                Require(bladeError <= 1f && rearError <= 1f,
+                    $"FP 常规态应保持展开，刀刃偏差 {bladeError:F2}°，后柄偏差 {rearError:F2}°。");
+                Pass($"FP 常规态保持展开，刀刃偏差 {bladeError:F2}°，后柄偏差 {rearError:F2}°");
+            }
 
             public void SetView(EPlayerModelType view)
             {

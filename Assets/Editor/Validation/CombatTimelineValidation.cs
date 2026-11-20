@@ -32,7 +32,9 @@ namespace FPSGame.Editor.Validation
             var report = new StringBuilder();
             int passed = 0;
             RunCase("缺少时钟基准时保持未初始化，旧锚点与非法值被拒绝", TestAnchors, report, ref passed);
-            RunCase("统一扣除 30 ms，显示时间与快照两端共同提交", TestPresentationTime, report, ref passed);
+            RunCase("收包后按本地时钟推进，显示时间与快照两端共同提交", TestPresentationTime, report, ref passed);
+            RunCase("30 Hz 快照下的 120 Hz 横移连续，成批到包与断流恢复后时间不倒退", TestSnapshotCadence, report, ref passed);
+            RunCase("首批积压和下行延迟突增后按最新快照恢复插值", TestRebuffer, report, ref passed);
             RunCase("短点击保留采样时刻，连续补算沿用同屏时间与快照对", TestInputCapture, report, ref passed);
             RunCase("预测重同步保留世界时间，缺少世界时钟的输入明确标记 NaN", TestPredictionReset, report, ref passed);
             RunCase("远端共享呈现 Tick，快照对分歧时保持上一已呈现基准", TestCommonBracket, report, ref passed);
@@ -49,10 +51,11 @@ namespace FPSGame.Editor.Validation
                 "收到服务器锚点前不能构造有效视图时间。");
             timeline.MarkPresented(100d, 100, 100);
             Require(double.IsNaN(timeline.LastPresentedServerTick), "无锚点时不能提交呈现记录。");
-            Require(!timeline.ObserveAnchor(100, double.NaN) && !timeline.ObserveAnchor(100, -1d),
+            Require(!timeline.ObserveAnchor(100, double.NaN, 50d) && !timeline.ObserveAnchor(100, -1d, 50d),
                 "锚点必须具有有效的服务器时间。");
-            Require(timeline.ObserveAnchor(100, 10d), "首个有效锚点应被接受。");
-            Require(!timeline.ObserveAnchor(99, 11d) && !timeline.ObserveAnchor(100, 11d),
+            Require(!timeline.ObserveAnchor(100, 10d, double.NaN), "缺少本地接收时间时不能建立时钟。");
+            Require(timeline.ObserveAnchor(100, 10d, 50d), "首个有效锚点应被接受。");
+            Require(!timeline.ObserveAnchor(99, 11d, 51d) && !timeline.ObserveAnchor(100, 11d, 51d),
                 "乱序和重复锚点不能重写当前时钟映射。");
             Require(!timeline.TryGetRenderTick(double.PositiveInfinity, out _), "非法当前时间不能生成 Tick。");
         }
@@ -60,9 +63,17 @@ namespace FPSGame.Editor.Validation
         private static void TestPresentationTime()
         {
             var timeline = new ClientWorldTimeline();
-            timeline.ObserveAnchor(100, 10d);
-            Require(timeline.TryGetRenderTick(10.03d, out double tick) && Near(tick, 100d),
-                "同一服务器时钟域应仅扣除项目的 30 ms 显示缓冲。");
+            timeline.ObserveAnchor(100, 10d, 50d);
+            Require(Near(SimTime.RemoteDelaySeconds, (SimTime.SnapshotInterval + 1) * SimTime.Dt) &&
+                    timeline.TryGetRenderTick(50d + SimTime.RemoteDelaySeconds, out double tick) && Near(tick, 100d),
+                "本地接收时钟经过一个快照间隔加一拍后，应显示首个服务器锚点。");
+            double lateReceipt = 50d + 3 * SimTime.Dt;
+            Require(timeline.ObserveAnchor(102, 10d + 2 * SimTime.Dt, lateReceipt) &&
+                    timeline.TryGetRenderTick(lateReceipt, out tick) && Near(tick, 100d),
+                "晚一拍到达的锚点不能立刻将画面拉回一拍。");
+            Require(timeline.TryGetRenderTick(lateReceipt + 3 * SimTime.Dt, out tick) &&
+                    tick > 102.00001d && tick < 102.99999d,
+                "晚到锚点应在后续渲染帧逐步纠偏，画面仍持续前进。");
             timeline.MarkPresented(101d, 100, 102);
             Require(timeline.LastPresentedServerTick == 101d && timeline.LastPresentedFromTick == 100 &&
                     timeline.LastPresentedToTick == 102, "显示 Tick 与两端快照必须一起提交。");
@@ -71,7 +82,7 @@ namespace FPSGame.Editor.Validation
             timeline.MarkPresented(102d, 103, 101);
             Require(timeline.LastPresentedServerTick == 101d && timeline.LastPresentedToTick == 102,
                 "倒退、区间外或倒置的快照对不能覆盖已呈现状态。");
-            Require(timeline.TryGetRenderTick(9d, out tick) && tick == 101d,
+            Require(timeline.TryGetRenderTick(49d, out tick) && tick == 101d,
                 "同步时钟短暂倒退不能令公共呈现时间倒退。");
             timeline.Reset();
             Require(!timeline.HasAnchor && double.IsNaN(timeline.LastPresentedServerTick) &&
@@ -79,11 +90,100 @@ namespace FPSGame.Editor.Validation
                 "连接关闭应完整清理显示基准。");
         }
 
+        private static void TestSnapshotCadence()
+        {
+            using var scope = new Scope();
+            var timeline = scope.Client.WorldTimeline;
+            RemotePoseInterpolator remote = scope.CreateRemote(1);
+            const int renderHz = 120;
+            const int framesPerSnapshot = 4;
+            const int lastFrame = 192;
+            const uint firstTick = 1000;
+
+            // 常规快照延迟 2 或 3 个渲染帧，每 16 份中有两份在同一帧抵达。
+            int ArrivalFrame(int index) => (index % 16) switch
+            {
+                8 => (index + 1) * framesPerSnapshot,
+                9 => index * framesPerSnapshot,
+                _ => index * framesPerSnapshot + 2 + (index % 3 == 0 ? 1 : 0)
+            };
+
+            void Receive(int index, double now)
+            {
+                uint tick = firstTick + (uint)(index * SimTime.SnapshotInterval);
+                bool hadClock = timeline.TryGetRenderTick(now, out double before);
+                Require(timeline.ObserveAnchor(tick, 10d + (tick - firstTick) * SimTime.Dt, now),
+                    "每份较新的快照都应被接受，包括同帧到达的第二份。");
+                if (hadClock)
+                    Require(timeline.TryGetRenderTick(now, out double after) && Near(after, before),
+                        "观察到一个新锚点不应让同一渲染时刻的画面瞬移。");
+                remote.Push(tick, new PlayerSimState { position = Vector3.right * (tick - firstTick) }, 1);
+            }
+
+            double Present(double now)
+            {
+                Require(timeline.TryGetRenderTick(now, out double tick), "已有锚点后必须能计算显示拍。");
+                Require(remote.TryGetRange(out double oldest, out double latest), "远端必须保留可显示的快照。");
+                tick = Math.Max(oldest, Math.Min(latest, tick));
+                Require(remote.Present(tick, out uint from, out uint to), "显示拍必须能从已收到的两端快照重建。");
+                timeline.MarkPresented(tick, from, to);
+                Require(Near(remote.transform.position.x, tick - firstTick), "同速移动的位置必须匹配实际显示拍。");
+                return tick;
+            }
+
+            int nextSnapshot = 0;
+            double previous = firstTick;
+            for (int frame = ArrivalFrame(0); frame <= lastFrame; frame++)
+            {
+                double now = 50d + frame / (double)renderHz;
+                while (ArrivalFrame(nextSnapshot) == frame)
+                    Receive(nextSnapshot++, now);
+                double tick = Present(now);
+                if (frame >= 16)
+                    Require(tick - previous > 0.25d && tick - previous < 0.75d,
+                        $"稳定横移每帧应前进约半拍，渲染帧 {frame} 的增量为 {tick - previous:F3}。");
+                previous = tick;
+            }
+
+            int resumeFrame = lastFrame + 24;
+            for (int frame = lastFrame + 1; frame < resumeFrame; frame++)
+            {
+                double tick = Present(50d + frame / (double)renderHz);
+                Require(tick >= previous, "断流时不能退回已显示位置。");
+                previous = tick;
+            }
+            Require(previous == timeline.LatestAnchorTick, "缓冲耗尽后应停在最后一份快照。");
+            double resumeTime = 50d + resumeFrame / (double)renderHz;
+            Receive(resumeFrame / framesPerSnapshot, resumeTime);
+            Require(Present(resumeTime) > previous, "恢复收包后应向前呈现新的可用区间。");
+        }
+
+        private static void TestRebuffer()
+        {
+            var timeline = new ClientWorldTimeline();
+            double bufferTicks = SimTime.RemoteDelaySeconds / SimTime.Dt;
+            timeline.ObserveAnchor(100, 10d, 50d);
+            timeline.ObserveAnchor(112, 10d + 12 * SimTime.Dt, 50d);
+            Require(timeline.TryGetRenderTick(50d, out double tick) && Near(tick, 112 - bufferTicks),
+                "首批积压快照应以最后一份建立时钟。");
+
+            timeline.MarkPresented(112, 112, 112);
+            double lateArrival = 50d + 2 * SimTime.Dt + 0.2d;
+            timeline.ObserveAnchor(114, 10d + 14 * SimTime.Dt, lateArrival);
+            Require(timeline.TryGetRenderTick(lateArrival, out tick) && tick == 112d,
+                "下行延迟突增后不能退回已经显示过的位置。");
+            timeline.ObserveAnchor(116, 10d + 16 * SimTime.Dt, lateArrival);
+            Require(timeline.TryGetRenderTick(lateArrival, out tick) && Near(tick, 116 - bufferTicks) &&
+                    timeline.TryGetRenderTick(lateArrival + SimTime.Dt / 2, out tick) &&
+                    Near(tick, 116 - bufferTicks + 0.5d),
+                "同批后续快照应恢复完整的插值窗口，下一渲染帧即可继续移动。");
+        }
+
         private static void TestInputCapture()
         {
             using var scope = new Scope();
             PlayerInputDriver driver = scope.CreateInput();
-            scope.Client.WorldTimeline.ObserveAnchor(110, 10d);
+            scope.Client.WorldTimeline.ObserveAnchor(110, 10d, 50d);
             scope.Client.WorldTimeline.MarkPresented(100d, 100, 100);
             driver.Consume(0);
             scope.Client.WorldTimeline.MarkPresented(101d, 100, 102);
@@ -108,7 +208,7 @@ namespace FPSGame.Editor.Validation
         private static void TestPredictionReset()
         {
             using var scope = new Scope();
-            scope.Client.WorldTimeline.ObserveAnchor(110, 10d);
+            scope.Client.WorldTimeline.ObserveAnchor(110, 10d, 50d);
             scope.Client.WorldTimeline.MarkPresented(105d, 104, 106);
             var prediction = scope.CreateRoot("Prediction").AddComponent<PlayerPrediction>();
             prediction.ResetPrediction();
@@ -133,8 +233,8 @@ namespace FPSGame.Editor.Validation
             second.Push(100, new PlayerSimState { position = new Vector3(10f, 0f, 0f) }, 1);
             second.Push(101, new PlayerSimState { position = new Vector3(11f, 0f, 0f) }, 1);
             second.Push(102, new PlayerSimState { position = new Vector3(12f, 0f, 0f) }, 1);
-            double serverTime = NetworkTime.time + (NetworkServer.active ? 0d : NetworkClient.bufferTime);
-            scope.Client.WorldTimeline.ObserveAnchor(102, serverTime);
+            // 缓冲后的显示拍为 101，两名角色分别使用 100/102 和 101/101 快照对。
+            scope.Client.WorldTimeline.ObserveAnchor(104, 10d, Time.unscaledTimeAsDouble);
             scope.Client.WorldTimeline.MarkPresented(100d, 100, 100);
             Invoke(scope.Client, "Update");
             Invoke(scope.Client, "LateUpdate");

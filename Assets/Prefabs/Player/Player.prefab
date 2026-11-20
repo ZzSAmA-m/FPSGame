@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 8836023211097811382}
   - component: {fileID: 5965594921007537763}
   - component: {fileID: 1184155785773201195}
+  - component: {fileID: 5176807006784760236}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -211,9 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a732b90e9fced4d88e59d4b17b4704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.Simulation.PlayerSimulation
-  _playerMovementDataSO: {fileID: 11400000, guid: ea860f4d7585d8f48a213ed1d68e58f2, type: 2}
-  _gravityScale: 2
-  _groundedForce: 0
 --- !u!114 &880751175443328814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa308cbb01ce7e439fd4aedfdbef62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerSightController
-  _sensitivity: 0.12
+  _sensitivity: 0.04
   _minPitch: -89
   _maxPitch: 89
   _view: {fileID: 7007518467399085996}
@@ -320,7 +318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b627eaabe7df8843b3ce286a92cd845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerBrain
-  _playerBasicData: {fileID: 11400000, guid: 17c38229c6da4f645b01ba7f3e8232bd, type: 2}
 --- !u!114 &6912873605581579357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
   sceneId: 0
-  _assetId: 3386940475
+  _assetId: 4266369286
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -490,6 +487,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5176807006784760236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216788586805276984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6aab40c06b04fcaaf9d893c398f2810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerMovementController
+  _playerMovementDataSO: {fileID: 0}
+  _gravityScale: 1
+  _groundedForce: 0
 --- !u!1001 &1464887240275943563
 PrefabInstance:
   m_ObjectHideFlags: 0

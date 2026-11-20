@@ -15,6 +15,6 @@ MonoBehaviour:
   _controllerPrefab: {fileID: 6169387838747348342, guid: 2f0fc19936c57054f82ba2700a78f79f, type: 3}
   _lightDamage: 40
   _heavyDamage: 65
-  _prepareTicks: 60
+  _prepareTicks: 50
   _lightAttackTicks: 45
   _heavyAttackTicks: 70

@@ -15,7 +15,7 @@ namespace GamePlay.Player
     {
         [SerializeField, Tooltip("角色骨骼的 wpn 节点；留空时在子节点中自动查找。")]
         private Transform _weaponMount;
-        [SerializeField, Tooltip("初始刀；留空时使用 Resources/Weapons/DefaultKnife。")]
+        [SerializeField, Tooltip("初始刀；留空时使用默认装备配置。")]
         private WeaponSO _defaultKnife;
         [SerializeField, Tooltip("额外的初始装备。单武器栏后项替换前项，道具追加；初始始终选中刀。")]
         private List<WeaponSO> _initialWeapons = new();
@@ -65,7 +65,9 @@ namespace GamePlay.Player
             _changing = true;
             try
             {
-                WeaponSO definition = _defaultKnife != null ? _defaultKnife : Resources.Load<WeaponSO>("Weapons/DefaultKnife");
+                WeaponSO definition = _defaultKnife != null
+                    ? _defaultKnife
+                    : Resources.Load<PlayerLoadoutDefaultsSO>("Weapons/PlayerLoadoutDefaults")?.DefaultKnife;
                 if (definition == null || definition.Slot != WeaponSlot.Knife)
                     return Fail("默认刀必须是刀栏的 WeaponSO。");
                 if (!TryCreateEntry(definition, out WeaponEntry knife)) return false;

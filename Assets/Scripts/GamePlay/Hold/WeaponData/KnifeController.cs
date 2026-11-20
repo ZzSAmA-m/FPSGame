@@ -49,7 +49,7 @@ namespace GamePlay.HoldSystem
                     : (FirstPersonDraw, ModelFirstPersonDraw),
                 (KnifeState.LightAttack, true) => ("fp_light_miss1_but", ModelClipPrefix + "fp_light_miss1_butterfly"),
                 (KnifeState.HeavyAttack, true) => ("fp_heavy_miss1_but", ModelClipPrefix + "fp_heavy_miss1_butterfly"),
-                (KnifeState.Ready, true) => ("fp_idle1_butterfly", ModelClipPrefix + "fp_idle1_butterfly"),
+                (KnifeState.Ready, true) => ("fp_idle1_butterfly", ModelFirstPersonDraw),
                 (KnifeState.LightAttack, false) => ("tp_frontswing_knife", ModelThirdPersonDraw),
                 (KnifeState.HeavyAttack, false) => ("tp_frontstab_knife", ModelThirdPersonDraw),
                 _ => (ThirdPersonDraw, ModelThirdPersonDraw)
@@ -58,8 +58,9 @@ namespace GamePlay.HoldSystem
             float actorTime = progress;
             if (state == KnifeState.Ready)
                 actorTime = firstPerson ? 0f : 1f;
-            // TP 挥刀由角色带动，刀刃保持完全展开的姿势。
-            float modelTime = !firstPerson && state != KnifeState.Preparing ? 1f : actorTime;
+            // 持刀时刀身保持在拔刀末帧；TP 挥刀也沿用这个展开姿势。
+            bool holdModelOpen = state == KnifeState.Ready || (!firstPerson && state != KnifeState.Preparing);
+            float modelTime = holdModelOpen ? 1f : actorTime;
             uint ticks = Knife.Config.GetDuration(state);
             Play(actor, layer, _actorClips, actorState, actorTime, ticks);
             Play(_modelAnimator, 0, _modelClips, modelState, modelTime, ticks);
