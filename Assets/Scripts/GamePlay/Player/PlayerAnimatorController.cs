@@ -3,6 +3,7 @@ using Core.Utility;
 using Core.ZLog;
 using GamePlay.HoldSystem;
 using GamePlay.Player.MotionFSM;
+using GamePlay.Player.Simulation;
 using UnityEngine;
 
 namespace GamePlay.Player
@@ -22,12 +23,49 @@ namespace GamePlay.Player
         private PlayerMotionStateMachine _motion;
         private PlayerWeaponController _weapon;
         private PlayerHolder _holder;
-        private Gun _shootingGun;
-        private RuntimeAnimatorController _shotController;
+        private Gun _playingGun;
+        private WeaponPresentationAction _playingAction;
+        private RuntimeAnimatorController _actionController;
         private bool _returnToHold;
-        private int _shotStateHash;
-        private int _shotLayer;
-        private int _lastShotFrame;
+        private int _actionStateHash;
+        private int _actionLayer;
+        private int _lastActionFrame;
+        private double _actionStartTime;
+        private bool _reloadPaused;
+        private float _pausedReloadSeconds;
+        private bool _serverDriven;
+
+        /// <summary>换弹动画仍在播放，包括逻辑已经装填完成后的收尾。</summary>
+        public bool IsReloadAnimationPlaying => isActiveAndEnabled && TryGetReloadAnimationTime(out _);
+
+        /// <summary>读取换弹动画已经播放的秒数，供切换视角和枪模型恢复同一动作。</summary>
+        public bool TryGetReloadAnimationTime(out float seconds)
+        {
+            seconds = 0f;
+            if (!_returnToHold || _playingAction != WeaponPresentationAction.Reload || _playingGun == null ||
+                _mainAnimator == null || _mainAnimator.runtimeAnimatorController != _actionController)
+                return false;
+            PlayerHolder holder = _holder != null ? _holder : GetComponent<PlayerHolder>();
+            if (holder == null || !ReferenceEquals(holder.CurrentWeapon, _playingGun))
+                return false;
+            if (_reloadPaused)
+            {
+                seconds = _pausedReloadSeconds;
+                return true;
+            }
+            if (!_serverDriven && Time.frameCount == _lastActionFrame)
+            {
+                seconds = Mathf.Max(0f, (float)(Time.timeAsDouble - _actionStartTime));
+                return true;
+            }
+
+            AnimatorStateInfo state = _mainAnimator.GetCurrentAnimatorStateInfo(_actionLayer);
+            if ((state.shortNameHash != _actionStateHash && state.fullPathHash != _actionStateHash) ||
+                (state.normalizedTime >= 1f && !_mainAnimator.IsInTransition(_actionLayer)))
+                return false;
+            seconds = Mathf.Max(0f, state.normalizedTime * state.length);
+            return true;
+        }
 
         private void OnEnable()
         {
@@ -51,8 +89,8 @@ namespace GamePlay.Player
                 _weapon.OnPrepareEnd += ApplyActionEnded;
                 _weapon.OnShot += ApplyShot;
                 _weapon.OnReload += ApplyReload;
-                _weapon.OnReloadEnd += ApplyActionEnded;
                 _weapon.OnActionCanceled += ApplyActionCanceled;
+                _weapon.OnKnifeStateChanged += ApplyKnifeState;
             }
             if (_holder != null)
                 _holder.OnWeaponChanged += RefreshHoldPose;
@@ -65,7 +103,13 @@ namespace GamePlay.Player
 
         private void OnDisable()
         {
-            CancelShotAnimation();
+            if (TryGetReloadAnimationTime(out float seconds))
+            {
+                _reloadPaused = true;
+                _pausedReloadSeconds = seconds;
+            }
+            else
+                CancelActionAnimation();
             if (_motion != null)
             {
                 _motion.OnViewChanged -= ApplyView;
@@ -78,8 +122,8 @@ namespace GamePlay.Player
                 _weapon.OnPrepareEnd -= ApplyActionEnded;
                 _weapon.OnShot -= ApplyShot;
                 _weapon.OnReload -= ApplyReload;
-                _weapon.OnReloadEnd -= ApplyActionEnded;
                 _weapon.OnActionCanceled -= ApplyActionCanceled;
+                _weapon.OnKnifeStateChanged -= ApplyKnifeState;
             }
             if (_holder != null)
                 _holder.OnWeaponChanged -= RefreshHoldPose;
@@ -91,31 +135,43 @@ namespace GamePlay.Player
         // 实时枪械在网络 LateUpdate 中发出 Play；这里必须在 Animator 求值后检查完成状态。
         private void LateUpdate()
         {
-            if (!_returnToHold)
+            if (_serverDriven)
                 return;
-            if (!IsCurrentGun(_shootingGun) || _mainAnimator == null ||
-                _mainAnimator.runtimeAnimatorController != _shotController ||
-                _shotLayer != CurrentWeaponLayer)
+            CompleteTrackedAction(false);
+        }
+
+        /// <summary>服务器按固定 Tick 求值后检查动作完成，不受 Unity 帧编号限制。</summary>
+        public bool CompleteServerPoseStep() => CompleteTrackedAction(true);
+
+        public void SetServerDriven(bool serverDriven) => _serverDriven = serverDriven;
+
+        private bool CompleteTrackedAction(bool evaluated)
+        {
+            if (!_returnToHold || _reloadPaused)
+                return false;
+            if (!IsCurrentGun(_playingGun) || _mainAnimator == null ||
+                _mainAnimator.runtimeAnimatorController != _actionController ||
+                _actionLayer != CurrentWeaponLayer)
             {
-                CancelShotAnimation();
-                return;
+                CancelActionAnimation();
+                return false;
             }
 
-            // 等待 Animator 实际求值；射击冷却结束不代表射击动画结束。
-            if (Time.frameCount == _lastShotFrame)
-                return;
-            AnimatorStateInfo state = _mainAnimator.GetCurrentAnimatorStateInfo(_shotLayer);
-            if (state.shortNameHash != _shotStateHash && state.fullPathHash != _shotStateHash)
+            // 等待 Animator 实际求值；逻辑动作完成后仍保留动画收尾。
+            if (!evaluated && Time.frameCount == _lastActionFrame)
+                return false;
+            AnimatorStateInfo state = _mainAnimator.GetCurrentAnimatorStateInfo(_actionLayer);
+            if (state.shortNameHash != _actionStateHash && state.fullPathHash != _actionStateHash)
             {
-                CancelShotAnimation();
-                return;
+                CancelActionAnimation();
+                return false;
             }
-            if (state.normalizedTime < 1f || _mainAnimator.IsInTransition(_shotLayer))
-                return;
+            if (state.normalizedTime < 1f || _mainAnimator.IsInTransition(_actionLayer))
+                return false;
 
-            Gun gun = _shootingGun;
-            CancelShotAnimation();
-            TryPlayGunAction(gun, WeaponPresentationAction.Hold, 1f, out _, out _);
+            Gun gun = _playingGun;
+            CancelActionAnimation();
+            return TryPlayGunAction(gun, WeaponPresentationAction.Hold, 1f, out _, out _);
         }
 
         private int CurrentWeaponLayer => _motion != null && _motion.View == EPlayerModelType.FP ? FPLayer : UpLayer;
@@ -125,45 +181,52 @@ namespace GamePlay.Player
 
         private void ApplyPrepare(Gun gun) => ApplyAction(gun, WeaponPresentationAction.Prepare);
 
-        private void ApplyReload(Gun gun) => ApplyAction(gun, WeaponPresentationAction.Reload);
+        private void ApplyReload(Gun gun) => PlayTrackedAction(gun, WeaponPresentationAction.Reload);
 
         private void ApplyAction(Gun gun, WeaponPresentationAction action)
         {
             if (!IsCurrentGun(gun))
                 return;
-            CancelShotAnimation();
+            CancelActionAnimation();
             TryPlayGunAction(gun, action, 0f, out _, out _);
         }
 
         private void ApplyShot(Gun gun)
         {
             ZLog.Log<PlayerAnimatorController>("ApplyShot", LogChannel.GamePlay);
+            PlayTrackedAction(gun, WeaponPresentationAction.Fire);
+        }
+
+        private void PlayTrackedAction(Gun gun, WeaponPresentationAction action, float seconds = 0f)
+        {
             if (!IsCurrentGun(gun))
                 return;
-            CancelShotAnimation();
-            if (!TryPlayGunAction(gun, WeaponPresentationAction.Fire, 0f, out int stateHash, out int layer))
+            CancelActionAnimation();
+            if (!TryPlayGunAction(gun, action, seconds, out int stateHash, out int layer, true))
                 return;
 
-            _shootingGun = gun;
-            _shotController = _mainAnimator.runtimeAnimatorController;
-            _shotStateHash = stateHash;
-            _shotLayer = layer;
+            _playingGun = gun;
+            _playingAction = action;
+            _actionController = _mainAnimator.runtimeAnimatorController;
+            _actionStateHash = stateHash;
+            _actionLayer = layer;
             _returnToHold = true;
-            _lastShotFrame = Time.frameCount;
+            _lastActionFrame = Time.frameCount;
+            _actionStartTime = Time.timeAsDouble - seconds;
         }
 
         private void ApplyActionEnded(Gun gun)
         {
             if (!IsCurrentGun(gun))
                 return;
-            CancelShotAnimation();
+            CancelActionAnimation();
             TryPlayGunAction(gun, WeaponPresentationAction.Hold, 1f, out _, out _);
         }
 
         private void ApplyActionCanceled(Gun gun, GunState state) => ApplyActionEnded(gun);
 
-        private bool TryPlayGunAction(Gun gun, WeaponPresentationAction action, float normalizedTime,
-            out int stateHash, out int layer)
+        private bool TryPlayGunAction(Gun gun, WeaponPresentationAction action, float time,
+            out int stateHash, out int layer, bool fixedTime = false)
         {
             stateHash = 0;
             layer = CurrentWeaponLayer;
@@ -177,10 +240,10 @@ namespace GamePlay.Player
                 return false;
 
             stateHash = Animator.StringToHash(stateName);
-            return TryPlayState(stateHash, stateName, layer, normalizedTime);
+            return TryPlayState(stateHash, stateName, layer, time, fixedTime);
         }
 
-        private bool TryPlayState(int stateHash, string stateName, int layer, float normalizedTime)
+        private bool TryPlayState(int stateHash, string stateName, int layer, float time, bool fixedTime = false)
         {
             if (!Application.isPlaying || _mainAnimator == null)
                 return false;
@@ -193,23 +256,28 @@ namespace GamePlay.Player
                 return false;
             }
 
-            _mainAnimator.Play(stateHash, layer, normalizedTime);
+            if (fixedTime)
+                _mainAnimator.PlayInFixedTime(stateHash, layer, time);
+            else
+                _mainAnimator.Play(stateHash, layer, time);
             return true;
         }
 
-        private void CancelShotAnimation()
+        private void CancelActionAnimation()
         {
             _returnToHold = false;
-            _shootingGun = null;
-            _shotController = null;
-            _shotStateHash = 0;
-            _shotLayer = 0;
-            _lastShotFrame = -1;
+            _playingGun = null;
+            _actionController = null;
+            _actionStateHash = 0;
+            _actionLayer = 0;
+            _lastActionFrame = -1;
+            _actionStartTime = 0;
+            _reloadPaused = false;
+            _pausedReloadSeconds = 0f;
         }
 
         private void ApplyView(EPlayerModelType view)
         {
-            CancelShotAnimation();
             if (Application.isPlaying && _mainAnimator != null && _mainAnimator.runtimeAnimatorController != null)
             {
                 if (view == EPlayerModelType.TP)
@@ -248,20 +316,46 @@ namespace GamePlay.Player
 
         private void RefreshHoldPose()
         {
-            CancelShotAnimation();
             if (_motion == null)
                 return;
             if (_holder != null && _holder.CurrentWeapon is Gun gun)
             {
-                TryPlayGunAction(gun, WeaponPresentationAction.Hold, 1f, out _, out _);
+                GunState state = _weapon != null ? _weapon.PresentationState : gun.GunState;
+                if (state != GunState.None && state != GunState.Preparing && state != GunState.Shooting &&
+                    TryGetReloadAnimationTime(out float seconds))
+                {
+                    PlayTrackedAction(gun, WeaponPresentationAction.Reload, seconds);
+                    return;
+                }
+
+                CancelActionAnimation();
+                float progress = _weapon != null ? _weapon.ActionProgress : gun.ActionProgress;
+                if (state == GunState.Reloading)
+                    PlayTrackedAction(gun, WeaponPresentationAction.Reload,
+                        progress * gun.Config.ReloadTicks * SimTime.StepSeconds);
+                else if (state == GunState.Preparing)
+                {
+                    TryPlayGunAction(gun, WeaponPresentationAction.Prepare, progress, out _, out _);
+                }
+                else
+                    TryPlayGunAction(gun, WeaponPresentationAction.Hold, 1f, out _, out _);
                 return;
             }
 
-            // 刀具保留原有角色动作；枪械不使用刀具或某种枪械的硬编码回退。
-            bool firstPerson = _motion.View == EPlayerModelType.FP;
-            TryPlayState(firstPerson ? PlayerAnimatorName.FP.draw_butterfly : PlayerAnimatorName.draw_butterfly,
-                firstPerson ? "fp_draw_butterfly" : "tp_draw_butterfly",
-                firstPerson ? FPLayer : UpLayer, 0f);
+            if (_holder != null && _holder.CurrentWeapon is Knife knife && _weapon != null)
+                ApplyKnifeState(knife, _weapon.KnifePresentationState);
+            else
+                CancelActionAnimation();
+        }
+
+        private void ApplyKnifeState(Knife knife, KnifeState state)
+        {
+            if (_motion == null || _weapon == null || _holder == null ||
+                !ReferenceEquals(_holder.CurrentWeapon, knife) || _holder.CurrentController is not KnifeController model)
+                return;
+            CancelActionAnimation();
+            model.Present(_mainAnimator, CurrentWeaponLayer, _motion.View == EPlayerModelType.FP,
+                state, _weapon.KnifeActionProgress);
         }
     }
 }

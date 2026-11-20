@@ -11,6 +11,9 @@ namespace Network.Common
         public event Action<PlayerSnapshotMessage> PlayerSnapshotReceived;
         public event Action<PredictionBaselineMessage> PredictionBaselineReceived;
         public event Action<NetworkEventMessage> NetworkEventReceived;
+        public event Action<PlayerStatsStateMessage> PlayerStatsStateReceived;
+        public event Action<PlayerLifeStateMessage> PlayerLifeStateReceived;
+        public event Action<HitConfirmMessage> HitConfirmReceived;
 
         public void StartClient()
         {
@@ -21,6 +24,9 @@ namespace Network.Common
             NetworkClient.RegisterHandler<PlayerSnapshotMessage>(HandlePlayerSnapshot);
             NetworkClient.RegisterHandler<PredictionBaselineMessage>(HandlePredictionBaseline);
             NetworkClient.RegisterHandler<NetworkEventEnvelope>(HandleNetworkEvent);
+            NetworkClient.RegisterHandler<PlayerStatsStateMessage>(HandlePlayerStatsState);
+            NetworkClient.RegisterHandler<PlayerLifeStateMessage>(HandlePlayerLifeState);
+            NetworkClient.RegisterHandler<HitConfirmMessage>(HandleHitConfirm);
             _clientHandlersRegistered = true;
         }
 
@@ -33,6 +39,9 @@ namespace Network.Common
             NetworkClient.UnregisterHandler<PlayerSnapshotMessage>();
             NetworkClient.UnregisterHandler<PredictionBaselineMessage>();
             NetworkClient.UnregisterHandler<NetworkEventEnvelope>();
+            NetworkClient.UnregisterHandler<PlayerStatsStateMessage>();
+            NetworkClient.UnregisterHandler<PlayerLifeStateMessage>();
+            NetworkClient.UnregisterHandler<HitConfirmMessage>();
             _clientHandlersRegistered = false;
         }
 
@@ -99,6 +108,21 @@ namespace Network.Common
         void HandleNetworkEvent(NetworkEventEnvelope message)
         {
             NetworkEventReceived?.Invoke(message.payload);
+        }
+
+        void HandlePlayerStatsState(PlayerStatsStateMessage message)
+        {
+            PlayerStatsStateReceived?.Invoke(message);
+        }
+
+        void HandlePlayerLifeState(PlayerLifeStateMessage message)
+        {
+            PlayerLifeStateReceived?.Invoke(message);
+        }
+
+        void HandleHitConfirm(HitConfirmMessage message)
+        {
+            HitConfirmReceived?.Invoke(message);
         }
     }
 }

@@ -20,6 +20,9 @@ namespace GamePlay.HoldSystem
         /// <summary>当前枪械状态的标识。</summary>
         public GunState GunState => _stateMachine.CurrentId;
 
+        /// <summary>当前准备或换弹动作的模拟进度；其他状态返回零。</summary>
+        public float ActionProgress => _stateMachine.CurrentActionProgress;
+
         /// <summary>下一次允许射击的 Tick。</summary>
         internal uint NextAllowedShotTick { get; private set; }
 
@@ -47,7 +50,7 @@ namespace GamePlay.HoldSystem
         /// <summary>当前射击周期自然结束并进入就绪状态后通知，不代表动画结束。</summary>
         public event Action OnShotCooldownEnd;
 
-        /// <summary>动作被收枪或射击打断后通知被取消的状态，不发送正常完成事件。</summary>
+        /// <summary>动作提前退出后通知被取消的状态，不发送正常完成事件。</summary>
         public event Action<GunState> OnActionCanceled;
 
         /// <summary>创建当前枪械的配置、弹匣和状态机。</summary>
@@ -70,10 +73,16 @@ namespace GamePlay.HoldSystem
             return _stateMachine.TryReload();
         }
 
-        /// <summary>尝试将未装备的枪械切入准备状态。</summary>
+        /// <summary>尝试进入准备状态，正在准备时拒绝重复请求。</summary>
         public bool TryPrepare()
         {
             return _stateMachine.TryPrepare();
+        }
+
+        /// <summary>提前退出换弹或射击动作并恢复就绪，保留已发射结果和射击冷却。</summary>
+        public bool TryReturnToNormal()
+        {
+            return _stateMachine.TryReturnToNormal();
         }
 
         /// <summary>先推进这一拍的动作，再由调用方处理输入。</summary>
@@ -127,22 +136,19 @@ namespace GamePlay.HoldSystem
         }
 
         /// <summary>状态提交后通知切换和动作生命周期，完成通知仍由对应状态提交结果后发出。</summary>
-        internal void NotifyStateChanged(GunState previous, GunState state)
+        internal void NotifyStateChanged(GunState previous, GunState state, GunActionEndReason endReason)
         {
             OnSwitchState?.Invoke(state);
 
-            bool canceledByUnequip = state == GunState.None &&
-                previous is GunState.Preparing or GunState.Reloading or GunState.Shooting;
-            bool canceledByShot = previous == GunState.Reloading && state == GunState.Shooting;
-            if (canceledByUnequip || canceledByShot)
+            if (endReason == GunActionEndReason.Canceled &&
+                previous is GunState.Preparing or GunState.Reloading or GunState.Shooting)
                 OnActionCanceled?.Invoke(previous);
 
             if (state == GunState.Preparing)
                 OnPrepare?.Invoke();
             else if (state == GunState.Reloading)
                 OnReload?.Invoke();
-            else if (previous == GunState.Shooting && state == GunState.Normal)
-                // 只通知自然完成的射击周期；收枪保留冷却，但重新装备不补发旧周期的结束。
+            else if (previous == GunState.Shooting && endReason == GunActionEndReason.Completed)
                 OnShotCooldownEnd?.Invoke();
         }
     }

@@ -1,4 +1,6 @@
+using Core.Event;
 using Core.Utility;
+using GamePlay.Events;
 using GamePlay.Player.Simulation;
 using Mirror;
 using Network.Client;
@@ -19,13 +21,26 @@ namespace GamePlay.Player
         {
             base.OnStartServer();
             _brain.SetRole(PawnRole.Authoritative);
+            _brain.Stats.InitializeServer();
             _brain.Motion.SetView(EPlayerModelType.TP);
+            _brain.CombatPose?.InitializeServer();
+            _brain.Hitboxes?.InitializeServer();
+        }
+
+        public override void OnStopServer()
+        {
+            _brain.AbortServerStep();
+            _brain.Hitboxes?.Shutdown();
+            _brain.CombatPose?.Shutdown();
+            _brain.Stats.Shutdown();
+            base.OnStopServer();
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
             _brain.SetRole(isLocalPlayer ? PawnRole.Predicted : PawnRole.Interpolated);
+            _brain.Stats.InitializeClient(isLocalPlayer);
             ClientManager.RegisterPlayer(netId, gameObject);
             if (isLocalPlayer)
                 return;
@@ -36,6 +51,8 @@ namespace GamePlay.Player
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
+            _brain.Stats.OnLifeStateChanged += PublishLocalInputAvailability;
+            PublishLocalInputAvailability(_brain.Stats.LifeState);
             _brain.Motion.SetView(EPlayerModelType.FP);
             _brain.Camera.AttachCamera2Player();
             _brain.Sight.EnableLook();
@@ -43,6 +60,8 @@ namespace GamePlay.Player
 
         public override void OnStopLocalPlayer()
         {
+            _brain.Stats.OnLifeStateChanged -= PublishLocalInputAvailability;
+            PublishLocalInputAvailability(PlayerLifeState.Uninitialized);
             _brain.Sight.DisableLook();
             _brain.Camera.DisAttachCamera2Player();
             base.OnStopLocalPlayer();
@@ -51,7 +70,12 @@ namespace GamePlay.Player
         public override void OnStopClient()
         {
             ClientManager.UnregisterPlayer(netId);
+            _brain.CombatPose?.ClearRemotePose();
+            _brain.Stats.Shutdown();
             base.OnStopClient();
         }
+
+        static void PublishLocalInputAvailability(PlayerLifeState state) =>
+            EventCenter.Publish(PlayerInputEventIds.AvailabilityChanged, state == PlayerLifeState.Alive);
     }
 }

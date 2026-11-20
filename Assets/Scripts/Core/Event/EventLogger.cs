@@ -68,7 +68,7 @@ namespace Core.Event
                 WriteWarning($"[解订阅未找到] {descriptor.Description} | {callback.Method.DeclaringType?.FullName}.{callback.Method.Name}", LogFrequency.Low);
         }
 
-        /// <summary>报告未注册事件，拒绝自动创建。</summary>
+        /// <summary>报告发布、移除或查询时缺少的事件定义。</summary>
         internal static void Missing(int id)
         {
             if (CanWrite(LogFrequency.Low))

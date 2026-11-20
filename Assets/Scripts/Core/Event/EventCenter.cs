@@ -43,7 +43,7 @@ namespace Core.Event
         {
             if (_mainThreadId == 0)
             {
-                EventLogger.Error("[事件系统尚未初始化，请由主线程先执行 Reset 和注册]");
+                EventLogger.Error("[事件系统尚未初始化，请由主线程先执行 Reset]");
                 return false;
             }
             if (Thread.CurrentThread.ManagedThreadId != _mainThreadId)
@@ -138,9 +138,14 @@ namespace Core.Event
             return true;
         }
 
-        /// <summary>添加 0 参数监听，重复或无效回调返回失败。</summary>
+        /// <summary>添加 0 参数监听，未注册时自动注册，重复或无效回调返回失败。</summary>
         public static bool AddListener(int id, Action listener, object owner = null)
         {
+            if (!CheckAccess()) return false;
+            if (!Registry.TryGet(id, out _))
+            {
+                if (!EventChannelBase<Action>.ValidateCallback(listener) || !Register(id, id.ToString())) return false;
+            }
             EventChannel channel = Find<EventChannel>(id, typeof(Action));
             return channel != null && channel.Add(listener, owner);
         }
@@ -170,9 +175,14 @@ namespace Core.Event
             return true;
         }
 
-        /// <summary>添加 1 参数监听，重复或无效回调返回失败。</summary>
+        /// <summary>添加 1 参数监听，未注册时按声明的泛型签名自动注册。</summary>
         public static bool AddListener<T1>(int id, Action<T1> listener, object owner = null)
         {
+            if (!CheckAccess()) return false;
+            if (!Registry.TryGet(id, out _))
+            {
+                if (!EventChannelBase<Action<T1>>.ValidateCallback(listener) || !Register<T1>(id, id.ToString())) return false;
+            }
             EventChannel<T1> channel = Find<EventChannel<T1>>(id, typeof(Action<T1>));
             return channel != null && channel.Add(listener, owner);
         }
@@ -202,9 +212,14 @@ namespace Core.Event
             return true;
         }
 
-        /// <summary>添加 2 参数监听，重复或无效回调返回失败。</summary>
+        /// <summary>添加 2 参数监听，未注册时按声明的泛型签名自动注册。</summary>
         public static bool AddListener<T1, T2>(int id, Action<T1, T2> listener, object owner = null)
         {
+            if (!CheckAccess()) return false;
+            if (!Registry.TryGet(id, out _))
+            {
+                if (!EventChannelBase<Action<T1, T2>>.ValidateCallback(listener) || !Register<T1, T2>(id, id.ToString())) return false;
+            }
             EventChannel<T1, T2> channel = Find<EventChannel<T1, T2>>(id, typeof(Action<T1, T2>));
             return channel != null && channel.Add(listener, owner);
         }
@@ -234,9 +249,14 @@ namespace Core.Event
             return true;
         }
 
-        /// <summary>添加 3 参数监听，重复或无效回调返回失败。</summary>
+        /// <summary>添加 3 参数监听，未注册时按声明的泛型签名自动注册。</summary>
         public static bool AddListener<T1, T2, T3>(int id, Action<T1, T2, T3> listener, object owner = null)
         {
+            if (!CheckAccess()) return false;
+            if (!Registry.TryGet(id, out _))
+            {
+                if (!EventChannelBase<Action<T1, T2, T3>>.ValidateCallback(listener) || !Register<T1, T2, T3>(id, id.ToString())) return false;
+            }
             EventChannel<T1, T2, T3> channel = Find<EventChannel<T1, T2, T3>>(id, typeof(Action<T1, T2, T3>));
             return channel != null && channel.Add(listener, owner);
         }

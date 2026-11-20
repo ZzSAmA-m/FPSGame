@@ -11,6 +11,13 @@ namespace GamePlay.HoldSystem
         /// <summary>关联当前枪械和状态机。</summary>
         internal GunNormalState(Gun owner, GunStateMachine machine) : base(owner, machine) { }
 
+        /// <summary>主动重新开始准备动作。</summary>
+        internal override bool TryPrepare()
+        {
+            Machine.ChangeState(GunState.Preparing);
+            return true;
+        }
+
         /// <summary>成功扣弹后进入射击间隔并通知。</summary>
         internal override bool TryFire()
         {

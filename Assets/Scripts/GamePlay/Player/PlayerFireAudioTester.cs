@@ -39,21 +39,23 @@ namespace GamePlay.Player
         [Button]
         private void OnShot(Gun gun)
         {
+            if (_source == null || _fireAudios == null || _fireAudios.Count == 0)
+                return;
             _source.clip=_fireAudios[GetRand()];
             _source.Play();
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         int GetRand()
         {
-
-            int ret=UnityEngine.Random.Range(0,_fireAudios.Count-1);
-            while (_lastRand == ret)
+            int audioCount = _fireAudios.Count;
+            int index = UnityEngine.Random.Range(0, audioCount);
+            if (audioCount > 1 && index == _lastRand)
             {
-                ret=UnityEngine.Random.Range(0,_fireAudios.Count-1);
+                int offset = UnityEngine.Random.Range(1, audioCount);
+                index = (index + offset) % audioCount;
             }
-            _lastRand=ret;
-            return ret;
-            
+            _lastRand = index;
+            return index;
         }
     }
 

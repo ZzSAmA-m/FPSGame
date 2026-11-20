@@ -17,6 +17,7 @@ namespace GamePlay.Player
         private PlayerMotionStateMachine _stateMachine;
         private PlayerBrain _brain;
         private PlayerHolder _holder;
+        private bool _serverDriven;
 
         /// <summary>实时运动模拟确认成功起跳；运动回放不会重复通知。</summary>
         public event Action OnJumped;
@@ -45,11 +46,31 @@ namespace GamePlay.Player
 
         private void Update()
         {
+            if (_serverDriven)
+                return;
+            TickLocomotion();
+        }
+
+        private void TickLocomotion()
+        {
             Vector3 velocity = _brain != null ? _brain.DisplayVelocity : Vector3.zero;
             StateMachine.Tick(transform.InverseTransformDirection(velocity));
         }
 
-        private void FixedUpdate() => StateMachine.PhysicsTick();
+        private void FixedUpdate()
+        {
+            if (!_serverDriven)
+                StateMachine.PhysicsTick();
+        }
+
+        public void SetServerDriven(bool serverDriven) => _serverDriven = serverDriven;
+
+        /// <summary>全体玩家移动完成后，由服务器固定步长姿态阶段统一调用。</summary>
+        public void TickServer()
+        {
+            TickLocomotion();
+            StateMachine.PhysicsTick();
+        }
 
         public void SetView(EPlayerModelType view) => StateMachine.SetView(view);
 

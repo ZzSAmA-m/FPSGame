@@ -1,4 +1,5 @@
 using System.Text;
+using GamePlay.Player.Combat;
 using GamePlay.Player.Simulation;
 using Mirror;
 
@@ -11,11 +12,14 @@ namespace Network.Common.Messages
         // 此状态对应这一拍执行结束后，替代输入也计入确认。
         public uint lastProcessedInputTick;
         public PlayerSimState state;
+        public PlayerCombatPose combatPose;
+        public uint combatContinuity;
     }
 
     public struct PlayerSnapshotMessage : NetworkMessage
     {
         public uint serverTick;
+        public double serverTime;
         public PlayerSnapshotPose[] players;
 
         public override string ToString()

@@ -1,3 +1,4 @@
+using GamePlay.HoldSystem;
 using UnityEngine;
 
 namespace Network.Common.Messages
@@ -7,6 +8,7 @@ namespace Network.Common.Messages
     {
         public uint predictionEpoch;
         public uint inputTick;
+        public WeaponSlot weaponSlot;
 
         /// <summary>开火时服务器模拟的玩家位置。</summary>
         public Vector3 position;

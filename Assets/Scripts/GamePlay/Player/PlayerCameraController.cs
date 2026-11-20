@@ -10,6 +10,19 @@ namespace GamePlay.Player
         /// <summary>本地玩家的第一人称相机挂点。</summary>
         [SerializeField] private Transform TfCameraPoint;
 
+        /// <summary>使用第一人称相机挂点的世界位置和朝向生成视线。</summary>
+        public bool TryGetViewRay(out Ray ray)
+        {
+            if (TfCameraPoint == null)
+            {
+                ray = default;
+                return false;
+            }
+
+            ray = new Ray(TfCameraPoint.position, TfCameraPoint.forward);
+            return true;
+        }
+
         /// <summary>检查相机挂点是否配置。</summary>
         private void Awake()
         {

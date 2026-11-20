@@ -9,7 +9,7 @@ namespace Core.Event
         /// <summary>全局唯一的事件编号。</summary>
         internal int Id { get; }
 
-        /// <summary>包含声明类身份的事件名称。</summary>
+        /// <summary>事件的诊断名称，自动注册时使用事件编号。</summary>
         internal string Name { get; }
 
         /// <summary>注册时的完整委托类型。</summary>

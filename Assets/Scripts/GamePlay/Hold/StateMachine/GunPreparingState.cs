@@ -24,7 +24,7 @@ namespace GamePlay.HoldSystem
             if (!Machine.HasReached(_endTick))
                 return;
 
-            Machine.ChangeState(GunState.Normal);
+            Machine.ChangeState(GunState.Normal, GunActionEndReason.Completed);
             Owner.NotifyPrepareCompleted();
         }
     }

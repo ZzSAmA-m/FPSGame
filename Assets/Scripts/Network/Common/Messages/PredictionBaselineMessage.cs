@@ -9,6 +9,8 @@ namespace Network.Common.Messages
         public uint netId;
         public uint predictionEpoch;
         public uint baseInputTick;
+        public uint serverTick;
+        public double serverTime;
         public PlayerSimState state;
     }
 

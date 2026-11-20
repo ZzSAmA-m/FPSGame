@@ -3,7 +3,7 @@ using UnityEngine;
 namespace GamePlay.Player.Simulation
 {
     /// <summary>
-    /// 不碰场景物体的运动积分。碰撞由调用方把 <paramref name="displacement"/> 应用到角色控制器后回写位置。
+    /// 不碰场景物体的视角与竖直积分。水平速度、位移和碰撞由移动控制器处理。
     /// </summary>
     public static class PlayerMotor
     {
@@ -11,8 +11,7 @@ namespace GamePlay.Player.Simulation
             ref PlayerSimState state,
             in PlayerInputFrame input,
             in PlayerMotorConfig config,
-            float dt,
-            out Vector3 displacement)
+            float dt)
         {
             state.yaw += input.look.x * config.lookSensitivity;
             state.pitch = Mathf.Clamp(
@@ -32,14 +31,6 @@ namespace GamePlay.Player.Simulation
                 state.grounded = false;
                 jumped = true;
             }
-
-            Vector3 wish = new Vector3(input.move.x, 0f, input.move.y);
-            if (wish.sqrMagnitude > 1f)
-                wish.Normalize();
-
-            Vector3 horizontal = Quaternion.Euler(0f, state.yaw, 0f) * wish * config.moveSpeed;
-            state.velocity = new Vector3(horizontal.x, state.verticalVelocity, horizontal.z);
-            displacement = state.velocity * dt;
 
             return new PlayerStepResult
             {

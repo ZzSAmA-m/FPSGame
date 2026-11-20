@@ -12,6 +12,7 @@ namespace Network.Server
         public const int MissingMoveHoldTicks = 3;
 
         readonly Dictionary<uint, PlayerInputFrame> _pending = new(MaxFutureTicks);
+        readonly Dictionary<uint, double> _receiptTicks = new(MaxFutureTicks);
         PlayerInputFrame _last;
         PlayerInputFrame _resolved;
         bool _hasResolved;
@@ -22,10 +23,13 @@ namespace Network.Server
         public bool HasPending => _pending.Count > 0;
         public int PendingCount => _pending.Count;
         public uint SyntheticInputCount { get; private set; }
+        public double ResolvedReceiptTick { get; private set; } = double.NaN;
 
         public void Reset(uint baseTick = 0)
         {
             _pending.Clear();
+            _receiptTicks.Clear();
+            ResolvedReceiptTick = double.NaN;
             _last = default;
             _resolved = default;
             _hasResolved = false;
@@ -35,7 +39,7 @@ namespace Network.Server
             SyntheticInputCount = 0;
         }
 
-        public void Push(in PlayerInputFrame frame)
+        public void Push(in PlayerInputFrame frame, double receiptTick = double.NaN)
         {
             uint distance = unchecked(frame.tick - LastProcessedTick);
             if (distance == 0 || distance > MaxFutureTicks || !IsFinite(frame))
@@ -43,7 +47,10 @@ namespace Network.Server
 
             // 同一拍只接受第一份，避免重复包改写已选中的输入。
             if (!_pending.ContainsKey(frame.tick) && !(_hasResolved && frame.tick == _resolved.tick))
+            {
                 _pending.Add(frame.tick, frame);
+                _receiptTicks.Add(frame.tick, receiptTick);
+            }
         }
 
         /// <summary>排队过长时重建预测，服务器正在补算的时间不计入积压。</summary>
@@ -61,6 +68,8 @@ namespace Network.Server
 
             uint next = unchecked(LastProcessedTick + 1);
             _resolvedSynthetic = !_pending.TryGetValue(next, out _resolved);
+            ResolvedReceiptTick = !_resolvedSynthetic && _receiptTicks.TryGetValue(next, out double receipt)
+                ? receipt : double.NaN;
             if (_resolvedSynthetic)
             {
                 _resolved = _last;
@@ -69,6 +78,9 @@ namespace Network.Server
                 _resolved.look = default;
                 _resolved.jump = false;
                 _resolved.fire = false;
+                _resolved.reload = false;
+                _resolved.lightAttackPressed = false;
+                _resolved.heavyAttackPressed = false;
                 _resolved.key1 = false;
                 _resolved.key2 = false;
                 _resolved.key3 = false;
@@ -85,6 +97,7 @@ namespace Network.Server
                 throw new InvalidOperationException("只能确认刚刚完成模拟的下一拍。");
 
             _pending.Remove(tick);
+            _receiptTicks.Remove(tick);
             LastProcessedTick = tick;
             _last = _resolved;
             if (_resolvedSynthetic)

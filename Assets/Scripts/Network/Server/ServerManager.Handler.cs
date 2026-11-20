@@ -55,6 +55,7 @@ namespace Network.Server
 
             session.Player = connection.identity;
             session.State = SessionState.Playing;
+            BindPlayerStats(session);
             BeginPredictionEpoch(session);
         }
 
@@ -77,7 +78,7 @@ namespace Network.Server
                     BeginPredictionEpoch(session);
                     return;
                 }
-                session.Inputs.Push(message.frames[i]);
+                session.Inputs.Push(message.frames[i], ReceiptServerTick);
             }
 
             if (session.AwaitingInput && !hadPending && session.Inputs.HasPending)
@@ -119,6 +120,8 @@ namespace Network.Server
                 netId = session.Player.netId,
                 predictionEpoch = session.PredictionEpoch,
                 baseInputTick = 0,
+                serverTick = _tick,
+                serverTime = SimulationServerTime,
                 state = brain.State
             });
         }

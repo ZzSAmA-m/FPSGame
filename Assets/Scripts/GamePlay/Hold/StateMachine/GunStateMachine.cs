@@ -1,5 +1,12 @@
 namespace GamePlay.HoldSystem
 {
+    /// <summary>区分动作自然结束与提前离开。</summary>
+    internal enum GunActionEndReason
+    {
+        Canceled,
+        Completed
+    }
+
     /// <summary>分发枪械操作并统一管理状态转换。</summary>
     public sealed class GunStateMachine
     {
@@ -18,11 +25,29 @@ namespace GamePlay.HoldSystem
         /// <summary>是否正在处理动作或发送通知。</summary>
         private bool _isOperating;
 
+        /// <summary>当前状态进入时的模拟拍。</summary>
+        private uint _stateEnterTick;
+
         /// <summary>当前状态对应的枚举标识。</summary>
         public GunState CurrentId => _current.Id;
 
         /// <summary>当前已经接收的模拟 Tick。</summary>
         public uint CurrentTick { get; private set; }
+
+        /// <summary>准备或换弹动作的当前进度，支持模拟拍回绕。</summary>
+        public float CurrentActionProgress
+        {
+            get
+            {
+                uint duration = CurrentId switch
+                {
+                    GunState.Preparing => _owner.Config.PrepareTicks,
+                    GunState.Reloading => _owner.Config.ReloadTicks,
+                    _ => 0
+                };
+                return duration == 0 ? 0f : System.Math.Min(1f, unchecked(CurrentTick - _stateEnterTick) / (float)duration);
+            }
+        }
 
         /// <summary>为当前枪械创建五个独立状态。</summary>
         internal GunStateMachine(Gun owner)
@@ -85,6 +110,22 @@ namespace GamePlay.HoldSystem
             }
         }
 
+        /// <summary>将主动恢复就绪请求交给当前状态，拒绝回调重入。</summary>
+        internal bool TryReturnToNormal()
+        {
+            if (!BeginOperation())
+                return false;
+
+            try
+            {
+                return _current.TryReturnToNormal();
+            }
+            finally
+            {
+                _isOperating = false;
+            }
+        }
+
         /// <summary>接收新的模拟拍，忽略重复、旧拍和回调重入。</summary>
         internal void Tick(uint tick)
         {
@@ -122,7 +163,7 @@ namespace GamePlay.HoldSystem
         }
 
         /// <summary>在受控动作内执行退出、切换、进入和通知。</summary>
-        internal void ChangeState(GunState state)
+        internal void ChangeState(GunState state, GunActionEndReason endReason = GunActionEndReason.Canceled)
         {
             if (!_isOperating || CurrentId == state)
                 return;
@@ -131,8 +172,9 @@ namespace GamePlay.HoldSystem
             _hasTick = true;
             _current.Exit();
             _current = _states[(int)state];
+            _stateEnterTick = CurrentTick;
             _current.Enter(CurrentTick);
-            _owner.NotifyStateChanged(previous, state);
+            _owner.NotifyStateChanged(previous, state, endReason);
         }
 
         /// <summary>判断截止拍是否到达，支持 uint 回绕。</summary>

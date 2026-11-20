@@ -19,6 +19,7 @@ namespace FPSGame.Editor.Validation
             RunCase("无表现组件也能启动并发布动作事件", TestStandaloneMachine, report, ref passed);
             RunCase("TP 待机与四方向移动只在变化时通知", TestLocomotion, report, ref passed);
             RunCase("视角切换保留装备姿态且同视角幂等", TestViews, report, ref passed);
+            RunCase("视角切换前通知在原视角退出前发生且同视角幂等", TestViewChangingBoundary, report, ref passed);
             RunCase("装备、同类换装及卸下均发布持握动作", TestEquipment, report, ref passed);
             RunCase("真实装备屏蔽旧模型切换按键", TestWeaponInput, report, ref passed);
             RunCase("停止后不发布，反复启动不累积内部订阅", TestStopAndRestart, report, ref passed);
@@ -94,6 +95,27 @@ namespace FPSGame.Editor.Validation
             machine.SetView(EPlayerModelType.TP);
             Require(machine.View == EPlayerModelType.TP && machine.HoldPose == PlayerHoldPose.Rifle && views == 3 && poses == 3,
                 "切回 TP 后应再次进入正确持握动作。");
+            machine.Stop();
+        }
+
+        private static void TestViewChangingBoundary()
+        {
+            var machine = new PlayerMotionStateMachine();
+            var sequence = new List<string>();
+            machine.SetView(EPlayerModelType.TP);
+            machine.OnViewChanging += (previous, next) =>
+            {
+                Require(machine.View == previous && previous != next && machine.CurState != null,
+                    "预通知必须在旧视角及其状态仍有效时发出。");
+                sequence.Add("before:" + previous + ":" + next);
+            };
+            machine.OnViewChanged += next => sequence.Add("after:" + next);
+            machine.SetView(EPlayerModelType.FP);
+            machine.SetView(EPlayerModelType.FP);
+            machine.SetView(EPlayerModelType.TP);
+            Require(sequence.Count == 4 && sequence[0] == "before:TP:FP" && sequence[1] == "after:FP" &&
+                    sequence[2] == "before:FP:TP" && sequence[3] == "after:TP",
+                "清理旧视角必须先于切换，重复设置同一视角不得重复预通知。");
             machine.Stop();
         }
 

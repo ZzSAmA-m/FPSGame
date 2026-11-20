@@ -4,6 +4,10 @@ namespace GamePlay.Player.Simulation
     {
         public float moveSpeed;
         public float jumpSpeed;
+        public float groundAcceleration;
+        public float groundFriction;
+        public float stopSpeed;
+        public float surfaceFriction;
         public float gravity;
         public float groundedForce;
         public float lookSensitivity;

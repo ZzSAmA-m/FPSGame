@@ -278,7 +278,7 @@ namespace FPSGame.Editor.Validation
 
             public AK47 EquipRifle()
             {
-                var definition = AssetDatabase.LoadAssetAtPath<AK47SO>("Assets/Scripts/AK47SO.asset");
+                var definition = AssetDatabase.LoadAssetAtPath<AK47SO>("Assets/SO/GunData/Definitions/AK47SO.asset");
                 Require(definition != null && Holder.EquipWeapon(definition), "真实 AK47SO 应能创建并装备当前枪械。");
                 var gun = Holder.CurrentWeapon as AK47;
                 Require(gun != null && gun.Magazine.Rounds > 0, "真实 SO 必须创建可用于射击验证的 AK47。");

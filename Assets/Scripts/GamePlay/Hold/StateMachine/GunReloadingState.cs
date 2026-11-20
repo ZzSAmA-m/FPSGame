@@ -18,6 +18,20 @@ namespace GamePlay.HoldSystem
             _endTick = unchecked(tick + Owner.Config.ReloadTicks);
         }
 
+        /// <summary>放弃本次装填并重新进入准备动作。</summary>
+        internal override bool TryPrepare()
+        {
+            Machine.ChangeState(GunState.Preparing);
+            return true;
+        }
+
+        /// <summary>放弃本次装填并恢复就绪。</summary>
+        internal override bool TryReturnToNormal()
+        {
+            Machine.ChangeState(GunState.Normal);
+            return true;
+        }
+
         /// <summary>成功开火时打断换弹，失败时继续换弹。</summary>
         internal override bool TryFire()
         {
@@ -37,7 +51,7 @@ namespace GamePlay.HoldSystem
 
             int roundsBefore = Owner.Magazine.Rounds;
             bool reloaded = Owner.Magazine.Reload();
-            Machine.ChangeState(GunState.Normal);
+            Machine.ChangeState(GunState.Normal, reloaded ? GunActionEndReason.Completed : GunActionEndReason.Canceled);
             if (reloaded)
                 Owner.NotifyReloadCompleted(Owner.Magazine.Rounds - roundsBefore);
         }

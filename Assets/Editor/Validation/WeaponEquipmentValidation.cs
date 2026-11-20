@@ -17,7 +17,7 @@ namespace FPSGame.Editor.Validation
     /// <summary>在独立 Preview Scene 中验证武器装备，不修改资源或用户场景。</summary>
     public static class WeaponEquipmentValidation
     {
-        private const string DefinitionPath = "Assets/Scripts/AK47SO.asset";
+        private const string DefinitionPath = "Assets/SO/GunData/Definitions/AK47SO.asset";
         private const string KnifeDefinitionPath = "Assets/Resources/Weapons/DefaultKnife.asset";
         private const string PlayerPath = "Assets/Prefabs/Player/Player.prefab";
         private const string WeaponPath = "Assets/Prefabs/Weapon/AK47.prefab";
@@ -207,9 +207,16 @@ namespace FPSGame.Editor.Validation
             Require(holder.SelectSlot(WeaponSlot.Knife) && ReferenceEquals(holder.CurrentEntry, holder.Knife),
                 "切刀应选择已有刀条目。");
             Require(previousController == null && gun.GunState == GunState.None, "收枪应释放旧模型并取消进行中的动作。");
+            var knife = (Knife)holder.CurrentWeapon;
+            knife.Tick(0);
+            Require(knife.TryPrepare(), "装备的刀应能开始准备。");
+            knife.Tick(knife.Config.PrepareTicks);
+            Require(knife.TryAttack(KnifeAttackKind.Heavy), "刀准备好后应能重击。");
             Require(holder.SelectSlot(WeaponSlot.Rifle) && ReferenceEquals(holder.CurrentEntry, rifle) &&
                     ReferenceEquals(holder.CurrentWeapon, gun) && gun.Magazine.Rounds == rounds,
                 "切回长枪必须复用原枪逻辑和已消耗后的弹药，不能从 SO 重建。");
+            Require(knife.State == KnifeState.None && ReferenceEquals(holder.Knife.Weapon, knife),
+                "切走时应中断重击并保留原刀实例。");
             WeaponController currentController = holder.CurrentController;
             int changes = 0;
             Action changed = () => changes++;

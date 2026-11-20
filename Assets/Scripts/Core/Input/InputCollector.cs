@@ -6,7 +6,9 @@ namespace Core.Input
     public sealed class InputCollector:MonoBehaviour
     {
         private GameInput _input;
-        private bool _key1,_key2,_key3;
+        private bool _key1,_key2,_key3,_reload;
+        private bool _lightAttackPressed;
+        private bool _heavyAttackPressed;
 
         void Awake()
         {
@@ -17,6 +19,9 @@ namespace Core.Input
             _input.Player.Hand1.started+=OnPressKey1;
             _input.Player.Hand2.started+=OnPressKey2;
             _input.Player.Hand3.started+=OnPressKey3;
+            _input.Player.Reload.started+=OnReload;
+            _input.Player.LMouse.started += OnLightAttack;
+            _input.Player.RMouse.started += OnHeavyAttack;
             _input.Enable();
         }
         void OnDisable()
@@ -24,7 +29,11 @@ namespace Core.Input
             _input.Player.Hand1.started-=OnPressKey1;
             _input.Player.Hand2.started-=OnPressKey2;
             _input.Player.Hand3.started-=OnPressKey3;
+            _input.Player.Reload.started-=OnReload;
+            _input.Player.LMouse.started -= OnLightAttack;
+            _input.Player.RMouse.started -= OnHeavyAttack;
             _input.Disable();
+            ClearPendingActions();
         }
 
         
@@ -45,24 +54,33 @@ namespace Core.Input
                 key1 = _key1,
                 key2 = _key2,
                 key3 = _key3,
+                r = _reload,
                 space = keyboard != null && keyboard.spaceKey.isPressed,
-                lMouse = mouse != null && mouse.leftButton.isPressed
+                lMouse = mouse != null && mouse.leftButton.isPressed,
+                lightAttackPressed = _lightAttackPressed,
+                heavyAttackPressed = _heavyAttackPressed
             };
-            ResetKeyState();
+            ClearPendingActions();
             return input;
         }
 
-        void ResetKeyState()
+        internal void ClearPendingActions()
         {
             _key1=false;
             _key2=false;
             _key3=false;
+            _reload=false;
+            _lightAttackPressed = false;
+            _heavyAttackPressed = false;
         }
 
 
         private void OnPressKey1(UnityEngine.InputSystem.InputAction.CallbackContext context)=>_key1=true;
         private void OnPressKey2(UnityEngine.InputSystem.InputAction.CallbackContext context)=>_key2=true;
         private void OnPressKey3(UnityEngine.InputSystem.InputAction.CallbackContext context)=>_key3=true;
+        private void OnReload(UnityEngine.InputSystem.InputAction.CallbackContext context)=>_reload=true;
+        private void OnLightAttack(InputAction.CallbackContext context) => _lightAttackPressed = true;
+        private void OnHeavyAttack(InputAction.CallbackContext context) => _heavyAttackPressed = true;
 
     }
 

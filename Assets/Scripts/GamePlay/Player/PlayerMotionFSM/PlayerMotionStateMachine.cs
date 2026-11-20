@@ -22,6 +22,8 @@ namespace GamePlay.Player.MotionFSM
         internal Vector3 LocalVelocity { get; private set; }
         internal PlayerHoldPose EquipmentPose => HasEquippedWeapon ? _equipmentPose : PlayerHoldPose.Knife;
 
+        /// <summary>在退出旧状态、切换视角及移动模型之前通知表现层撤销旧覆盖。</summary>
+        public event Action<EPlayerModelType, EPlayerModelType> OnViewChanging;
         public event Action<EPlayerModelType> OnViewChanged;
         public event Action<EStandRunState> OnLocomotionChanged;
         public event Action<PlayerHoldPose> OnHoldPoseChanged;
@@ -46,6 +48,8 @@ namespace GamePlay.Player.MotionFSM
             if (IsStarted && View == view)
                 return;
 
+            if (View != view)
+                OnViewChanging?.Invoke(View, view);
             CurState?.OnExit();
             View = view;
             IsStarted = true;

@@ -154,7 +154,7 @@ namespace GamePlay.Player.Simulation
             _brain.Simulation.SetReplayMode(true);
             try
             {
-                result = _reconciler.Reconcile(_pendingSnapshot, _tick);
+                result = _reconciler.Reconcile(_pendingSnapshot, _tick, _brain.AcceptsGameplayInput);
             }
             catch (Exception exception)
             {

@@ -36,5 +36,8 @@ namespace GamePlay.HoldSystem
 
         /// <summary>默认拒绝换弹，由允许的状态重写。</summary>
         internal virtual bool TryReload() => false;
+
+        /// <summary>默认拒绝主动恢复就绪，由可提前退出的动作重写。</summary>
+        internal virtual bool TryReturnToNormal() => false;
     }
 }

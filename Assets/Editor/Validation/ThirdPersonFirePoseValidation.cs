@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GamePlay.HoldSystem;
 using GamePlay.Player;
 using Newtonsoft.Json.Linq;
 using Unity.Pipeline.Commands;
@@ -69,6 +70,11 @@ namespace FPSGame.Editor.Validation
                 Transform model = scope.Animator.transform;
                 var names = StructuralBones.Concat(new[] { "root_motion", "pelvis", "wpnPivot", "wpn" }).ToArray();
                 var bones = names.ToDictionary(name => name, name => FindBone(model, name));
+                string chestPath = AnimationUtility.CalculateTransformPath(bones["spine_3"], model);
+                AvatarMask upperMask = controller.layers[up].avatarMask;
+                Require(upperMask != null && Enumerable.Range(0, upperMask.transformCount).Any(
+                        i => upperMask.GetTransformPath(i) == chestPath && upperMask.GetTransformActive(i)),
+                    "TP 上身 Mask 必须包含双臂的父胸骨 spine_3，避免实际分层与烘焙姿态不一致。");
                 Transform[] bound = AnimationUtility.GetCurveBindings(fire)
                     .Where(binding => binding.type == typeof(Transform)).Select(binding => binding.path).Distinct()
                     .Select(path => scope.Paths.TryGetValue(path, out Transform bone) ? bone :
@@ -78,6 +84,14 @@ namespace FPSGame.Editor.Validation
                 hold.SampleAnimation(scope.Root, hold.length);
                 Dictionary<Transform, BonePose> holdPose = Capture(model, bound);
                 Dictionary<string, BonePose> baseline = Capture(model, bones);
+                GunSO definition = Load<GunSO>("Assets/SO/GunData/Definitions/AK47SO.asset");
+                Require(definition.ResourcePack != null && definition.ResourcePack.ModelPrefab is GunModelController,
+                    "真实 AK 必须通过资源包提供通用模型预制体。");
+                var weapon = new WeaponPreview(scope.Scene, bones["wpn"], definition.ResourcePack);
+                weapon.Hold();
+                RelativePose rightGrip = RelativePose.Capture(bones["hand_R"], bones["wpn"]);
+                RelativePose leftGrip = RelativePose.Capture(bones["hand_L"], bones["wpn"]);
+                Dictionary<string, RelativePose> weaponHold = weapon.Capture(bones["hand_R"]);
                 raw.SampleAnimation(scope.Root, 0f);
                 float rawLeft = Length(model, bones["arm_lower_L"]);
                 float rawRight = Length(model, bones["arm_lower_R"]);
@@ -99,11 +113,15 @@ namespace FPSGame.Editor.Validation
                 Pass(checks, "所有绑定的开火首帧与当前持握末帧一致");
 
                 float minForearm = float.PositiveInfinity, maxLengthError = 0f, maxRootDisplacement = 0f;
-                float maxWristDisplacement = 0f, maxWristRotation = 0f, maxHeadDisplacement = 0f, maxGripError = 0f;
-                float[] samples = SampleTimes(fire);
+                float maxWristDisplacement = 0f, maxWristRotation = 0f, maxHeadDisplacement = 0f;
+                var rightGripError = new RelativeError();
+                var leftGripError = new RelativeError();
+                Dictionary<string, RelativeError> sampledModelErrors = weapon.NewErrors();
+                float[] samples = SampleTimes(fire.length, fire, raw, hold, weapon.FireClip, weapon.HoldClip);
                 foreach (float time in samples)
                 {
                     fire.SampleAnimation(scope.Root, time);
+                    weapon.FireAt(time);
                     foreach (string name in StructuralBones)
                         maxLengthError = Mathf.Max(maxLengthError, Mathf.Abs(Length(model, bones[name]) - baseline[name].Length));
                     foreach (string name in new[] { "arm_lower_L", "hand_L", "arm_lower_R", "hand_R" })
@@ -116,10 +134,10 @@ namespace FPSGame.Editor.Validation
                         BonePose wrist = Snapshot(model, bones[name]);
                         maxWristDisplacement = Mathf.Max(maxWristDisplacement, Vector3.Distance(wrist.Position, baseline[name].Position));
                         maxWristRotation = Mathf.Max(maxWristRotation, Quaternion.Angle(wrist.Rotation, baseline[name].Rotation));
-                        float distance = Vector3.Distance(wrist.Position, Snapshot(model, bones["wpnPivot"]).Position);
-                        float heldDistance = Vector3.Distance(baseline[name].Position, baseline["wpnPivot"].Position);
-                        maxGripError = Mathf.Max(maxGripError, Mathf.Abs(distance - heldDistance));
                     }
+                    rightGripError.Observe(RelativePose.Capture(bones["hand_R"], bones["wpn"]), rightGrip);
+                    leftGripError.Observe(RelativePose.Capture(bones["hand_L"], bones["wpn"]), leftGrip);
+                    weapon.Observe(bones["hand_R"], weaponHold, sampledModelErrors);
                     maxHeadDisplacement = Mathf.Max(maxHeadDisplacement,
                         Vector3.Distance(Snapshot(model, bones["head_0"]).Position, baseline["head_0"].Position));
                 }
@@ -128,8 +146,11 @@ namespace FPSGame.Editor.Validation
                 Pass(checks, "逐帧保留双臂、双手、脊柱和头部骨长，根与骨盆没有跳动");
                 Require(maxWristDisplacement > 0.001f || maxWristRotation > 0.1f,
                     "修复不能只用持握静帧替代，必须保留真实后坐力变化。");
-                Require(maxGripError < 0.12f, $"双手必须保持在持枪位置附近，距 wpnPivot 变化 {maxGripError}m。");
-                Pass(checks, "中间帧保留真实后坐力，双手持续保持在持枪位置附近");
+                rightGripError.RequireBelow(0.001f, 0.1f, "直接采样右手到真正 wpn 的相对位姿");
+                leftGripError.RequireBelow(0.01f, 1f, "直接采样左手到真正 wpn 的相对位姿");
+                Pass(checks, "全部关键帧及120Hz帧间保留后坐力，真正 wpn 与右手固定、与左手保持握持");
+                weapon.RequireStable(sampledModelErrors, "直接采样");
+                Pass(checks, "直接采样角色并求值真实枪模型Animator后，模型根与枪身骨骼相对右手固定");
 
                 fire.SampleAnimation(scope.Root, fire.length);
                 float endPositionError = 0f, endRotationError = 0f;
@@ -173,13 +194,21 @@ namespace FPSGame.Editor.Validation
                 scope.Animator.Play(downHash, down, 1f);
                 scope.Animator.Play(holdHash, up, 1f);
                 scope.Animator.Update(0f);
+                weapon.Hold();
                 Dictionary<string, BonePose> maskedHold = Capture(model, bones);
-                float maskedLengthError = 0f, maskedRootDisplacement = 0f, maskedGripError = 0f;
+                RelativePose maskedRightGrip = RelativePose.Capture(bones["hand_R"], bones["wpn"]);
+                RelativePose maskedLeftGrip = RelativePose.Capture(bones["hand_L"], bones["wpn"]);
+                Dictionary<string, RelativePose> maskedWeaponHold = weapon.Capture(bones["hand_R"]);
+                var maskedRightGripError = new RelativeError();
+                var maskedLeftGripError = new RelativeError();
+                Dictionary<string, RelativeError> maskedModelErrors = weapon.NewErrors();
+                float maskedLengthError = 0f, maskedRootDisplacement = 0f;
                 foreach (float time in samples)
                 {
                     scope.Animator.Play(downHash, down, 1f);
                     scope.Animator.Play(fireHash, up, time / fire.length);
                     scope.Animator.Update(0f);
+                    weapon.FireAt(time);
                     Require(scope.Animator.GetCurrentAnimatorStateInfo(up).fullPathHash == fireHash,
                         "真实 Animator 必须实际求值 Up Layer 的开火状态。");
                     foreach (string name in StructuralBones)
@@ -187,16 +216,17 @@ namespace FPSGame.Editor.Validation
                     foreach (string name in new[] { "root_motion", "pelvis" })
                         maskedRootDisplacement = Mathf.Max(maskedRootDisplacement,
                             Vector3.Distance(Snapshot(model, bones[name]).Position, maskedHold[name].Position));
-                    foreach (string name in new[] { "hand_L", "hand_R" })
-                    {
-                        float actual = Vector3.Distance(Snapshot(model, bones[name]).Position, Snapshot(model, bones["wpnPivot"]).Position);
-                        float held = Vector3.Distance(maskedHold[name].Position, maskedHold["wpnPivot"].Position);
-                        maskedGripError = Mathf.Max(maskedGripError, Mathf.Abs(actual - held));
-                    }
+                    maskedRightGripError.Observe(RelativePose.Capture(bones["hand_R"], bones["wpn"]), maskedRightGrip);
+                    maskedLeftGripError.Observe(RelativePose.Capture(bones["hand_L"], bones["wpn"]), maskedLeftGrip);
+                    weapon.Observe(bones["hand_R"], maskedWeaponHold, maskedModelErrors);
                 }
-                Require(maskedLengthError < 0.001f && maskedRootDisplacement < 0.001f && maskedGripError < 0.12f,
-                    $"真实分层 Animator 仍发生塌缩或持枪偏移：骨长{maskedLengthError}m，根{maskedRootDisplacement}m，握枪{maskedGripError}m。");
-                Pass(checks, "真实 Animator 的下身静止、上身开火和关闭 FP 的混合求值保持完整骨架");
+                Require(maskedLengthError < 0.001f && maskedRootDisplacement < 0.001f,
+                    $"真实分层 Animator 仍发生塌缩或根偏移：骨长{maskedLengthError}m，根{maskedRootDisplacement}m。");
+                maskedRightGripError.RequireBelow(0.001f, 0.1f, "真实分层Animator右手到真正 wpn 的相对位姿");
+                maskedLeftGripError.RequireBelow(0.01f, 1f, "真实分层Animator左手到真正 wpn 的相对位姿");
+                Pass(checks, "真实分层Animator在全部关键帧和120Hz帧间保持完整骨架及双手握枪约束");
+                weapon.RequireStable(maskedModelErrors, "真实分层Animator");
+                Pass(checks, "真实角色及模型Animator共同求值后，模型根和weapon/weapon_offset枪身相对右手固定");
 
                 return new JObject
                 {
@@ -207,7 +237,9 @@ namespace FPSGame.Editor.Validation
                         ["minimumForearmLength"] = minForearm, ["maximumBoneLengthError"] = maxLengthError,
                         ["maximumRootDisplacement"] = maxRootDisplacement, ["maximumHeadDisplacement"] = maxHeadDisplacement,
                         ["maximumWristDisplacement"] = maxWristDisplacement, ["maximumWristRotationDegrees"] = maxWristRotation,
-                        ["maximumGripDistanceError"] = maxGripError, ["startPositionError"] = startPositionError,
+                        ["sampleRateHz"] = 120, ["rightHandToWpn"] = rightGripError.Report(),
+                        ["leftHandToWpn"] = leftGripError.Report(), ["sampledModelToRightHand"] = weapon.Report(sampledModelErrors),
+                        ["startPositionError"] = startPositionError,
                         ["startRotationErrorDegrees"] = startRotationError, ["endPositionError"] = endPositionError,
                         ["endRotationErrorDegrees"] = endRotationError,
                         ["endStructuralRotationErrorDegrees"] = endStructuralRotationError,
@@ -215,7 +247,10 @@ namespace FPSGame.Editor.Validation
                         ["generatedTriggerFingerDifferenceDegrees"] = generatedTriggerDifference,
                         ["sourceTriggerFingerEndpointDifferencePreserved"] = true,
                         ["maskedBoneLengthError"] = maskedLengthError,
-                        ["maskedRootDisplacement"] = maskedRootDisplacement, ["maskedGripDistanceError"] = maskedGripError,
+                        ["maskedRootDisplacement"] = maskedRootDisplacement,
+                        ["maskedRightHandToWpn"] = maskedRightGripError.Report(),
+                        ["maskedLeftHandToWpn"] = maskedLeftGripError.Report(),
+                        ["maskedModelToRightHand"] = weapon.Report(maskedModelErrors),
                         ["downStillState"] = downState.name
                     }
                 };
@@ -223,10 +258,23 @@ namespace FPSGame.Editor.Validation
             finally { _running = false; }
         }
 
-        private static float[] SampleTimes(AnimationClip clip)
+        private static float[] SampleTimes(float duration, params AnimationClip[] clips)
         {
-            var times = new SortedSet<float> { 0f, clip.length };
-            for (int frame = 1; frame / clip.frameRate < clip.length; frame++) times.Add(frame / clip.frameRate);
+            var times = new SortedSet<float> { 0f, duration };
+            for (int frame = 1; frame / 120f < duration; frame++) times.Add(frame / 120f);
+            foreach (AnimationClip clip in clips.Distinct())
+                foreach (EditorCurveBinding binding in AnimationUtility.GetCurveBindings(clip))
+                {
+                    AnimationCurve curve = AnimationUtility.GetEditorCurve(clip, binding);
+                    if (curve == null) continue;
+                    foreach (Keyframe key in curve.keys)
+                        if (key.time >= 0f && key.time <= duration) times.Add(key.time);
+                }
+            // 还检查输出关键帧之间的中点，不能只在烘焙采样点上证明握持正确。
+            float[] keyTimes = times.ToArray();
+            for (int i = 1; i < keyTimes.Length; i++)
+                if (keyTimes[i] - keyTimes[i - 1] > 0.000001f)
+                    times.Add((keyTimes[i] + keyTimes[i - 1]) * 0.5f);
             return times.ToArray();
         }
 
@@ -286,6 +334,176 @@ namespace FPSGame.Editor.Validation
             public Vector3 Position;
             public Quaternion Rotation;
             public float Length;
+        }
+
+        private struct RelativePose
+        {
+            public Vector3 Position;
+            public Quaternion Rotation;
+            public Vector3 Scale;
+
+            public static RelativePose Capture(Transform reference, Transform target)
+            {
+                // 使用完整层级矩阵计入枪模型内部的坐标转换及100倍缩放；旋转取正交基，不能把带scale的矩阵直接当旋转。
+                Matrix4x4 matrix = reference.worldToLocalMatrix * target.localToWorldMatrix;
+                Vector3 x = matrix.GetColumn(0), y = matrix.GetColumn(1), z = matrix.GetColumn(2);
+                Vector3 scale = new Vector3(x.magnitude, y.magnitude, z.magnitude);
+                Require(scale.x > 0.0000001f && scale.y > 0.0000001f && scale.z > 0.0000001f,
+                    "握枪相对位姿存在退化缩放：" + target.name);
+                if (Vector3.Dot(Vector3.Cross(x, y), z) < 0f) scale.x = -scale.x;
+                z.Normalize();
+                y -= Vector3.Dot(y, z) * z;
+                Require(y.sqrMagnitude > 0.00000001f, "握枪相对旋转的轴发生退化：" + target.name);
+                y.Normalize();
+                return new RelativePose
+                {
+                    Position = matrix.MultiplyPoint3x4(Vector3.zero),
+                    Rotation = Quaternion.LookRotation(z, y),
+                    Scale = scale
+                };
+            }
+        }
+
+        private sealed class RelativeError
+        {
+            public float Position;
+            public float Rotation;
+            public float RelativeScale;
+
+            public void Observe(RelativePose actual, RelativePose baseline)
+            {
+                Position = Mathf.Max(Position, Vector3.Distance(actual.Position, baseline.Position));
+                Rotation = Mathf.Max(Rotation, Quaternion.Angle(actual.Rotation, baseline.Rotation));
+                RelativeScale = Mathf.Max(RelativeScale, Mathf.Abs(actual.Scale.x / baseline.Scale.x - 1f),
+                    Mathf.Abs(actual.Scale.y / baseline.Scale.y - 1f), Mathf.Abs(actual.Scale.z / baseline.Scale.z - 1f));
+            }
+
+            public void RequireBelow(float positionLimit, float rotationLimit, string label)
+            {
+                Require(Position < positionLimit && Rotation < rotationLimit,
+                    $"{label}超出约束：{Position}m / {Rotation}°（要求 <{positionLimit}m / {rotationLimit}°）。");
+            }
+
+            public JObject Report() => new JObject
+            {
+                ["maximumPositionErrorMeters"] = Position, ["maximumRotationErrorDegrees"] = Rotation,
+                ["maximumRelativeScaleError"] = RelativeScale
+            };
+        }
+
+        private sealed class WeaponPreview
+        {
+            public readonly AnimationClip HoldClip;
+            public readonly AnimationClip FireClip;
+            private readonly Animator _animator;
+            private readonly int _holdHash;
+            private readonly int _fireHash;
+            private readonly Dictionary<string, Transform> _targets;
+
+            public WeaponPreview(Scene scene, Transform mount, GunResourcePackSO resources)
+            {
+                GameObject root = Object.Instantiate(resources.ModelPrefab.gameObject, new InstantiateParameters { scene = scene });
+                root.hideFlags = HideFlags.HideAndDontSave;
+                root.transform.SetParent(mount, false);
+                root.transform.localPosition = Vector3.zero;
+                root.transform.localRotation = Quaternion.identity;
+                root.SetActive(true);
+                GunModelController model = root.GetComponent<GunModelController>();
+                Require(model != null && model.ModelAnimator != null, "真实资源包模型缺少绑定的 GunModelController/Animator。");
+                _animator = model.ModelAnimator;
+                AnimatorController controller = _animator.runtimeAnimatorController as AnimatorController;
+                Require(controller != null && controller.layers.Length > 0, "真实模型缺少 AnimatorController。");
+                Require(resources.TryGetAnimation(WeaponPresentationAction.Hold, WeaponAnimationTarget.Model, out string holdName),
+                    "真实模型资源未配置持握状态。");
+                Require(resources.TryGetAnimation(WeaponPresentationAction.Fire, WeaponAnimationTarget.Model, out string fireName),
+                    "真实模型资源未配置开火状态。");
+                HoldClip = ResolveClip(controller, holdName, out _holdHash);
+                FireClip = ResolveClip(controller, fireName, out _fireHash);
+                _animator.enabled = true;
+                _animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+                _animator.applyRootMotion = false;
+                _animator.speed = 1f;
+                _animator.Rebind();
+
+                var paths = _animator.GetComponentsInChildren<Transform>(true)
+                    .ToDictionary(value => AnimationUtility.CalculateTransformPath(value, _animator.transform), value => value);
+                Transform weapon = BoundModelBone(FireClip, paths, "/weapon");
+                Transform offset = BoundModelBone(FireClip, paths, "/weapon/weapon_offset");
+                Require(offset.IsChildOf(weapon), "真实模型的 weapon_offset 必须属于 weapon 枪身骨骼。");
+                _targets = new Dictionary<string, Transform>
+                {
+                    ["equipmentRoot"] = root.transform, ["modelAnimatorRoot"] = _animator.transform,
+                    ["weapon"] = weapon, ["weapon_offset"] = offset
+                };
+                Hold();
+            }
+
+            public void Hold() => Play(_holdHash, 1f);
+
+            public void FireAt(float time)
+            {
+                if (time < FireClip.length) Play(_fireHash, time / FireClip.length);
+                else Hold();
+            }
+
+            private void Play(int state, float normalizedTime)
+            {
+                _animator.Play(state, 0, normalizedTime);
+                _animator.Update(0f);
+                Require(_animator.GetCurrentAnimatorStateInfo(0).fullPathHash == state,
+                    "真实枪模型 Animator 没有实际求值资源包配置的状态。");
+            }
+
+            public Dictionary<string, RelativePose> Capture(Transform hand) =>
+                _targets.ToDictionary(pair => pair.Key, pair => RelativePose.Capture(hand, pair.Value));
+
+            public Dictionary<string, RelativeError> NewErrors() => _targets.ToDictionary(pair => pair.Key, _ => new RelativeError());
+
+            public void Observe(Transform hand, Dictionary<string, RelativePose> baseline, Dictionary<string, RelativeError> errors)
+            {
+                foreach (var pair in _targets)
+                    errors[pair.Key].Observe(RelativePose.Capture(hand, pair.Value), baseline[pair.Key]);
+            }
+
+            public void RequireStable(Dictionary<string, RelativeError> errors, string label)
+            {
+                foreach (var pair in errors)
+                {
+                    pair.Value.RequireBelow(0.001f, 0.1f, label + "枪模型 " + pair.Key + " 相对右手");
+                    Require(pair.Value.RelativeScale < 0.0001f,
+                        $"{label}枪模型 {pair.Key} 的相对缩放不应变化：{pair.Value.RelativeScale}。");
+                }
+            }
+
+            public JObject Report(Dictionary<string, RelativeError> errors)
+            {
+                var result = new JObject();
+                foreach (var pair in errors)
+                {
+                    JObject entry = pair.Value.Report();
+                    entry["pathFromEquipmentRoot"] = AnimationUtility.CalculateTransformPath(_targets[pair.Key], _targets["equipmentRoot"]);
+                    result[pair.Key] = entry;
+                }
+                return result;
+            }
+
+            private static AnimationClip ResolveClip(AnimatorController controller, string name, out int hash)
+            {
+                AnimatorControllerLayer layer = controller.layers[0];
+                AnimatorState state = layer.stateMachine.states.Select(value => value.state)
+                    .SingleOrDefault(value => value.name == name || layer.name + "." + value.name == name);
+                Require(state != null && state.motion is AnimationClip, "真实枪模型状态必须直接绑定 Clip：" + name);
+                hash = Animator.StringToHash(layer.name + "." + state.name);
+                return (AnimationClip)state.motion;
+            }
+
+            private static Transform BoundModelBone(AnimationClip clip, Dictionary<string, Transform> paths, string suffix)
+            {
+                string path = AnimationUtility.GetCurveBindings(clip).Where(binding => binding.type == typeof(Transform))
+                    .Select(binding => binding.path).Distinct().SingleOrDefault(value => value.EndsWith(suffix, StringComparison.Ordinal));
+                Require(path != null && paths.ContainsKey(path), "模型真实骨架缺少动画绑定：" + suffix);
+                return paths[path];
+            }
         }
 
         private sealed class PreviewScope : IDisposable

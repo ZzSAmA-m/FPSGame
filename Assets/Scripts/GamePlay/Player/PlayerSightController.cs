@@ -45,6 +45,8 @@ namespace GamePlay.Player
         }
 
         public Transform View => _view;
+        /// <summary>本拍最终显示俯仰；预测、权威模拟和远端插值均在 ApplyAngles 提交。</summary>
+        public float AppliedPitch => _pitch;
 
         public void SetPitchLimit(float minPitch, float maxPitch)
         {

@@ -21,7 +21,8 @@ namespace GamePlay.Player.Simulation.Reconciliation
             _settings.Validate();
         }
 
-        public ReconcileResult Reconcile(in PlayerAuthoritativeSnapshot snapshot, uint currentInputTick)
+        public ReconcileResult Reconcile(in PlayerAuthoritativeSnapshot snapshot, uint currentInputTick,
+            bool acceptsGameplayInput = true)
         {
             PlayerSimState before = _simulation.State;
             var result = new ReconcileResult
@@ -83,7 +84,8 @@ namespace GamePlay.Player.Simulation.Reconciliation
             {
                 uint tick = unchecked(ack + offset);
                 _history.TryGet(tick, out PredictionFrame frame);
-                _simulation.Step(frame.Input);
+                // 死亡消息到达前记录的输入仍用于网络重发，但重放时只能推进无操作的物理状态。
+                _simulation.Step(acceptsGameplayInput ? frame.Input : frame.Input.WithoutActions());
                 PlayerSimState state = _simulation.State;
                 if (!PlayerStateValidation.IsFinite(state))
                 {

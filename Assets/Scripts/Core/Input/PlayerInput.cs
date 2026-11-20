@@ -13,6 +13,8 @@ namespace Core.Input
         // 功能键
         public bool space;
         public bool lMouse;
+        public bool lightAttackPressed;
+        public bool heavyAttackPressed;
         public bool r;
         //数字键
         public bool key1;

@@ -41,6 +41,12 @@ namespace FPSGame.Editor.Validation
                 RunCase("收枪取消准备、换弹和射击而不发送正常完成", TestCancellation, report, ref passed);
                 RunCase("成功开火打断换弹时先取消再通知射击", TestReloadInterruption, report, ref passed);
                 RunCase("取消射击保留冷却限制但不补发旧周期结束", TestRetainedCooldown, report, ref passed);
+                RunCase("五种状态按转换矩阵接受动作且拒绝自转换", TestStateTransitionMatrix, report, ref passed);
+                RunCase("换弹提前退出不会装填或补发完成", TestReloadEarlyExits, report, ref passed);
+                RunCase("射击提前退出保留已发射结果和独立冷却", TestShootingEarlyExits, report, ref passed);
+                RunCase("空弹射击失败继续换弹且无备弹时拒绝换弹", TestReloadRejections, report, ref passed);
+                RunCase("准备与换弹进度遵守模拟拍且支持回绕", TestActionProgress, report, ref passed);
+                RunCase("主动恢复就绪拒绝生命周期回调重入", TestReturnReentrancy, report, ref passed);
                 RunCase("控制器转发全部开始及完成事件和实际枪实例", TestControllerForwarding, report, ref passed);
                 RunCase("切枪在解绑前转发旧枪取消，切回不补历史事件", TestControllerSwitching, report, ref passed);
                 RunCase("启停和替换枪械成对清理全部订阅", TestControllerLifecycle, report, ref passed);
@@ -192,6 +198,171 @@ namespace FPSGame.Editor.Validation
             Require(gun.TryFire(), "原冷却到期后仍可正常射击。");
             gun.Tick(22);
             Expect(events, "Canceled:Shooting", "Prepare", "PrepareEnd", "Shot", "ShotCooldownEnd");
+        }
+
+        private static void TestStateTransitionMatrix()
+        {
+            foreach (GunState source in Enum.GetValues(typeof(GunState)))
+            foreach (GunState target in Enum.GetValues(typeof(GunState)))
+            {
+                AK47 gun = GunInState(source);
+                var events = Trace(gun);
+                int rounds = gun.Magazine.Rounds;
+                int reserve = gun.Magazine.ReserveRounds;
+                bool expected = source switch
+                {
+                    GunState.None => target == GunState.Preparing,
+                    GunState.Preparing => target == GunState.None,
+                    _ => target != source
+                };
+                bool changed = TryTransition(gun, target);
+                Require(changed == expected, source + " 到 " + target + " 的接受结果错误。");
+                Require(gun.GunState == (expected ? target : source), "转换后状态错误。");
+                Require(gun.Magazine.Rounds == rounds - (expected && target == GunState.Shooting ? 1 : 0) &&
+                    gun.Magazine.ReserveRounds == reserve, "动作转换只能为成功射击扣除一发。");
+                if (!expected)
+                    Expect(events);
+            }
+        }
+
+        private static AK47 GunInState(GunState state)
+        {
+            AK47 gun = NewGun(10);
+            gun.Tick(0);
+            if (state == GunState.None)
+                return gun;
+            Require(gun.TryPrepare(), "应能建立准备状态。");
+            if (state == GunState.Preparing)
+                return gun;
+            gun.Tick(2);
+            Require(gun.TryFire(), "应能建立射击状态及弹匣缺口。");
+            if (state == GunState.Shooting)
+                return gun;
+            gun.Tick(12);
+            if (state == GunState.Reloading)
+                Require(gun.TryReload(), "应能建立换弹状态。");
+            return gun;
+        }
+
+        private static bool TryTransition(Gun gun, GunState target)
+        {
+            switch (target)
+            {
+                case GunState.None:
+                    GunState previous = gun.GunState;
+                    gun.Unequip();
+                    return previous != gun.GunState;
+                case GunState.Preparing: return gun.TryPrepare();
+                case GunState.Shooting: return gun.TryFire();
+                case GunState.Reloading: return gun.TryReload();
+                case GunState.Normal: return gun.TryReturnToNormal();
+                default: throw new ArgumentOutOfRangeException(nameof(target));
+            }
+        }
+
+        private static void TestReloadEarlyExits()
+        {
+            foreach (GunState target in new[] { GunState.None, GunState.Preparing, GunState.Shooting, GunState.Normal })
+            {
+                AK47 gun = GunInState(GunState.Reloading);
+                var events = Trace(gun);
+                int rounds = gun.Magazine.Rounds;
+                int reserve = gun.Magazine.ReserveRounds;
+                Require(TryTransition(gun, target), "换弹应能提前转入 " + target + "。");
+                Require(events.Count > 0 && events[0] == "Canceled:Reloading", "应先通知旧换弹取消。");
+                gun.Tick(100);
+                Require(!events.Contains("ReloadEnd"), "提前退出不能补发换弹完成。");
+                Require(gun.Magazine.Rounds == rounds - (target == GunState.Shooting ? 1 : 0) &&
+                    gun.Magazine.ReserveRounds == reserve, "提前退出不能提交装填。");
+            }
+        }
+
+        private static void TestShootingEarlyExits()
+        {
+            foreach (GunState target in new[] { GunState.Normal, GunState.Preparing, GunState.Reloading })
+            {
+                AK47 gun = NewGun(10);
+                Ready(gun);
+                var events = Trace(gun);
+                Require(gun.TryFire(), "应先成功发射一发。");
+                int reserve = gun.Magazine.ReserveRounds;
+                Require(TryTransition(gun, target), "射击应能提前转入 " + target + "。");
+                Require(events[0] == "Shot" && events[1] == "Canceled:Shooting", "已成功射击应先于动作退出保留。");
+                Require(gun.Magazine.Rounds == 3, "提前退出不能撤销已扣除的射击弹药。");
+                gun.Tick(6);
+                Require(gun.GunState == GunState.Normal, "准备或换弹结束后应恢复就绪。");
+                Require(gun.Magazine.ReserveRounds == reserve - (target == GunState.Reloading ? 1 : 0),
+                    "只有完成换弹才能消耗备弹。");
+                Require(!gun.TryFire(), "动作退出与换弹完成都不能绕过原射击冷却。");
+                gun.Tick(11);
+                Require(!gun.TryFire(), "原射击冷却截止拍前仍不能开火。");
+                gun.Tick(12);
+                Require(!events.Contains("ShotCooldownEnd"), "提前退出的射击周期不能补发冷却完成。");
+                Require(gun.TryFire(), "原射击冷却到期后应能再次开火。");
+            }
+        }
+
+        private static void TestReloadRejections()
+        {
+            AK47 gun = new(new GunConfig(2, 1, 2, 10, 4));
+            Ready(gun);
+            Require(gun.TryFire() && gun.TryReload(), "空弹匣可在射击间隔内开始换弹。");
+            var events = Trace(gun);
+            Require(!gun.TryFire() && !gun.TryReload() && gun.GunState == GunState.Reloading,
+                "空弹射击和重复换弹请求应继续原换弹。");
+            Expect(events);
+            gun.Tick(6);
+            Expect(events, "ReloadEnd");
+            Require(gun.Magazine.Rounds == 1 && gun.Magazine.ReserveRounds == 0, "应仅装填剩余备弹。");
+            gun.Tick(12);
+            Require(gun.TryFire(), "冷却到期后应能发射装填的一发。");
+            events.Clear();
+            Require(!gun.TryReload() && gun.GunState == GunState.Shooting, "无备弹时应保留当前射击动作。");
+            Expect(events);
+        }
+
+        private static void TestActionProgress()
+        {
+            AK47 gun = NewGun();
+            gun.Tick(0);
+            Require(gun.ActionProgress == 0f && gun.TryPrepare(), "新枪进度应为零并可开始准备。");
+            gun.Tick(1);
+            Require(gun.ActionProgress == 0.5f, "准备进度应按模拟拍推进到一半。");
+            gun.Tick(1);
+            gun.Tick(0);
+            Require(gun.ActionProgress == 0.5f && !gun.TryReturnToNormal(), "旧拍及主动取消不能提前结束准备。");
+            gun.Tick(2);
+            Require(gun.ActionProgress == 0f && gun.TryFire() && gun.TryReload(), "新换弹进度应从零开始。");
+            gun.Tick(3);
+            Require(gun.ActionProgress == 0.25f && !gun.TryReload(), "重复换弹不能重置动作进度。");
+            gun.Tick(5);
+            Require(gun.ActionProgress == 0.75f && gun.TryReturnToNormal(), "换弹可在完成前主动退出。");
+            Require(gun.ActionProgress == 0f, "退出动作后进度应归零。");
+            gun.Tick(6);
+            Require(gun.Magazine.Rounds == 3, "已取消动作不得在旧截止拍装填。");
+
+            AK47 wrapped = NewGun();
+            wrapped.Tick(uint.MaxValue - 3);
+            Require(wrapped.TryPrepare(), "回绕前应能开始准备。");
+            wrapped.Tick(uint.MaxValue - 2);
+            Require(wrapped.ActionProgress == 0.5f, "回绕前准备进度应正确。");
+            wrapped.Tick(uint.MaxValue - 1);
+            Require(wrapped.TryFire() && wrapped.TryReload(), "回绕前应能开始换弹。");
+            wrapped.Tick(0);
+            Require(wrapped.ActionProgress == 0.5f, "换弹进度应跨 uint 回绕正确推进。");
+            wrapped.Tick(2);
+            Require(wrapped.GunState == GunState.Normal && wrapped.ActionProgress == 0f && wrapped.Magazine.Full,
+                "回绕后的截止拍应完成装填并退出动作进度。");
+        }
+
+        private static void TestReturnReentrancy()
+        {
+            AK47 gun = GunInState(GunState.Reloading);
+            var events = Trace(gun);
+            gun.OnActionCanceled += _ => Require(!gun.TryPrepare() && !gun.TryReload() && !gun.TryReturnToNormal(),
+                "动作取消回调中的新操作应全部被拒绝。");
+            Require(gun.TryReturnToNormal() && gun.GunState == GunState.Normal, "外层恢复就绪应成功。");
+            Expect(events, "Canceled:Reloading");
         }
 
         private static void TestControllerForwarding()
@@ -369,7 +540,7 @@ namespace FPSGame.Editor.Validation
                 SetRole(PawnRole.Predicted);
                 Invoke(Controller, "OnDisable");
                 Invoke(Controller, "OnEnable");
-                var source = AssetDatabase.LoadAssetAtPath<AK47SO>("Assets/Scripts/AK47SO.asset");
+                var source = AssetDatabase.LoadAssetAtPath<AK47SO>("Assets/SO/GunData/Definitions/AK47SO.asset");
                 Require(source != null, "真实 AK47SO 资源必须存在。");
                 Definition = UnityEngine.Object.Instantiate(source);
                 Definition.hideFlags = HideFlags.HideAndDontSave;

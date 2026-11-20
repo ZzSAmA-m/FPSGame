@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: PlayerBasicDataTest
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Player.PlayerBasicDataSO
   _ePlayerHandState: 0
-  _playerHealth: 100
+  _initialHealth: 100
+  _maxHealth: 100
+  _initialArmor: 0
+  _maxArmor: 100
+  _armorAbsorptionRatio: 0.5
+  _playerHealth: -1

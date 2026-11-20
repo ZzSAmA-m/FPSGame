@@ -70,6 +70,44 @@ namespace Network.Common
             return true;
         }
 
+        /// <summary>仅向指定的所属客户端可靠发送数值完整状态。</summary>
+        public bool SendPlayerStatsState(NetworkConnectionToClient connection, PlayerStatsStateMessage message)
+        {
+            if (connection == null || !NetworkServer.active)
+                return false;
+
+            connection.Send(message, Channels.Reliable);
+            return true;
+        }
+
+        public bool SendPlayerLifeState(NetworkConnectionToClient connection, PlayerLifeStateMessage message)
+        {
+            if (connection == null || !NetworkServer.active)
+                return false;
+
+            connection.Send(message, Channels.Reliable);
+            return true;
+        }
+
+        /// <summary>向全部 Ready 客户端可靠发送生命状态变化。</summary>
+        public bool BroadcastPlayerLifeState(PlayerLifeStateMessage message)
+        {
+            if (!NetworkServer.active)
+                return false;
+
+            NetworkServer.SendToAll(message, Channels.Reliable, sendToReadyOnly: true);
+            return true;
+        }
+
+        public bool BroadcastHitConfirm(HitConfirmMessage message)
+        {
+            if (!NetworkServer.active)
+                return false;
+
+            NetworkServer.SendToAll(message, Channels.Reliable, sendToReadyOnly: true);
+            return true;
+        }
+
         void HandleServerHello(NetworkConnectionToClient connection, HelloRequest request)
         {
             ServerHelloReceived?.Invoke(connection, request);

@@ -23,13 +23,14 @@ namespace Network.Client
 
         void HandlePlayerSnapshot(PlayerSnapshotMessage message)
         {
+            WorldTimeline.ObserveAnchor(message.serverTick, message.serverTime);
             if (message.players == null)
                 return;
 
             for (int i = 0; i < message.players.Length; i++)
             {
                 PlayerSnapshotPose pose = message.players[i];
-                if (!Players.Players.TryGetValue(pose.netId, out GameObject player))
+                if (!Players.Players.TryGetValue(pose.netId, out GameObject player) || player == null)
                     continue;
 
                 PlayerBrain brain = player.GetComponent<PlayerBrain>();
@@ -42,7 +43,8 @@ namespace Network.Client
                         State = pose.state
                     });
                 else if (brain.Role == PawnRole.Interpolated)
-                    brain.Interpolator.Push(message.serverTick, pose.state, pose.predictionEpoch);
+                    brain.Interpolator.Push(message.serverTick, pose.state, pose.predictionEpoch, pose.combatPose,
+                        pose.combatContinuity);
             }
 
             ZLog.Log<ClientManager>("Received Snapshot: " + message, frequency: LogFrequency.Extreme);
@@ -53,6 +55,7 @@ namespace Network.Client
         {
             if (message.predictionEpoch == 0 || !PlayerStateValidation.IsFinite(message.state))
                 return;
+            WorldTimeline.ObserveAnchor(message.serverTick, message.serverTime);
             if (!Players.Players.TryGetValue(message.netId, out GameObject player))
             {
                 if (!_pendingBaselines.TryGetValue(message.netId, out var previous) ||

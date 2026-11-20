@@ -25,10 +25,11 @@
   <Project Path="Unity.Pipeline.Editor.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
   <Project Path="Unity.InputSystem.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Mirror.Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="UniTask.csproj" />
   <Project Path="Unity.Searcher.Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="UnityEditor.TestRunner.csproj" />
   <Project Path="Unity.VisualScripting.Core.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.Runtime.csproj" />
@@ -40,7 +41,6 @@
   <Project Path="Unity.VisualScripting.Flow.csproj" />
   <Project Path="kcp2k.csproj" />
   <Project Path="Unity.PerformanceTesting.csproj" />
-  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.Pipeline.CodeGen.csproj" />
   <Project Path="Unity.TextMeshPro.csproj" />
   <Project Path="UniTask.Linq.csproj" />
@@ -50,6 +50,7 @@
   <Project Path="ZLog.csproj" />
   <Project Path="Mirror.csproj" />
   <Project Path="Unity.Rider.Editor.csproj" />
+  <Project Path="ZUI.csproj" />
   <Project Path="Unity.VisualScripting.State.csproj" />
   <Project Path="SimpleWebTransport.csproj" />
   <Project Path="Unity.AI.Navigation.Updater.csproj" />
@@ -76,6 +77,7 @@
   <Project Path="UniTask.TextMeshPro.csproj" />
   <Project Path="Unity.PathTracing.Editor.csproj" />
   <Project Path="ParrelSync.csproj" />
+  <Project Path="Event.csproj" />
   <Project Path="Unity.InputSystem.TestFramework.csproj" />
   <Project Path="Unity.ShaderGraph.Utilities.csproj" />
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />

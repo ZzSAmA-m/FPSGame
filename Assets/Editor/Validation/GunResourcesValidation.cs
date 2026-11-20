@@ -52,7 +52,7 @@ namespace FPSGame.Editor.Validation
 
         private static AK47SO Definition()
         {
-            AK47SO definition = AssetDatabase.LoadAssetAtPath<AK47SO>("Assets/Scripts/AK47SO.asset");
+            AK47SO definition = AssetDatabase.LoadAssetAtPath<AK47SO>("Assets/SO/GunData/Definitions/AK47SO.asset");
             Require(definition != null && definition.ResourcePack != null, "请先完成真实 AK47 资源包迁移。");
             Require(definition.ResourcePack.ModelPrefab is GunModelController, "真实 AK 资源包必须使用通用枪械模型控制器。");
             return definition;

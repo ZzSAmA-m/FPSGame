@@ -21,7 +21,7 @@ namespace GamePlay.Player
         private List<WeaponSO> _initialWeapons = new();
 
 #if UNITY_EDITOR
-        [SerializeField, Tooltip("在屏幕右下角显示本地玩家的武器调试信息，P 键切换，仅 Unity Editor 生效。")]
+        [SerializeField, Tooltip("在屏幕右下角显示本地玩家的武器调试信息,P 键切换，仅 Unity Editor 生效。")]
         private bool _showWeaponDebugGUI = true;
         private PlayerController _debugPlayerController;
         private GUIStyle _debugTextStyle;
@@ -287,6 +287,7 @@ namespace GamePlay.Player
             try
             {
                 if (weapon is Gun gun) gun.Unequip();
+                else if (weapon is Knife knife) knife.Unequip();
             }
             catch (Exception exception) { Debug.LogException(exception, this); }
         }

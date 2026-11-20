@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GamePlay.HoldSystem;
+using GamePlay.Player;
 using Newtonsoft.Json.Linq;
 using Unity.Pipeline.Commands;
 using UnityEditor;
@@ -13,8 +14,9 @@ namespace FPSGame.Editor.Validation
     /// <summary>将当前 AK47 的既有模型、动作和音频迁移到资源包；不保存其他脏资产或当前场景。</summary>
     public static class GunResourceMigration
     {
-        private const string PackPath = "Assets/Resources/Weapons/AK47ResourcePack.asset";
-        private const string GunPath = "Assets/Scripts/AK47SO.asset";
+        private const string PackFolder = "Assets/SO/GunData/ResourcePacks";
+        private const string PackPath = PackFolder + "/AK47ResourcePack.asset";
+        private const string GunPath = "Assets/SO/GunData/Definitions/AK47SO.asset";
         private const string ModelPath = "Assets/Prefabs/Weapon/AK47.prefab";
         private const string PlayerPath = "Assets/Prefabs/Player/Player.prefab";
         private const string ActorControllerPath = "Assets/Resources/CS2/Agents/ctm_fbi_meter/meter_fbi_controller.controller";
@@ -80,7 +82,7 @@ namespace FPSGame.Editor.Validation
             bool created = pack == null;
             if (created)
             {
-                EnsureFolder("Assets/Resources/Weapons");
+                EnsureFolder(PackFolder);
                 pack = ScriptableObject.CreateInstance<GunResourcePackSO>();
                 pack.name = "AK47ResourcePack";
                 AssetDatabase.CreateAsset(pack, PackPath);
@@ -149,7 +151,15 @@ namespace FPSGame.Editor.Validation
 
         private static AnimationClip SaveThirdPersonFire(AnimationClip source, AnimationClip hold)
         {
-            AnimationClip baked = GunRecoilClipBaker.Bake(source, hold, "tp_shoot_ak");
+            ResolvePlayerRig(out Transform rigRoot, out string handPath, out string mountPath);
+            // 全部 FK、路径和缩放检查在内存烘焙中完成，成功后才写入或覆盖生成资产。
+            AnimationClip baked = GunRecoilClipBaker.Bake(source, hold, "tp_shoot_ak", rigRoot, handPath, mountPath);
+            try { EnsureThirdPersonChestMask(rigRoot); }
+            catch
+            {
+                UnityEngine.Object.DestroyImmediate(baked);
+                throw;
+            }
             AnimationClip saved = AssetDatabase.LoadAssetAtPath<AnimationClip>(ThirdPersonFirePath);
             if (saved == null)
             {
@@ -166,6 +176,53 @@ namespace FPSGame.Editor.Validation
             }
             AssetDatabase.SaveAssetIfDirty(saved);
             return saved;
+        }
+
+        private static void EnsureThirdPersonChestMask(Transform rigRoot)
+        {
+            var actor = Require<AnimatorController>(ActorControllerPath);
+            AnimatorControllerLayer up = actor.layers.Single(layer => layer.name == "Up Layer");
+            AvatarMask mask = up.avatarMask;
+            Transform[] chest = rigRoot.GetComponentsInChildren<Transform>(true)
+                .Where(bone => bone.name == "spine_3").ToArray();
+            if (mask == null || chest.Length != 1)
+                throw new InvalidOperationException("TP 上身必须具有唯一胸骨与有效的骨骼 Mask。");
+            string path = AnimationUtility.CalculateTransformPath(chest[0], rigRoot);
+            int index = Enumerable.Range(0, mask.transformCount)
+                .Where(i => mask.GetTransformPath(i) == path).DefaultIfEmpty(-1).Single();
+            if (index < 0)
+                throw new InvalidOperationException("TP 上身 Mask 缺少胸骨绑定：" + path);
+            if (mask.GetTransformActive(index)) return;
+
+            // 双臂经过该胸骨；遗漏它会让实际 Animator 与完整 Clip 的 FK 结果不同。
+            Undo.RecordObject(mask, "Restore TP chest animation mask");
+            mask.SetTransformActive(index, true);
+            EditorUtility.SetDirty(mask);
+            AssetDatabase.SaveAssetIfDirty(mask);
+        }
+
+        private static void ResolvePlayerRig(out Transform rigRoot, out string handPath, out string mountPath)
+        {
+            GameObject player = Require<GameObject>(PlayerPath);
+            PlayerAnimatorController presenter = player.GetComponent<PlayerAnimatorController>();
+            PlayerHolder holder = player.GetComponent<PlayerHolder>();
+            if (presenter == null || holder == null)
+                throw new InvalidOperationException("真实 Player 必须配置角色 Animator 门面与装备栏。");
+            var serialized = new SerializedObject(presenter);
+            Animator animator = Property(serialized, "_mainAnimator").objectReferenceValue as Animator;
+            if (animator == null || !animator.transform.IsChildOf(player.transform))
+                throw new InvalidOperationException("真实 Player 的 _mainAnimator 必须引用自身骨架。");
+            rigRoot = animator.transform;
+            if (animator.runtimeAnimatorController != Require<AnimatorController>(ActorControllerPath))
+                throw new InvalidOperationException("真实 Player 的 Animator 与待修复角色控制器不一致。");
+            Transform mount = holder.WeaponMount;
+            if (mount == null || mount == rigRoot || !mount.IsChildOf(rigRoot))
+                throw new InvalidOperationException("PlayerHolder.WeaponMount 必须是角色 Animator 骨架内的已配置挂点。");
+            Transform[] hands = rigRoot.GetComponentsInChildren<Transform>(true).Where(bone => bone.name == "hand_R").ToArray();
+            if (hands.Length != 1)
+                throw new InvalidOperationException("真实 Player 骨架必须能唯一定位 hand_R，不猜测替代手部。");
+            handPath = AnimationUtility.CalculateTransformPath(hands[0], rigRoot);
+            mountPath = AnimationUtility.CalculateTransformPath(mount, rigRoot);
         }
 
         private static WeaponController MigrateModel(RuntimeAnimatorController controller, AnimationClip fire,

@@ -70,7 +70,7 @@ namespace Core.Event
         }
 
         /// <summary>仅在订阅或解订阅时检查空值和多播委托。</summary>
-        private static bool ValidateCallback(TCallback callback)
+        internal static bool ValidateCallback(TCallback callback)
         {
             if (callback == null)
             {

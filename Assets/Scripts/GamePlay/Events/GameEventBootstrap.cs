@@ -23,7 +23,10 @@ namespace GamePlay.Events
             bool detachRegistered = EventCenter.Register(
                 CameraEventIds.Detach,
                 typeof(CameraEventIds).FullName + "." + nameof(CameraEventIds.Detach));
-            return attachRegistered && detachRegistered;
+            bool inputRegistered = EventCenter.Register<bool>(
+                PlayerInputEventIds.AvailabilityChanged,
+                typeof(PlayerInputEventIds).FullName + "." + nameof(PlayerInputEventIds.AvailabilityChanged));
+            return attachRegistered && detachRegistered && inputRegistered;
         }
     }
 }
