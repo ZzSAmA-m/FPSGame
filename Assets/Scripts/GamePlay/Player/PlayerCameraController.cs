@@ -36,13 +36,13 @@ namespace GamePlay.Player
         /// <summary>本地玩家开始控制时，把场景相机挂到第一人称相机点。</summary>
         public void AttachCamera2Player()
         {
-            EventCenter.Publish(CameraEventIds.Attach, TfCameraPoint);
+            EventCenter.Publish(CameraEvent.Attach, TfCameraPoint);
         }
 
         /// <summary>在玩家销毁前同步释放场景相机。</summary>
         public void DisAttachCamera2Player()
         {
-            EventCenter.Publish(CameraEventIds.Detach);
+            EventCenter.Publish(CameraEvent.Detach);
         }
 
 

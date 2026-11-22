@@ -29,15 +29,15 @@ namespace GamePlay.Camera {
         /// <summary>启用时监听本地相机事件。</summary>
         private void OnEnable()
         {
-            EventCenter.AddListener(CameraEventIds.Attach, _attachListener, owner: this);
-            EventCenter.AddListener(CameraEventIds.Detach, _detachListener, owner: this);
+            EventCenter.AddListener(CameraEvent.Attach, _attachListener, owner: this);
+            EventCenter.AddListener(CameraEvent.Detach, _detachListener, owner: this);
         }
 
         /// <summary>停用时移除同一组监听委托。</summary>
         private void OnDisable()
         {
-            EventCenter.RemoveListener(CameraEventIds.Attach, _attachListener);
-            EventCenter.RemoveListener(CameraEventIds.Detach, _detachListener);
+            EventCenter.RemoveListener(CameraEvent.Attach, _attachListener);
+            EventCenter.RemoveListener(CameraEvent.Detach, _detachListener);
         }
 
 

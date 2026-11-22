@@ -1,0 +1,6 @@
+{
+    "name": "Core.RuntimeID",
+    "rootNamespace": "Core",
+    "overrideReferences": true,
+    "noEngineReferences": true
+}

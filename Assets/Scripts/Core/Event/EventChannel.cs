@@ -30,10 +30,9 @@ namespace Core.Event
         /// <summary>创建一个指定签名的通道。</summary>
         protected EventChannelBase(EventDescriptor descriptor) => Descriptor = descriptor;
 
-        /// <summary>添加单个回调，按原始委托相等性拒绝重复。</summary>
-        internal bool Add(TCallback callback, object owner)
+        /// <summary>添加已验证的单个回调，按原始委托相等性拒绝重复。</summary>
+        internal bool Add(TCallback callback, object owner, bool isNewChannel = false)
         {
-            if (!ValidateCallback(callback)) return false;
             for (int i = 0; i < Listeners.Count; i++)
             {
                 ListenerEntry<TCallback> entry = Listeners[i];
@@ -46,6 +45,7 @@ namespace Core.Event
             var added = new ListenerEntry<TCallback>(EventCenter.NextSubscriptionId(), callback, owner);
             Listeners.Add(added);
             _listenerCount++;
+            if (isNewChannel) EventLogger.Registered(Descriptor);
             EventLogger.ListenerChanged(Descriptor, added.Description, true, _listenerCount);
             return true;
         }

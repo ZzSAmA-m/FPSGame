@@ -796,7 +796,7 @@ namespace FPSGame.Editor.Validation
 
         private static void TestLocalLifeInputGate()
         {
-            Require(EventCenter.Reset() && GameEventBootstrap.RegisterAll(), "隔离用例必须初始化玩法事件。");
+            Require(EventCenter.Reset(), "隔离用例开始前应能重置事件中心。");
             using var scope = new PreviewScope(PawnRole.Predicted);
             using var remoteScope = new PreviewScope(PawnRole.Interpolated);
             PlayerStatsController local = scope.Root.AddComponent<PlayerStatsController>();
@@ -815,9 +815,15 @@ namespace FPSGame.Editor.Validation
             Invoke(controller, "Awake");
             PlayerInputDriver driver = scope.Root.AddComponent<PlayerInputDriver>();
             Invoke(driver, "Awake");
+            Transform cameraTarget = null;
+            void Attach(Transform target) => cameraTarget = target;
+            void Detach() => cameraTarget = null;
+            EventCenter.AddListener<Transform>(CameraEvent.Attach, Attach);
+            EventCenter.AddListener(CameraEvent.Detach, Detach);
             try
             {
                 controller.OnStartLocalPlayer();
+                Require(cameraTarget == scope.Sight.View, "本机玩家开始控制时应发布相机挂点。");
                 RequireNeutralInput(driver.Consume(1), 1);
                 ApplyLife(local, PlayerLifeState.Alive, 2);
                 ApplyLife(remote, PlayerLifeState.Alive, 1);
@@ -835,11 +841,20 @@ namespace FPSGame.Editor.Validation
             }
             finally
             {
-                controller.OnStopLocalPlayer();
-                ApplyLife(local, PlayerLifeState.Dead, 5);
-                ApplyLife(local, PlayerLifeState.Alive, 6);
-                try { RequireNeutralInput(driver.Consume(5), 5); }
-                finally { Invoke(driver, "OnDestroy"); }
+                try
+                {
+                    controller.OnStopLocalPlayer();
+                    Require(cameraTarget == null, "本机玩家停止控制时应发布相机释放事件。");
+                    ApplyLife(local, PlayerLifeState.Dead, 5);
+                    ApplyLife(local, PlayerLifeState.Alive, 6);
+                    RequireNeutralInput(driver.Consume(5), 5);
+                }
+                finally
+                {
+                    EventCenter.RemoveListener<Transform>(CameraEvent.Attach, Attach);
+                    EventCenter.RemoveListener(CameraEvent.Detach, Detach);
+                    Invoke(driver, "OnDestroy");
+                }
             }
         }
 

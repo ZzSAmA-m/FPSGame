@@ -40,11 +40,11 @@ namespace Core.Event
             finally { _writing = false; }
         }
 
-        /// <summary>记录注册结果，幂等注册不伪装成更新。</summary>
-        internal static void Registered(EventDescriptor descriptor, bool existing)
+        /// <summary>记录首次订阅时创建的事件。</summary>
+        internal static void Registered(EventDescriptor descriptor)
         {
             if (CanWrite(LogFrequency.Low))
-                Write($"[事件注册] {(existing ? "已存在，保留注册、监听和日志设置" : "注册成功")} | {descriptor.Description}", LogFrequency.Low);
+                Write($"[事件注册] 注册成功 | {descriptor.Description}", LogFrequency.Low);
         }
 
         /// <summary>记录实际添加或移除的监听。</summary>
@@ -75,11 +75,11 @@ namespace Core.Event
                 WriteError($"[事件未注册，操作已拒绝] ID={id}", LogFrequency.Low);
         }
 
-        /// <summary>报告名称或完整参数签名不一致。</summary>
-        internal static void Mismatch(EventDescriptor expected, string name, Type actual)
+        /// <summary>报告同一编号的参数签名不一致。</summary>
+        internal static void Mismatch(EventDescriptor expected, Type actual)
         {
             if (CanWrite(LogFrequency.Low))
-                WriteError($"[事件定义或签名冲突，操作已拒绝] 已注册：{expected.Description} | 请求名称：{name} | 请求委托：{actual}", LogFrequency.Low);
+                WriteError($"[事件签名冲突，操作已拒绝] 已注册：{expected.Description} | 请求委托：{actual}", LogFrequency.Low);
         }
 
         /// <summary>记录无需动态拼接的使用错误。</summary>

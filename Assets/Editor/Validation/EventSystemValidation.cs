@@ -71,7 +71,7 @@ namespace FPSGame.Editor.Validation
                 Debug.unityLogger.logEnabled = true;
                 Debug.unityLogger.filterLogType = LogType.Log;
                 RunCase("零到三参数首次监听自动注册、发布与移除", TestArities, report, ref passed);
-                RunCase("注册幂等和冲突保留监听及日志配置", TestRegistration, report, ref passed);
+                RunCase("后续订阅共用通道，签名冲突保留监听及日志配置", TestSharedChannel, report, ref passed);
                 RunCase("未注册发布和移除不创建事件，已注册签名冲突拒绝执行", TestInvalidSignatures, report, ref passed);
                 RunCase("原委托判重且 owner 不改变身份", TestOwnerAndIdentity, report, ref passed);
                 RunCase("空委托和多播委托被拒绝", TestInvalidDelegates, report, ref passed);
@@ -115,15 +115,14 @@ namespace FPSGame.Editor.Validation
         private static void RestoreGameplayEvents()
         {
             Require(EventCenter.Reset(), "验证结束时应允许重置测试事件。");
-            Require(GameEventBootstrap.RegisterAll(), "验证结束时应恢复玩法事件注册。");
             SceneCamera[] cameras = UnityEngine.Object.FindObjectsByType<SceneCamera>(
                 FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             foreach (SceneCamera camera in cameras)
             {
                 if (!camera.isActiveAndEnabled || !camera.gameObject.scene.IsValid() || EditorUtility.IsPersistent(camera))
                     continue;
-                EventCenter.AddListener<Transform>(CameraEventIds.Attach, camera.AttachCameraToModel, camera);
-                EventCenter.AddListener(CameraEventIds.Detach, camera.DetachCameraFromPlayer, camera);
+                EventCenter.AddListener<Transform>(CameraEvent.Attach, camera.AttachCameraToModel, camera);
+                EventCenter.AddListener(CameraEvent.Detach, camera.DetachCameraFromPlayer, camera);
             }
         }
 
@@ -163,27 +162,32 @@ namespace FPSGame.Editor.Validation
             Require(zero.Calls == 1 && one.Calls == 1 && two.Calls == 1 && three.Calls == 1, "已移除监听不应再调用。");
         }
 
-        /// <summary>检查幂等注册及冲突不会覆盖现有事件。</summary>
-        private static void TestRegistration()
+        /// <summary>检查同编号的后续订阅保留已有监听、签名和日志设置。</summary>
+        private static void TestSharedChannel()
         {
-            const int id = 911000;
-            var probe = new ListenerProbe();
-            Require(EventCenter.Register(id, "Registration.Stable"), "首次注册应成功。");
-            Require(EventCenter.AddListener(id, probe.OnZero), "应保存现有监听。");
+            int id = CameraEvent.Detach;
+            var first = new ListenerProbe();
+            var second = new ListenerProbe();
+            Require(!EventCenter.IsRegistered(id), "读取相机事件编号不应创建通道。");
+            Require(EventCenter.AddListener(id, first.OnZero), "首次订阅应创建通道并绑定监听。");
             Require(EventCenter.ConfigurePublishLog(id, LogFrequency.High, false), "应设置事件日志。");
-            Require(EventCenter.Register(id, "Registration.Stable"), "相同定义重复注册应成功。");
-            Require(!EventCenter.Register(id, "Registration.Renamed"), "相同编号不同名称应拒绝。");
-            Require(!EventCenter.Register<int>(id, "Registration.Stable"), "相同编号不同参数数量应拒绝。");
-            Require(EventCenter.GetListenerCount(id) == 1, "注册幂等或冲突都不能清空监听。");
+            Require(EventCenter.AddListener(id, second.OnZero), "同一编号应能添加另一个同签名监听。");
+            Require(!EventCenter.AddListener<int>(id, first.OnInt), "参数数量不同的监听应拒绝。");
+            Require(EventCenter.GetListenerCount(id) == 2 && _capture.ErrorCount > 0,
+                "签名冲突应报告错误并保留两个已有监听。");
             _capture.Clear();
             EventCenter.Publish(id);
             string text = _capture.JoinMessages();
-            Require(probe.Calls == 1 && text.Contains("[High]"), "注册后应保留原监听与频率配置。");
-            Require(!text.Contains(nameof(ListenerProbe.OnZero)), "注册后应保留关闭详细日志的配置。");
+            Require(first.Calls == 1 && second.Calls == 1 && text.Contains("[High]"), "两个监听都应按原频率配置发布。");
+            Require(!text.Contains(nameof(ListenerProbe.OnZero)), "后续订阅应保留关闭详细日志的配置。");
 
-            Require(EventCenter.Register<int, string>(id + 1, "Registration.Order"), "应注册二参数定义。");
-            Require(!EventCenter.Register<string, int>(id + 1, "Registration.Order"), "参数类型顺序改变应视为冲突。");
-            Require(_capture.ErrorCount > 0, "注册冲突应产生诊断错误。");
+            const int pairId = 911001;
+            Require(EventCenter.AddListener<int, float>(pairId, first.OnTwo), "首个二参数监听应确定签名。");
+            Require(!EventCenter.AddListener<float, int>(pairId, (amount, value) => first.OnTwo(value, amount)),
+                "参数类型顺序改变应视为冲突。");
+            EventCenter.Publish(pairId, 12, 1.5f);
+            Require(first.Calls == 2 && first.LastInt == 12 && first.LastFloat == 1.5f && _capture.ErrorCount > 0,
+                "参数顺序冲突应报告错误并保留原监听。");
         }
 
         /// <summary>检查未注册和类型不匹配不会触发监听。</summary>
@@ -198,8 +202,6 @@ namespace FPSGame.Editor.Validation
             Require(_capture.ErrorCount > 0, "未注册调用应有错误诊断。");
             Require(!EventCenter.IsRegistered(id), "移除、查询与发布不能自动创建事件。");
             Require(EventCenter.AddListener<int>(id, probe.OnInt), "首次整数监听应自动注册并成功订阅。");
-            Require(EventCenter.Register<int>(id, id.ToString()), "自动注册后同名称同签名的显式注册应幂等成功。");
-            Require(!EventCenter.Register<int>(id, "Signature.Renamed"), "自动注册后更改名称仍应按定义冲突拒绝。");
             _capture.Clear();
             Require(!EventCenter.AddListener<string>(id, probe.OnString), "不匹配的监听类型应拒绝。");
             Require(!EventCenter.RemoveListener<string>(id, probe.OnString), "不匹配的移除类型应拒绝。");
@@ -218,7 +220,6 @@ namespace FPSGame.Editor.Validation
             var first = new ListenerProbe();
             var second = new ListenerProbe();
             Action listener = first.OnZero;
-            Require(EventCenter.Register(id, "Identity.Owner"), "应注册测试事件。");
             Require(EventCenter.AddListener(id, listener, new object()), "应添加首个监听。");
             Require(!EventCenter.AddListener(id, listener, new object()), "改变 owner 不能重复添加同一原委托。");
             Require(EventCenter.AddListener(id, second.OnZero, first), "不同实例的同名方法应独立添加。");
@@ -240,14 +241,15 @@ namespace FPSGame.Editor.Validation
             combined += second.OnZero;
             Action<int> combinedInt = first.OnInt;
             combinedInt += second.OnInt;
-            Require(EventCenter.Register(id, "Delegate.Zero") && EventCenter.Register<int>(id + 1, "Delegate.Int"), "应注册测试定义。");
+            Require(EventCenter.AddListener(id, first.OnZero) && EventCenter.AddListener<int>(id + 1, first.OnInt),
+                "应先绑定两个合法监听。");
             Require(!EventCenter.AddListener(id, (Action)null), "空回调应拒绝。");
             Require(!EventCenter.RemoveListener(id, (Action)null), "空移除回调应拒绝。");
             Require(!EventCenter.AddListener(id, combined), "多播回调应拒绝。");
             Require(!EventCenter.RemoveListener(id, combined), "多播移除应拒绝。");
             Require(!EventCenter.AddListener<int>(id + 1, combinedInt), "泛型多播回调也应拒绝。");
-            Require(EventCenter.GetListenerCount(id) == 0 && EventCenter.GetListenerCount(id + 1) == 0,
-                "非法回调不能留下任何监听。");
+            Require(EventCenter.GetListenerCount(id) == 1 && EventCenter.GetListenerCount(id + 1) == 1,
+                "非法回调不应改变已有监听数量。");
             Require(!EventCenter.AddListener(id + 2, (Action)null) &&
                     !EventCenter.AddListener<int>(id + 3, (Action<int>)null) &&
                     !EventCenter.AddListener<int, float>(id + 4, (Action<int, float>)null) &&
@@ -296,7 +298,6 @@ namespace FPSGame.Editor.Validation
                 Require(EventCenter.RemoveListener(id, second), "回调中应能移除尚未执行的监听。");
                 Require(EventCenter.AddListener(id, added), "回调中应能添加后续监听。");
             };
-            EventCenter.Register(id, "Dispatch.Mutation");
             EventCenter.AddListener(id, first);
             EventCenter.AddListener(id, second);
             EventCenter.AddListener(id, third);
@@ -323,7 +324,6 @@ namespace FPSGame.Editor.Validation
                 Require(EventCenter.RemoveListener(id, self), "监听应能移除自身。");
                 Require(EventCenter.AddListener(id, self), "已移除的原委托应能重新添加。");
             };
-            EventCenter.Register(id, "Dispatch.SelfResubscribe");
             EventCenter.AddListener(id, self);
             EventCenter.AddListener(id, () => trace.Append('T'));
             EventCenter.Publish(id);
@@ -337,8 +337,6 @@ namespace FPSGame.Editor.Validation
         private static void TestNestedEvents()
         {
             var trace = new StringBuilder();
-            EventCenter.Register(918000, "Nested.Outer");
-            EventCenter.Register(918001, "Nested.Inner");
             EventCenter.AddListener(918000, () => { trace.Append('A'); EventCenter.Publish(918001); });
             EventCenter.AddListener(918000, () => trace.Append('C'));
             EventCenter.AddListener(918001, () => trace.Append('B'));
@@ -351,7 +349,6 @@ namespace FPSGame.Editor.Validation
         {
             const int id = 919000;
             var trace = new StringBuilder();
-            EventCenter.Register(id, "Dispatch.Recursive");
             EventCenter.AddListener(id, () => { trace.Append('A'); EventCenter.Publish(id); });
             EventCenter.AddListener(id, () => trace.Append('B'));
             EventCenter.Publish(id);
@@ -363,7 +360,6 @@ namespace FPSGame.Editor.Validation
         {
             const int id = 920000;
             var probe = new ListenerProbe();
-            EventCenter.Register(id, "Dispatch.Exception");
             EventCenter.AddListener(id, probe.ThrowOnZero);
             EventCenter.AddListener(id, probe.OnZero);
             EventCenter.Publish(id);
@@ -380,8 +376,6 @@ namespace FPSGame.Editor.Validation
             var probe = new ListenerProbe();
             try
             {
-                EventCenter.Register(id, "Lifecycle.DirectTarget");
-                EventCenter.Register(id + 1, "Lifecycle.OwnerOnly");
                 Require(EventCenter.AddListener(id, target.Receive), "应能绑定 Unity 对象的具名回调。");
                 Require(EventCenter.AddListener(id + 1, probe.OnZero, owner), "应能独立设置诊断 owner。");
                 UnityEngine.Object.DestroyImmediate(target);
@@ -404,7 +398,6 @@ namespace FPSGame.Editor.Validation
             const int id = 921000;
             bool reset = true;
             var probe = new ListenerProbe();
-            EventCenter.Register(id, "Dispatch.Reset");
             EventCenter.AddListener(id, () => reset = EventCenter.Reset());
             EventCenter.AddListener(id, probe.OnZero);
             EventCenter.Publish(id);
@@ -413,23 +406,23 @@ namespace FPSGame.Editor.Validation
             Require(EventCenter.Reset() && !EventCenter.IsRegistered(id), "分发结束后应能重置注册表。");
         }
 
-        /// <summary>检查工作线程不能注册、发布或重置主线程事件。</summary>
+        /// <summary>检查工作线程不能订阅、发布或重置主线程事件。</summary>
         private static void TestThreadAffinity()
         {
             const int id = 922000;
             var probe = new ListenerProbe();
-            bool registered = true;
+            var other = new ListenerProbe();
+            bool firstSubscription = true;
             bool subscribed = true;
             bool reset = true;
             Exception failure = null;
-            EventCenter.Register(id, "Thread.Main");
             EventCenter.AddListener(id, probe.OnZero);
             var thread = new Thread(() =>
             {
                 try
                 {
-                    registered = EventCenter.Register(id + 1, "Thread.Rejected");
-                    subscribed = EventCenter.AddListener<int>(id + 2, probe.OnInt);
+                    firstSubscription = EventCenter.AddListener<int>(id + 1, probe.OnInt);
+                    subscribed = EventCenter.AddListener(id, other.OnZero);
                     EventCenter.Publish(id);
                     reset = EventCenter.Reset();
                 }
@@ -440,8 +433,8 @@ namespace FPSGame.Editor.Validation
             });
             thread.Start();
             Require(thread.Join(5000), "工作线程检查应在限定时间结束。");
-            Require(failure == null && !registered && !subscribed && !reset && probe.Calls == 0 &&
-                    !EventCenter.IsRegistered(id + 1) && !EventCenter.IsRegistered(id + 2),
+            Require(failure == null && !firstSubscription && !subscribed && !reset && probe.Calls == 0 &&
+                    !EventCenter.IsRegistered(id + 1) && EventCenter.GetListenerCount(id) == 1,
                 "非主线程操作应拒绝而不修改注册表或执行监听。");
             EventCenter.Publish(id);
             Require(probe.Calls == 1 && _capture.ErrorCount > 0, "拒绝工作线程后主线程发布仍正常。");
@@ -452,7 +445,6 @@ namespace FPSGame.Editor.Validation
         {
             const int id = 923000;
             var probe = new ListenerProbe();
-            EventCenter.Register(id, "Logging.Publish");
             EventCenter.AddListener(id, probe.OnZero, probe);
             Require(_capture.JoinMessages().Contains("[Low]"), "注册和添加日志应采用 Low 频率。");
             _capture.Clear();
@@ -464,7 +456,7 @@ namespace FPSGame.Editor.Validation
             _capture.Clear();
             EventCenter.Publish(id);
             string summary = _capture.JoinMessages();
-            Require(summary.Contains("[High]") && summary.Contains("Logging.Publish") && !summary.Contains(nameof(ListenerProbe.OnZero)),
+            Require(summary.Contains("[High]") && summary.Contains(id.ToString()) && !summary.Contains(nameof(ListenerProbe.OnZero)),
                 "关闭明细后应保留汇总并使用配置频率。");
             Require(EventCenter.ConfigurePublishLog(id, LogFrequency.Extreme, true), "应支持 Extreme 详细日志。");
             _capture.Clear();
@@ -477,7 +469,6 @@ namespace FPSGame.Editor.Validation
         {
             const int id = 923100;
             var probe = new ListenerProbe();
-            EventCenter.Register(id, "Logging.Reentry");
             EventCenter.AddListener(id, probe.OnZero);
             EventCenter.ConfigurePublishLog(id, LogFrequency.Medium, false);
             var handler = new ReentrantLogHandler(_capture, () => EventCenter.Publish(id), 8);
@@ -499,14 +490,10 @@ namespace FPSGame.Editor.Validation
         /// <summary>分别检查总开关、分类和频率隐藏后的零分配热路径。</summary>
         private static void TestGc(StringBuilder report)
         {
-            Require(EventCenter.Register(GcZeroId, "GC.Zero"), "应注册零参数分配检查。");
-            Require(EventCenter.Register<int>(GcOneId, "GC.One"), "应注册一参数分配检查。");
-            Require(EventCenter.Register<int, float>(GcTwoId, "GC.Two"), "应注册二参数分配检查。");
-            Require(EventCenter.Register<int, float, Vector3>(GcThreeId, "GC.Three"), "应注册三参数分配检查。");
-            EventCenter.AddListener(GcZeroId, GcZero);
-            EventCenter.AddListener<int>(GcOneId, GcOne);
-            EventCenter.AddListener<int, float>(GcTwoId, GcTwo);
-            EventCenter.AddListener<int, float, Vector3>(GcThreeId, GcThree);
+            Require(EventCenter.AddListener(GcZeroId, GcZero), "应绑定零参数分配检查。");
+            Require(EventCenter.AddListener<int>(GcOneId, GcOne), "应绑定一参数分配检查。");
+            Require(EventCenter.AddListener<int, float>(GcTwoId, GcTwo), "应绑定二参数分配检查。");
+            Require(EventCenter.AddListener<int, float, Vector3>(GcThreeId, GcThree), "应绑定三参数分配检查。");
 
             Log.Enable = false;
             CheckGcGate("Enable=false", report);
