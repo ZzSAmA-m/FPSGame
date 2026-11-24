@@ -168,7 +168,7 @@ namespace FPSGame.Editor.Validation
 
             Accumulate.Invoke(driver, new object[] { new PlayerInput
             {
-                move = Vector2.up, look = new Vector2(120f, 50f), space = true,
+                move = Vector2.up, look = new Vector2(120f, 50f), jumpPressed = true,
                 lMouse = true, r = true, key3 = true
             } });
             FireHeld.SetValue(driver, false);

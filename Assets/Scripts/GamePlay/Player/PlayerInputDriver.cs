@@ -77,7 +77,7 @@ namespace GamePlay.Player
             _hasSampledViewTick = true;
             _pending.move = sample.move;
             _pending.look += sample.look;
-            _pending.jump |= sample.space;
+            _pending.jump |= sample.jumpPressed;
             _pending.key1 |= sample.key1;
             _pending.key2 |= sample.key2;
             _pending.key3 |= sample.key3;

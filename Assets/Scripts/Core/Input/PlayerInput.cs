@@ -11,7 +11,7 @@ namespace Core.Input
         public Vector2 look;
 
         // 功能键
-        public bool space;
+        public bool jumpPressed;
         public bool lMouse;
         public bool lightAttackPressed;
         public bool heavyAttackPressed;

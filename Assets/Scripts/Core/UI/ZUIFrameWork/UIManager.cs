@@ -19,7 +19,7 @@ namespace ZUI
         public Transform UIRootNode{get;private set;}
         void Awake()
         {
-            UIRootNode=GameObject.Find("UIRoot").transform;
+            UIRootNode = GameObject.Find("UIRoot")?.transform;
         }
     }
 }

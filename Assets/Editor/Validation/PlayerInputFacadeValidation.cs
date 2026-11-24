@@ -766,7 +766,7 @@ namespace FPSGame.Editor.Validation
             driver.Consume(0);
             var sample = new PlayerInput
             {
-                move = Vector2.one, look = Vector2.one, space = true, lMouse = true,
+                move = Vector2.one, look = Vector2.one, jumpPressed = true, lMouse = true,
                 r = true, key1 = true, key2 = true, key3 = true, lightAttackPressed = true, heavyAttackPressed = true
             };
             Accumulate(driver, sample);

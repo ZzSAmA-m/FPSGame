@@ -2,7 +2,9 @@
     "name": "ZUI",
     "rootNamespace": "ZUI",
     "references": [
-        "GUID:1574f78acab242b42a305cc48b158598"
+        "GUID:1574f78acab242b42a305cc48b158598",
+        "GUID:3cb05c742f6c98247aa52712518c767e",
+        "GUID:a3683238f54a90447a1369ca5e8e8288"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

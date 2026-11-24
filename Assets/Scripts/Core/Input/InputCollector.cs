@@ -7,6 +7,7 @@ namespace Core.Input
     {
         private GameInput _input;
         private bool _key1,_key2,_key3,_reload;
+        private bool _jumpPressed;
         private bool _lightAttackPressed;
         private bool _heavyAttackPressed;
 
@@ -20,6 +21,7 @@ namespace Core.Input
             _input.Player.Hand2.started+=OnPressKey2;
             _input.Player.Hand3.started+=OnPressKey3;
             _input.Player.Reload.started+=OnReload;
+            _input.Player.Jump.performed += OnJump;
             _input.Player.LMouse.started += OnLightAttack;
             _input.Player.RMouse.started += OnHeavyAttack;
             _input.Enable();
@@ -30,6 +32,7 @@ namespace Core.Input
             _input.Player.Hand2.started-=OnPressKey2;
             _input.Player.Hand3.started-=OnPressKey3;
             _input.Player.Reload.started-=OnReload;
+            _input.Player.Jump.performed -= OnJump;
             _input.Player.LMouse.started -= OnLightAttack;
             _input.Player.RMouse.started -= OnHeavyAttack;
             _input.Disable();
@@ -45,7 +48,6 @@ namespace Core.Input
         }
         public PlayerInput GetSample()
         {
-            Keyboard keyboard = Keyboard.current;
             Mouse mouse = Mouse.current;
             PlayerInput input = new()
             {
@@ -55,7 +57,7 @@ namespace Core.Input
                 key2 = _key2,
                 key3 = _key3,
                 r = _reload,
-                space = keyboard != null && keyboard.spaceKey.isPressed,
+                jumpPressed = _jumpPressed,
                 lMouse = mouse != null && mouse.leftButton.isPressed,
                 lightAttackPressed = _lightAttackPressed,
                 heavyAttackPressed = _heavyAttackPressed
@@ -70,6 +72,7 @@ namespace Core.Input
             _key2=false;
             _key3=false;
             _reload=false;
+            _jumpPressed = false;
             _lightAttackPressed = false;
             _heavyAttackPressed = false;
         }
@@ -79,6 +82,7 @@ namespace Core.Input
         private void OnPressKey2(UnityEngine.InputSystem.InputAction.CallbackContext context)=>_key2=true;
         private void OnPressKey3(UnityEngine.InputSystem.InputAction.CallbackContext context)=>_key3=true;
         private void OnReload(UnityEngine.InputSystem.InputAction.CallbackContext context)=>_reload=true;
+        private void OnJump(InputAction.CallbackContext context) => _jumpPressed = true;
         private void OnLightAttack(InputAction.CallbackContext context) => _lightAttackPressed = true;
         private void OnHeavyAttack(InputAction.CallbackContext context) => _heavyAttackPressed = true;
 

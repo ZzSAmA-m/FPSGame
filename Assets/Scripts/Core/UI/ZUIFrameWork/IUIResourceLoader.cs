@@ -5,7 +5,7 @@ namespace ZUI
 {
     public interface IUIResourceLoader
     {
-        GameObject GetUIInstance<T>() where T:UIWindow;
+        GameObject GetUIInstance<T>() where T:UINode;
 
     }
 }

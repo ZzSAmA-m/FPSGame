@@ -1,7 +1,7 @@
 using UnityEngine;
 using ZUI;
-[UIWindow(UIType.UI,"CrossHair")]
-public class CrossHairUI : UIWindow
+[UINode(UIType.UI,"CrossHair")]
+public class CrossHairUI : UINode
 {
     
 }
